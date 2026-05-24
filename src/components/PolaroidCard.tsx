@@ -1,5 +1,5 @@
-import { motion } from 'motion/react';
-import type { CSSProperties } from 'react';
+import { motion } from "motion/react";
+import type { CSSProperties } from "react";
 
 interface Props {
   title: string;
@@ -50,39 +50,45 @@ export function PolaroidCard({
       }}
       whileHover={{
         y: -8,
-        transition: { type: 'spring', stiffness: 280, damping: 22 },
+        transition: { type: "spring", stiffness: 280, damping: 22 },
       }}
       transition={{
-        // Aggressive ease-out: card launches fast, decelerates into final position.
-        // Curve reaches ~80% progress by 20% of the duration — no overshoot, no bounce.
         duration: 0.85,
         ease: [0.16, 1, 0.3, 1],
         delay,
-        // Opacity fades in quickly so the card is visible during the throw
-        opacity: { duration: 0.18, ease: 'easeOut', delay },
+        opacity: { duration: 0.18, ease: "easeOut", delay },
       }}
-      style={{ position: 'absolute', ...positionStyle }}
-      className="w-44 md:w-56 cursor-default select-none"
+      style={{ position: "absolute", willChange: "transform", ...positionStyle }}
+      className="cursor-default select-none"
     >
-      {/* Polaroid frame — ASU Cream background, 4px radius */}
+      {/* Polaroid frame — no fixed width; card shrink-wraps to the photo's natural width */}
       <div
         className="bg-asu-cream rounded p-3 md:p-4"
         style={{
-          paddingBottom: '2.75rem',
-          boxShadow: '0px 6px 24px rgba(30, 28, 18, 0.12)',
+          paddingBottom: "2.75rem",
+          boxShadow: "0px 6px 24px rgba(30, 28, 18, 0.12)",
         }}
       >
-        <div className="w-full aspect-square rounded-[2px] overflow-hidden bg-asu-beige relative">
+        {/*
+          Photo area — fixed height, width auto.
+          Images with landscape ratios produce wider cards; portrait ratios produce narrower cards.
+          Gradient placeholder cards use aspect-square so they stay square at the same height.
+        */}
+        <div className="rounded-[2px] overflow-hidden bg-asu-beige">
           {imageSrc ? (
             <img
               src={imageSrc}
               alt={imageAlt || title}
-              className="absolute inset-0 w-full h-full object-cover"
+              className="block h-50 md:h-55 w-auto"
+              decoding="async"
             />
           ) : (
             <div
-              className="absolute inset-0"
-              style={{ background: gradient ?? 'linear-gradient(135deg, #FCEEC9, #E8C66A)' }}
+              className="h-40 md:h-48 aspect-square"
+              style={{
+                background:
+                  gradient ?? "linear-gradient(135deg, #FCEEC9, #E8C66A)",
+              }}
               aria-hidden="true"
             />
           )}

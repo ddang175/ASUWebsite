@@ -14,6 +14,8 @@ const ENTRY_OFFSETS: Record<EntryDirection, { x: number; y: number }> = {
 interface PolaroidConfig {
   title: string;
   date: string;
+  imageSrc?: string;
+  imageAlt?: string;
   gradient: string;
   // ── Where this card lands on the page ──────────────────────────────
   position: CSSProperties;
@@ -42,28 +44,32 @@ interface PolaroidConfig {
 const POLAROIDS: PolaroidConfig[] = [
   // ── Left-side cards (enter from the left) ──────────────────────────────
   {
-    title: "Cultural Night",
-    date: "Feb 22, 2025",
+    title: "Halloween GBM",
+    date: "Oct. 30th, 2025",
+    imageSrc: "/images/polaroidImages/halloween.webp",
+
     gradient: "linear-gradient(135deg, #E5291E, #B51F17)",
-    position: { top: "0%", left: "2%" },
-    finalRotation: 18,
+    position: { top: "0%", left: "0%" },
+    finalRotation: 10,
     initialRotation: 28,
     entryDirection: "left",
     delay: 0.05,
   },
   {
-    title: "Welcome Week",
-    date: "Aug 26, 2024",
+    title: "Welcome Back GBM",
+    date: "Sept. 3rd, 2025",
+    imageSrc: "/images/polaroidImages/kickOff.webp",
     gradient: "linear-gradient(125deg, #241611, #5A2119)",
-    position: { top: "15%", left: "18%" },
+    position: { top: "14%", left: "16%" },
     finalRotation: -4,
     initialRotation: 24,
     entryDirection: "left",
     delay: 0.17,
   },
   {
-    title: "Campus Life",
-    date: "Mar 8, 2025",
+    title: "InnovAsian",
+    date: "Apr. 4th, 2026",
+    imageSrc: "/images/polaroidImages/innoAll.webp",
     gradient: "linear-gradient(150deg, #FCEEC9, #E8C66A)",
     position: { top: "50%", left: "0%" },
     finalRotation: 6,
@@ -72,31 +78,34 @@ const POLAROIDS: PolaroidConfig[] = [
     delay: 0.1,
   },
   {
-    title: "Food Night",
-    date: "Apr 10, 2025",
+    title: "Kickoff GBM",
+    imageSrc: "/images/polaroidImages/iceCreamSocial.webp",
+    date: "Sept. 19th, 2025",
     gradient: "linear-gradient(135deg, #E8C66A, #D4A853)",
-    position: { top: "60%", left: "15%" },
-    finalRotation: -23,
+    position: { top: "58%", left: "17%" },
+    finalRotation: -17,
     initialRotation: 30,
     entryDirection: "left",
     delay: 0.25,
   },
   {
-    title: "Food Night",
-    date: "Apr 10, 2025",
+    title: "Career Fair Prep & Success GBM",
+    date: "Feb. 5th, 2026",
+    imageSrc: "/images/polaroidImages/proDev.webp",
     gradient: "linear-gradient(135deg, #E8C66A, #D4A853)",
-    position: { top: "95%", left: "4%" },
+    position: { top: "95%", left: "2%" },
     finalRotation: -15,
     initialRotation: 30,
     entryDirection: "left",
     delay: 0.02,
   },
   {
-    title: "Food Night",
-    date: "Apr 10, 2025",
+    title: "ASU K-Pop Dance at ICF",
+    date: "Nov. 9th, 2025",
+    imageSrc: "/images/polaroidImages/go.webp",
     gradient: "linear-gradient(135deg, #E8C66A, #D4A853)",
-    position: { top: "105%", left: "25%" },
-    finalRotation: 20,
+    position: { top: "103%", left: "20%" },
+    finalRotation: 11,
     initialRotation: 30,
     entryDirection: "left",
     delay: 0.2,
@@ -104,8 +113,10 @@ const POLAROIDS: PolaroidConfig[] = [
 
   // ── Center cards ─────────────────────────────
   {
-    title: "Spring Festival",
-    date: "Mar 22, 2025",
+    title: "Drink Fundraiser",
+    date: "Oct. 9th, 2025",
+    imageSrc: "/images/polaroidImages/drinkFundraiser.webp",
+
     gradient: "linear-gradient(135deg, #E5291E, #FCEEC9)",
     position: { top: "-5%", left: "33%" },
     finalRotation: 6,
@@ -114,8 +125,10 @@ const POLAROIDS: PolaroidConfig[] = [
     delay: 0.08,
   },
   {
-    title: "Game Night",
-    date: "Nov 15, 2024",
+    title: "ASU K-Pop Dance",
+    imageSrc: "/images/polaroidImages/asuDance.webp",
+
+    date: "Apr. 3rd, 2026",
     gradient: "linear-gradient(145deg, #5C0D0A, #E5291E)",
     position: { top: "-3%", left: "50%" },
     finalRotation: -5,
@@ -126,61 +139,68 @@ const POLAROIDS: PolaroidConfig[] = [
 
   // ── Right-side cards ────────────────────────────
   {
-    title: "Dance Show",
-    date: "Oct 5, 2024",
+    title: "ASU Games GBM",
+    date: "Apr. 30th, 2026",
     gradient: "linear-gradient(135deg, #FAF3E3, #E9E2D2)",
-    position: { top: "10%", right: "23%" },
-    finalRotation: -0,
+    imageSrc: "/images/polaroidImages/asuGames.webp",
+    position: { top: "8%", right: "19%" },
+    finalRotation: 8,
     initialRotation: -28,
     entryDirection: "right",
     delay: 0.13,
   },
   {
-    title: "Karaoke Night",
-    date: "Jan 18, 2025",
+    title: "Ramen Fundraiser",
+    date: "Nov 13th, 2025",
+    imageSrc: "/images/polaroidImages/ramen.webp",
     gradient: "linear-gradient(135deg, #1E1C12, #E5291E)",
-    position: { top: "2%", right: "7%" },
-    finalRotation: 2,
+    position: { top: "2%", right: "0%" },
+    finalRotation: -5,
     initialRotation: -32,
     entryDirection: "right",
     delay: 0.27,
   },
   {
-    title: "Study Hall",
-    date: "Sep 20, 2024",
+    title: "Mocktail Mania GBM",
+    imageSrc: "/images/polaroidImages/mocktail.webp",
+    date: "Sept. 20th, 2024",
     gradient: "linear-gradient(125deg, #B51F17, #5C0D0A)",
-    position: { top: "53%", right: "15%" },
+    position: { top: "53%", right: "18%" },
     finalRotation: 7,
     initialRotation: -35,
     entryDirection: "right",
     delay: 0.04,
   },
   {
-    title: "Community Day",
-    date: "Apr 26, 2025",
+    title: "1 + 1 Boba Fundraiser",
+    imageSrc: "/images/polaroidImages/1p1.webp",
+    date: "Feb. 18th, 2026",
     gradient: "linear-gradient(135deg, #FCEEC9, #FFF9ED)",
     position: { top: "45%", right: "0%" },
-    finalRotation: -15,
+    finalRotation: -10,
     initialRotation: -24,
     entryDirection: "right",
     delay: 0.15,
   },
   {
-    title: "Community Day",
-    date: "Apr 26, 2025",
+    title: "Ledges Social",
+    date: "Oct. 18th, 2025",
+    imageSrc: "/images/polaroidImages/ledges.webp",
     gradient: "linear-gradient(135deg, #FCEEC9, #FFF9ED)",
-    position: { top: "95%", right: "2%" },
-    finalRotation: 22,
+    position: { top: "95%", right: "1%" },
+    finalRotation: 15,
     initialRotation: -54,
     entryDirection: "right",
     delay: 0,
   },
   {
-    title: "Community Day",
-    date: "Apr 26, 2025",
+    title: "Triple Play GBM",
+    date: "Apr 26th, 2025",
+    imageSrc: "/images/polaroidImages/triplePlay.webp",
+
     gradient: "linear-gradient(135deg, #FCEEC9, #FFF9ED)",
-    position: { top: "100%", right: "24%" },
-    finalRotation: -20,
+    position: { top: "102%", right: "20%" },
+    finalRotation: -10,
     initialRotation: -54,
     entryDirection: "right",
     delay: 0.18,
@@ -211,6 +231,7 @@ export function PolaroidGrid() {
           src="/images/asu-logo.webp"
           alt="Asian Student Union"
           className="w-100 md:w-125 h-auto select-none pointer-events-none"
+          decoding="async"
           draggable={false}
         />
       </div>
@@ -221,6 +242,8 @@ export function PolaroidGrid() {
             key={i}
             title={card.title}
             date={card.date}
+            imageSrc={card.imageSrc}
+            imageAlt={card.imageAlt}
             gradient={card.gradient}
             finalRotation={card.finalRotation}
             initialRotation={card.initialRotation}
