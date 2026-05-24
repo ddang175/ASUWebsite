@@ -1,0 +1,73 @@
+---
+import { PolaroidGrid } from './PolaroidGrid';
+---
+
+<section
+  class="relative bg-asu-ivory flex flex-col overflow-x-clip"
+  style="min-height: calc(100vh - 4rem);"
+>
+
+  <!--
+    Inner wrapper caps the composition at 1920px on ultra-wide / 4K screens.
+    The section background fills the full viewport width; only the content zone
+    is constrained. Below 1920px this wrapper is 100% width — no visual change.
+    Above 1920px the cards stay in the same positions they have at 1920p.
+  -->
+  <div
+    class="relative flex flex-col flex-1 w-full"
+    style="max-width: 1920px; margin-inline: auto;"
+  >
+
+    <!-- 1. Polaroid collage (React island, hydrates on load) -->
+    <PolaroidGrid client:load />
+
+    <!-- 2. Headline + CTA
+         pointer-events-none lets overflow polaroid cards (those sitting below the
+         container boundary) receive hover events even when this text block visually
+         overlaps them. The CTA link re-enables pointer events explicitly. -->
+    <div class="flex flex-col items-center justify-center text-center px-8 pt-2 pb-8 flex-1 -translate-y-5 pointer-events-none">
+
+      <p class="font-ui text-xs font-bold tracking-[0.1em] uppercase text-asu-dark opacity-50 mb-3">
+        Asian Student Union
+      </p>
+
+      <h1
+        class="font-display text-[3rem] leading-[3.5rem] text-asu-dark"
+        style="letter-spacing: -0.02em;"
+      >
+        @ Iowa State
+      </h1>
+
+      <a
+        href="/about"
+        class="mt-8 inline-flex items-center px-8 py-3 bg-asu-red text-asu-cream font-ui font-semibold text-base rounded transition-colors duration-200 hover:bg-asu-red-hover pointer-events-auto"
+      >
+        About Us
+      </a>
+
+    </div>
+
+  </div>
+
+  <!-- 3. Scroll cue — "NEXT EVENT" label + bouncing arrow -->
+  <div class="flex flex-col items-center gap-1.5 pb-10 opacity-50">
+    <span class="font-ui text-[11px] font-bold tracking-[0.12em] uppercase text-asu-dark">
+      Next Event
+    </span>
+    <svg
+      class="w-4 h-4 text-asu-dark animate-bounce"
+      viewBox="0 0 16 16"
+      fill="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M8 3v10M3.5 9l4.5 4.5L12.5 9"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </svg>
+  </div>
+
+</section>
