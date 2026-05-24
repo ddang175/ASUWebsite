@@ -1,6 +1,13 @@
 import { motion } from "motion/react";
 import type { CSSProperties } from "react";
 
+export type AnimateVariant =
+  | "visible"
+  | "hiddenLeft"
+  | "hiddenRight"
+  | "hiddenTop"
+  | "hiddenBottom";
+
 interface Props {
   title: string;
   date: string;
@@ -11,13 +18,26 @@ interface Props {
   finalRotation: number;
   /** Rotation while the card is in the air — larger values feel more dramatic */
   initialRotation: number;
-  /** X offset for the card's starting position (negative = from left, positive = from right) */
+  /** X offset for the card's intro starting position (negative = from left, positive = from right) */
   entryX: number;
-  /** Y offset for the card's starting position (negative = from top, positive = from bottom) */
+  /** Y offset for the card's intro starting position (negative = from top, positive = from bottom) */
   entryY: number;
   delay?: number;
   positionStyle: CSSProperties;
+  /** Controls whether the card is on-screen or flying off in a direction.
+   *  "visible" plays the existing throw-landing animation.
+   *  "hiddenLeft/Right/Top/Bottom" animates the card off-screen in that direction. */
+  animateVariant: AnimateVariant;
 }
+
+// Distance the card travels when flying off/back — match the intro ENTRY_OFFSETS
+const OFF_X = 2400;
+const OFF_Y = 1600;
+
+// Fly-back easing: fast launch, smooth deceleration (same as intro throw)
+const FLY_IN_EASE = [0.16, 1, 0.3, 1] as const;
+// Fly-off easing: slow start, rapid acceleration off-screen (ease-in, no bounce)
+const FLY_OFF_EASE = [0.7, 0, 0.84, 0] as const;
 
 export function PolaroidCard({
   title,
@@ -31,9 +51,79 @@ export function PolaroidCard({
   entryY,
   delay = 0,
   positionStyle,
+  animateVariant,
 }: Props) {
+  // Variants are defined inline so they can reference per-card props
+  // (finalRotation, initialRotation, delay). These values never change
+  // after mount, so Motion will not see unnecessary re-animations.
+  const variants = {
+    visible: {
+      x: 0,
+      y: 0,
+      rotate: finalRotation,
+      scale: 1,
+      opacity: 1,
+      transition: {
+        duration: 0.85,
+        ease: FLY_IN_EASE,
+        delay,
+        opacity: { duration: 0.18, ease: "easeOut", delay },
+      },
+    },
+    hiddenLeft: {
+      x: -OFF_X,
+      y: 0,
+      rotate: initialRotation,
+      scale: 1.12,
+      opacity: 0,
+      transition: {
+        duration: 0.55,
+        ease: FLY_OFF_EASE,
+        opacity: { duration: 0.22, ease: "easeIn" },
+      },
+    },
+    hiddenRight: {
+      x: OFF_X,
+      y: 0,
+      rotate: initialRotation,
+      scale: 1.12,
+      opacity: 0,
+      transition: {
+        duration: 0.55,
+        ease: FLY_OFF_EASE,
+        opacity: { duration: 0.22, ease: "easeIn" },
+      },
+    },
+    hiddenTop: {
+      x: 0,
+      y: -OFF_Y,
+      rotate: initialRotation,
+      scale: 1.12,
+      opacity: 0,
+      transition: {
+        duration: 0.55,
+        ease: FLY_OFF_EASE,
+        opacity: { duration: 0.22, ease: "easeIn" },
+      },
+    },
+    hiddenBottom: {
+      x: 0,
+      y: OFF_Y,
+      rotate: initialRotation,
+      scale: 1.12,
+      opacity: 0,
+      transition: {
+        duration: 0.55,
+        ease: FLY_OFF_EASE,
+        opacity: { duration: 0.22, ease: "easeIn" },
+      },
+    },
+  };
+
   return (
     <motion.div
+      // initial fires once on mount: the card starts off-screen at its configured
+      // entry position. After that, Motion only respects the `animate` variant.
       initial={{
         x: entryX,
         y: entryY,
@@ -41,22 +131,11 @@ export function PolaroidCard({
         scale: 1.12,
         opacity: 0,
       }}
-      animate={{
-        x: 0,
-        y: 0,
-        rotate: finalRotation,
-        scale: 1,
-        opacity: 1,
-      }}
+      animate={animateVariant}
+      variants={variants}
       whileHover={{
         y: -8,
         transition: { type: "spring", stiffness: 280, damping: 22 },
-      }}
-      transition={{
-        duration: 0.85,
-        ease: [0.16, 1, 0.3, 1],
-        delay,
-        opacity: { duration: 0.18, ease: "easeOut", delay },
       }}
       style={{ position: "absolute", willChange: "transform", ...positionStyle }}
       className="cursor-default select-none"
