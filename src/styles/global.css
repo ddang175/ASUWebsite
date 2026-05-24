@@ -1,0 +1,130 @@
+/* Google Fonts — Belleza, DM Sans, Inter, Noto Sans JP */
+@import url('https://fonts.googleapis.com/css2?family=Belleza&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Inter:wght@400;500;600&family=Noto+Sans+JP:wght@400;500&display=swap');
+
+@import "tailwindcss";
+
+/* ─── ASU Design Tokens ───────────────────────────────────────────────────── */
+/* Source of truth: Stitch "ASU Community Design System" (inspected 2026-05-24) */
+
+@theme {
+  /* Colors — Core Brand */
+  --color-asu-red:        #E5291E;
+  --color-asu-red-deep:   #C00004;
+  --color-asu-red-hover:  #B51F17;
+  --color-asu-cream:      #FCEEC9;
+  --color-asu-ivory:      #FFF9ED;
+  --color-asu-dark:       #1E1C12;
+  --color-asu-espresso:   #241611;
+  --color-asu-deep-red:   #5C0D0A;
+  --color-asu-gold:       #E8C66A;
+  --color-asu-beige:      #EFE1C8;
+  --color-asu-card:       #FFFDF6;
+
+  /* Colors — Surface containers (tonal layering system from Stitch) */
+  --color-surface-lowest: #FFFFFF;
+  --color-surface-low:    #FAF3E3;
+  --color-surface:        #F4EDDE;
+  --color-surface-high:   #EEE8D8;
+  --color-surface-highest:#E9E2D2;
+
+  /* Colors — Supporting */
+  --color-asu-brown:      #5A2119;
+  --color-asu-muted:      #9B7A68;
+  --color-asu-blush:      #FFE1D2;
+  --color-outline:        #926F6A;
+  --color-outline-variant:#E7BDB7;
+
+  /* Typography — Font families */
+  --font-display: 'Belleza', serif;
+  --font-ui:      'DM Sans', sans-serif;
+  --font-body:    'Inter', sans-serif;
+  --font-multi:   'Noto Sans JP', 'Noto Sans', sans-serif;
+
+  /* Typography — Scale (matching Stitch design system exactly) */
+  --text-display-lg:        3rem;        /* 48px */
+  --text-display-lg--line-height: 3.5rem;/* 56px */
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-display-mobile:    2.25rem;     /* 36px */
+  --text-display-mobile--line-height: 2.75rem; /* 44px */
+  --text-headline-md:       2rem;        /* 32px */
+  --text-headline-md--line-height: 2.5rem; /* 40px */
+  --text-subheader:         1.25rem;     /* 20px */
+  --text-subheader--line-height: 1.75rem;
+  --text-body-lg:           1.125rem;    /* 18px */
+  --text-body-lg--line-height: 1.75rem;
+  --text-body-md:           1rem;        /* 16px */
+  --text-body-md--line-height: 1.5rem;
+  --text-label-caps:        0.75rem;     /* 12px */
+  --text-label-caps--line-height: 1rem;
+  --text-label-caps--letter-spacing: 0.1em;
+  --text-button:            1rem;        /* 16px */
+  --text-button--line-height: 1.25rem;
+
+  /* Spacing — from Stitch design system */
+  --spacing-unit: 0.5rem;   /* 8px base */
+  --spacing-gutter: 1.5rem; /* 24px */
+  --spacing-margin-desktop: 4rem;  /* 64px — album border effect */
+  --spacing-margin-mobile: 1.25rem;/* 20px */
+  --spacing-section: 5rem;  /* 80px minimum between sections */
+  --spacing-polaroid-top: 1rem;    /* 16px */
+  --spacing-polaroid-bottom: 3rem; /* 48px — 3x top, for caption area */
+
+  /* Border radius — soft, tactile (4px default per Stitch) */
+  --radius-sm:  0.125rem; /* 2px — polaroid inner photo */
+  --radius:     0.25rem;  /* 4px — default, polaroid outer frame */
+  --radius-md:  0.375rem;
+  --radius-lg:  0.5rem;
+  --radius-full:9999px;
+
+  /* Shadows — tonal layering (no blurs, no glow per Stitch) */
+  --shadow-polaroid: 0px 4px 20px rgba(30, 28, 18, 0.08);
+  --shadow-card:     0px 2px 12px rgba(30, 28, 18, 0.06);
+  --shadow-dropdown: 0px 4px 20px rgba(30, 28, 18, 0.08);
+}
+
+/* ─── CSS Custom Properties (for Motion animations and inline use) ──────── */
+:root {
+  --asu-red:        #E5291E;
+  --asu-red-deep:   #C00004;
+  --asu-red-hover:  #B51F17;
+  --asu-cream:      #FCEEC9;
+  --asu-ivory:      #FFF9ED;
+  --asu-dark:       #1E1C12;
+  --asu-espresso:   #241611;
+  --asu-deep-red:   #5C0D0A;
+  --asu-gold:       #E8C66A;
+  --asu-beige:      #EFE1C8;
+  --asu-card:       #FFFDF6;
+}
+
+/* ─── Base Styles ───────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #FFF9ED;
+  color: #1E1C12;
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

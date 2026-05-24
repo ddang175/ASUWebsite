@@ -1,0 +1,138 @@
+---
+/**
+ * Nav.astro — Site navigation
+ *
+ * Pure CSS hover dropdowns via Tailwind group/group-hover.
+ * No JavaScript required. Mobile hamburger menu comes in Phase 7.
+ *
+ * Structure:
+ *   [ASU logo]       [Home] [About ▾] [Join ▾] [Connect ▾] [Feedback]
+ */
+
+const navItems = [
+  { label: 'Home', href: '/' },
+  {
+    label: 'About',
+    dropdown: [
+      { label: 'About Us', href: '/about' },
+      { label: 'Executive Board', href: '/board' },
+    ],
+  },
+  {
+    label: 'Join',
+    dropdown: [
+      { label: 'Student Organization', href: '/join/stuorg' },
+      { label: 'Newsletter', href: '/join/newsletter' },
+    ],
+  },
+  {
+    label: 'Connect',
+    dropdown: [
+      { label: 'Socials', href: '/connect/socials' },
+      { label: 'Discord Server', href: '/connect/discord' },
+    ],
+  },
+  { label: 'Feedback', href: '/feedback' },
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-50 bg-asu-ivory border-b border-asu-beige">
+  <div class="max-w-[1280px] mx-auto px-8 md:px-16 flex items-center justify-between h-16">
+
+    <!-- Logo -->
+    <a
+      href="/"
+      class="font-display text-2xl text-asu-dark hover:text-asu-red transition-colors duration-200 leading-none"
+      aria-label="Asian Student Union — home"
+    >
+      ASU
+    </a>
+
+    <!-- Desktop nav -->
+    <nav aria-label="Main navigation">
+      <ul class="hidden md:flex items-center gap-1 list-none m-0 p-0">
+
+        {navItems.map((item) => (
+          item.dropdown ? (
+            /* ── Dropdown item ── */
+            <li class="group relative">
+              <button
+                class="flex items-center gap-1 px-3 py-2 font-ui text-sm font-medium text-asu-dark hover:text-asu-red transition-colors duration-200 cursor-default select-none rounded"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                {item.label}
+                <!-- Chevron down -->
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  aria-hidden="true"
+                  class="transition-transform duration-200 group-hover:rotate-180"
+                >
+                  <path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+
+              <!-- Dropdown panel -->
+              <div class="absolute top-full left-1/2 -translate-x-1/2 pt-1 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-150 pointer-events-none group-hover:pointer-events-auto">
+                <div
+                  class="bg-asu-cream rounded py-1 min-w-[176px]"
+                  style="box-shadow: 0px 4px 20px rgba(30, 28, 18, 0.08); border: 0.5px solid rgba(30, 28, 18, 0.08);"
+                >
+                  {item.dropdown.map((child) => (
+                    <a
+                      href={child.href}
+                      class="block px-4 py-2.5 font-ui text-sm font-medium text-asu-dark hover:text-asu-red hover:bg-[rgba(229,41,30,0.05)] transition-colors duration-150"
+                    >
+                      {child.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </li>
+          ) : (
+            /* ── Direct link ── */
+            <li class="relative">
+              <a
+                href={item.href}
+                class:list={[
+                  'block px-3 py-2 font-ui text-sm font-medium transition-colors duration-200 rounded',
+                  currentPath === item.href
+                    ? 'text-asu-red'
+                    : 'text-asu-dark hover:text-asu-red',
+                ]}
+              >
+                {item.label}
+                <!-- Active indicator dot -->
+                {currentPath === item.href && (
+                  <span
+                    class="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-asu-red"
+                    aria-hidden="true"
+                  />
+                )}
+              </a>
+            </li>
+          )
+        ))}
+
+      </ul>
+    </nav>
+
+    <!-- Mobile menu placeholder (Phase 7) -->
+    <button
+      class="md:hidden p-2 text-asu-dark hover:text-asu-red transition-colors"
+      aria-label="Open menu"
+      aria-expanded="false"
+      id="mobile-menu-btn"
+    >
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </button>
+
+  </div>
+</header>
