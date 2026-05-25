@@ -24,9 +24,9 @@ import type { CSSProperties } from "react";
 // ═══════════════════════════════════════════════════════════════════════════
 const THRESHOLDS = {
   width: {
-    hideOuterAt: 1500, // outer horizontal cards hide below this width
-    hideMiddleAt: 1660, // middle horizontal cards also hide below this
-    hideAllAt: 1000, // all cards hide below this width
+    hideOuterAt: 1500, // inner (center) horizontal cards hide below this width
+    hideMiddleAt: 1660, // middle left/right cards also hide below this
+    hideAllAt: 1050, // all cards hide below this width
   },
   height: {
     hideTopCenterAt: 900, // top-center cards hide below this height (before other top cards)
@@ -35,6 +35,18 @@ const THRESHOLDS = {
     hideAllAt: 550, // all cards hide below this height
   },
 } as const;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LOGO HALF-WIDTH (used for dynamic compressed positioning)
+//
+// The ASU logo renders at w-125 = 500 px at desktop (md+) breakpoints, so
+// its half-width is 250 px. The centering formula uses this to locate the
+// logo edges and place outer Polaroid cards exactly in the middle of the
+// strip between the screen edge and the nearest logo edge.
+//
+// If the logo CSS class changes, update this constant to match.
+// ─────────────────────────────────────────────────────────────────────────────
+const LOGO_HALF_WIDTH_DESKTOP = 250; // px — half of w-125 (500 px)
 
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -71,7 +83,6 @@ interface ResponsiveVisibility {
    * Which direction the card flies off-screen.
    * Left-side cards → "left", right-side cards → "right",
    * top-entering center cards → "top", bottom-entering → "bottom".
-   * This direction is used for both width-triggered and height-triggered hides.
    */
   flyOffDirection: FlyOffDirection;
 }
@@ -84,7 +95,7 @@ interface PolaroidConfig {
   gradient: string;
   // ── Where this card lands on the page ──────────────────────────────
   position: CSSProperties;
-  // ── Final resting angle after the card lands (subtle, -10 to +10) ──
+  // ── Final resting angle after the card lands ──────────────────────
   finalRotation: number;
   // ── Rotation while the card is in the air (bigger = more dramatic) ─
   initialRotation: number;
@@ -94,13 +105,26 @@ interface PolaroidConfig {
   delay: number;
   // ── Responsive resize behavior ─────────────────────────────────────
   responsiveVisibility: ResponsiveVisibility;
+  // ── Compressed position (active when middle cards are hidden) ──────
+  // When the middle-group cards disappear at the hideMiddleAt threshold,
+  // "outer" cards that remain visible shift inward so they stay centered
+  // in the strip between the screen edge and the logo edge, adapting
+  // continuously as the viewport narrows.
+  //
+  // Receives the current viewport width in px; returns { x, y } offsets.
+  // Left-side cards: positive x moves the card right (inward).
+  // Right-side cards: negative x moves the card left (inward).
+  // Omit or set undefined to leave the card in its default position.
+  compressedOffset?: (viewportWidth: number) => { x: number; y: number };
+  // Optional rotation used in the compressed state; defaults to finalRotation.
+  compressedRotation?: number;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
 // POLAROID CARD CONFIGURATION
 //
 // Edit this array to change images, text, positions, rotations, animation
-// timing, and responsive resize behavior.
+// timing, responsive resize behavior, and compressed positions.
 //
 //   title                              — caption shown below the photo
 //   date                               — date shown below the caption
@@ -114,6 +138,10 @@ interface PolaroidConfig {
 //   responsiveVisibility.horizontalGroup — 'outer' | 'middle' | 'inner'
 //   responsiveVisibility.verticalGroup   — 'top' | 'middle' | 'bottom' | 'top-center'
 //   responsiveVisibility.flyOffDirection — 'left' | 'right' | 'top' | 'bottom'
+//
+//   compressedOffset(w) — fn(viewportWidth) → { x, y } centering the card in
+//                         the strip between screen edge and logo edge dynamically
+//   compressedRotation  — rotation in compressed state (optional)
 // ═══════════════════════════════════════════════════════════════════════════
 const POLAROIDS: PolaroidConfig[] = [
   // ── Left-side cards (enter from the left) ──────────────────────────────
@@ -132,6 +160,12 @@ const POLAROIDS: PolaroidConfig[] = [
       verticalGroup: "top",
       flyOffDirection: "left",
     },
+    // COMPRESSED POSITION — stays centered between screen edge and logo edge
+    compressedOffset: (w) => ({
+      x: Math.max(0, (w / 2 - LOGO_HALF_WIDTH_DESKTOP - 326) / 2),
+      y: 0,
+    }),
+    compressedRotation: 8,
   },
   {
     title: "Welcome Back GBM",
@@ -148,6 +182,7 @@ const POLAROIDS: PolaroidConfig[] = [
       verticalGroup: "middle",
       flyOffDirection: "left",
     },
+    // Middle-group card: hidden in compressed state, no offset needed
   },
   {
     title: "InnovAsian",
@@ -164,6 +199,12 @@ const POLAROIDS: PolaroidConfig[] = [
       verticalGroup: "middle",
       flyOffDirection: "left",
     },
+    // COMPRESSED POSITION — stays centered between screen edge and logo edge
+    compressedOffset: (w) => ({
+      x: Math.max(0, (w / 2 - LOGO_HALF_WIDTH_DESKTOP - 326) / 2),
+      y: 0,
+    }),
+    compressedRotation: 5,
   },
   {
     title: "Kickoff GBM",
@@ -180,6 +221,7 @@ const POLAROIDS: PolaroidConfig[] = [
       verticalGroup: "middle",
       flyOffDirection: "left",
     },
+    // Middle-group card: hidden in compressed state, no offset needed
   },
   {
     title: "Career Fair Prep & Success GBM",
@@ -196,6 +238,12 @@ const POLAROIDS: PolaroidConfig[] = [
       verticalGroup: "bottom",
       flyOffDirection: "left",
     },
+    // COMPRESSED POSITION — offset by left: 2% so we subtract that from the center
+    compressedOffset: (w) => ({
+      x: Math.max(0, (w / 2 - LOGO_HALF_WIDTH_DESKTOP - 326) / 2 - 0.02 * w),
+      y: 0,
+    }),
+    compressedRotation: -12,
   },
   {
     title: "ASU K-Pop Dance at ICF",
@@ -212,6 +260,7 @@ const POLAROIDS: PolaroidConfig[] = [
       verticalGroup: "bottom",
       flyOffDirection: "left",
     },
+    // Middle-group card: hidden in compressed state, no offset needed
   },
 
   // ── Center cards ────────────────────────────────────────────────────────
@@ -230,6 +279,7 @@ const POLAROIDS: PolaroidConfig[] = [
       verticalGroup: "top-center",
       flyOffDirection: "top",
     },
+    // Center card: already well-positioned in compressed state, no inward shift needed
   },
   {
     title: "ASU K-Pop Dance",
@@ -246,6 +296,7 @@ const POLAROIDS: PolaroidConfig[] = [
       verticalGroup: "top-center",
       flyOffDirection: "bottom",
     },
+    // Center card: no inward shift needed
   },
 
   // ── Right-side cards ────────────────────────────────────────────────────
@@ -264,6 +315,7 @@ const POLAROIDS: PolaroidConfig[] = [
       verticalGroup: "top",
       flyOffDirection: "right",
     },
+    // Middle-group card: hidden in compressed state, no offset needed
   },
   {
     title: "Ramen Fundraiser",
@@ -280,6 +332,12 @@ const POLAROIDS: PolaroidConfig[] = [
       verticalGroup: "top",
       flyOffDirection: "right",
     },
+    // COMPRESSED POSITION — ramen card is ~362px wide (660×440 image at h-55)
+    compressedOffset: (w) => ({
+      x: Math.min(0, -((w / 2 - LOGO_HALF_WIDTH_DESKTOP - 362) / 2)),
+      y: 0,
+    }),
+    compressedRotation: -3,
   },
   {
     title: "Mocktail Mania GBM",
@@ -296,6 +354,7 @@ const POLAROIDS: PolaroidConfig[] = [
       verticalGroup: "middle",
       flyOffDirection: "right",
     },
+    // Middle-group card: hidden in compressed state, no offset needed
   },
   {
     title: "1 + 1 Boba Fundraiser",
@@ -312,6 +371,12 @@ const POLAROIDS: PolaroidConfig[] = [
       verticalGroup: "middle",
       flyOffDirection: "right",
     },
+    // COMPRESSED POSITION — stays centered between logo edge and screen edge
+    compressedOffset: (w) => ({
+      x: Math.min(0, -((w / 2 - LOGO_HALF_WIDTH_DESKTOP - 326) / 2)),
+      y: 0,
+    }),
+    compressedRotation: -8,
   },
   {
     title: "Ledges Social",
@@ -328,6 +393,12 @@ const POLAROIDS: PolaroidConfig[] = [
       verticalGroup: "bottom",
       flyOffDirection: "right",
     },
+    // COMPRESSED POSITION — offset by right: 1% so we add that back
+    compressedOffset: (w) => ({
+      x: Math.min(0, 0.01 * w - (w / 2 - LOGO_HALF_WIDTH_DESKTOP - 326) / 2),
+      y: 0,
+    }),
+    compressedRotation: 12,
   },
   {
     title: "Triple Play GBM",
@@ -344,6 +415,7 @@ const POLAROIDS: PolaroidConfig[] = [
       verticalGroup: "bottom",
       flyOffDirection: "right",
     },
+    // Middle-group card: hidden in compressed state, no offset needed
   },
 ];
 
@@ -409,8 +481,6 @@ function getAnimateVariant(
 
   if (!hiddenByWidth && !hiddenByHeight) return "visible";
 
-  // Width-triggered hides take priority for direction; fall back to the
-  // card's configured flyOffDirection for height-only hides.
   switch (flyOffDirection) {
     case "left":
       return "hiddenLeft";
@@ -427,6 +497,18 @@ function getAnimateVariant(
 
 export function PolaroidGrid() {
   const { width, height } = useWindowSize();
+
+  // ── Compressed state ────────────────────────────────────────────────────
+  // When inner cards (middle horizontal group) are hidden but outer cards
+  // are still visible, outer cards shift inward using their compressedOffset
+  // to fill the empty space and keep the hero composition balanced.
+  //
+  // Active when: middle cards are hidden  (width < hideMiddleAt)
+  //          AND all cards are still shown (width >= hideAllAt)
+  const isCompressed =
+    width > 0 &&
+    width < THRESHOLDS.width.hideMiddleAt &&
+    width >= THRESHOLDS.width.hideAllAt;
 
   return (
     /*
@@ -459,6 +541,23 @@ export function PolaroidGrid() {
       {POLAROIDS.map((card, i) => {
         const { x: entryX, y: entryY } = ENTRY_OFFSETS[card.entryDirection];
         const animateVariant = getAnimateVariant(card, width, height);
+
+        // Apply the compressed offset only when:
+        //   - the compressed state is active
+        //   - this card has a configured compressedOffset
+        //   - the card is currently visible (not flying off)
+        const applyCompression =
+          isCompressed &&
+          card.compressedOffset != null &&
+          animateVariant === "visible";
+
+        const offset = applyCompression ? card.compressedOffset!(width) : null;
+        const compressedX = offset?.x ?? 0;
+        const compressedY = offset?.y ?? 0;
+        const compressedRotation = applyCompression
+          ? card.compressedRotation
+          : undefined;
+
         return (
           <PolaroidCard
             key={i}
@@ -474,6 +573,9 @@ export function PolaroidGrid() {
             delay={card.delay}
             positionStyle={card.position}
             animateVariant={animateVariant}
+            compressedX={compressedX}
+            compressedY={compressedY}
+            compressedRotation={compressedRotation}
           />
         );
       })}
