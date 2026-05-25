@@ -690,12 +690,8 @@ export function PolaroidGrid() {
             }
           }
 
-          if (vDelta > 0.5 && card.position.top != null) {
-            if (verticalGroup === "top") {
-              overrides.top = `calc(${card.position.top} - ${vDelta.toFixed(1)}px)`;
-            } else if (verticalGroup === "bottom") {
-              overrides.top = `calc(${card.position.top} + ${vDelta.toFixed(1)}px)`;
-            }
+          if (vDelta > 0.5 && card.position.top != null && verticalGroup === "top") {
+            overrides.top = `calc(${card.position.top} - ${vDelta.toFixed(1)}px)`;
           }
 
           if (Object.keys(overrides).length > 0) {
