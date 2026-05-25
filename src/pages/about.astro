@@ -1,0 +1,80 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { PageRibbons } from '../components/PageRibbons';
+import { AboutHero } from '../components/AboutHero';
+import { MissionReveal } from '../components/MissionReveal';
+import { WhoWeAre } from '../components/WhoWeAre';
+import { ValuesSection } from '../components/ValuesSection';
+---
+
+<Layout
+  title="About Us — Asian Student Union @ Iowa State"
+  description="Learn about the Asian Student Union at Iowa State — our mission, values, and the community we've built together."
+>
+  <main class="relative">
+    {/* Scroll-driven page ribbons — draw via pathLength as user scrolls */}
+    <PageRibbons client:load />
+
+    {/* 1. Cinematic hero — parallax + looping ribbon draws on load */}
+    <AboutHero client:load />
+
+    {/* 2. Mission — word-by-word scroll reveal */}
+    <MissionReveal client:visible />
+
+    {/* 3. Who We Are — split layout, parallax images */}
+    <WhoWeAre client:visible />
+
+    {/* 4. Values — staggered 2×2 grid */}
+    <ValuesSection client:visible />
+
+    {/* 5. CTA — ivory editorial style (replaces red full-bleed) */}
+    <section class="relative z-[1] bg-asu-ivory py-28 md:py-40 px-8 md:px-16 lg:px-24 overflow-hidden">
+      <div class="max-w-[1280px] mx-auto">
+        <div class="max-w-xl">
+
+          {/* Red eyebrow */}
+          <div class="flex items-center gap-4 mb-5">
+            <div class="w-8 h-px bg-asu-red" />
+            <p class="font-ui text-[11px] font-bold tracking-[0.22em] uppercase text-asu-red">
+              Join the Family
+            </p>
+          </div>
+
+          {/* Dark editorial heading */}
+          <h2
+            class="font-display text-asu-dark mb-6 leading-tight"
+            style="font-size: clamp(2.5rem, 5vw, 4rem); letter-spacing: -0.02em;"
+          >
+            Become part of the community.
+          </h2>
+
+          {/* Body copy */}
+          <p
+            class="font-body text-lg leading-relaxed mb-12 text-asu-dark opacity-70"
+            style="max-width: 44ch;"
+          >
+            Whether you're looking to connect with your culture, meet new people,
+            or grow as a leader — ASU is your home at Iowa State.
+          </p>
+
+          {/* Buttons */}
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a
+              href="/join/stuorg"
+              class="inline-flex items-center justify-center px-9 py-4 bg-asu-red text-asu-cream font-ui font-semibold rounded transition-colors duration-200 hover:bg-asu-red-hover cursor-pointer"
+            >
+              Join ASU
+            </a>
+            <a
+              href="/connect/socials"
+              class="inline-flex items-center justify-center px-9 py-4 border border-asu-dark text-asu-dark font-ui font-semibold rounded transition-colors duration-200 hover:bg-asu-dark hover:text-asu-cream cursor-pointer"
+            >
+              Follow Us
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
