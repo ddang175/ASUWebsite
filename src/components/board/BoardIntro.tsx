@@ -13,7 +13,7 @@ export function BoardIntro() {
     <section
       ref={ref}
       className="relative bg-asu-ivory text-center overflow-hidden"
-      style={{ padding: "140px 56px 80px" }}
+      style={{ padding: "140px 56px 0px" }}
     >
       {/* Hero → intro transition: dark bleed + ribbon drawn across the seam */}
       <div

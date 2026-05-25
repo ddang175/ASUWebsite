@@ -19,123 +19,123 @@ const OFFICERS: OfficerData[] = [
   {
     id: "president",
     role: "President",
-    name: "Full Name",
-    country: "us",
-    countryLabel: "United States",
-    major: "Computer Science",
-    hometown: "Des Moines, IA",
-    year: "Senior",
-    blurb: "A short blurb written by the president goes here — what ASU means to them, why they joined the board, and what they're most excited about this year. Aim for three to five sentences so the rhythm stays consistent across all officers. The president usually closes with a short hello to new and returning members.",
-  },
-  {
-    id: "vp",
-    role: "Vice President",
-    name: "Full Name",
+    name: "Danton Dang",
     country: "vn",
-    countryLabel: "Vietnam",
-    major: "Business Analytics",
-    hometown: "Cedar Rapids, IA",
-    year: "Junior",
-    blurb: "A short personal blurb from the vice president — what they bring to the board this year, the corner of ASU they're most invested in, and a favorite memory from a past event. End with one line that invites new members to come say hi at the next GBM.",
+    countryLabel: "Vietnamese",
+    major: "Software Engineering",
+    hometown: "Davenport, IA",
+    year: "Senior",
+    blurb: "TODO",
   },
   {
-    id: "treasurer",
+    id: "jennifer",
+    role: "Vice President",
+    name: "Jennifer Tran",
+    country: "vn",
+    countryLabel: "Vietnamese",
+    major: "Accounting",
+    hometown: "TODO",
+    year: "TODO",
+    blurb: "TODO",
+  },
+  {
+    id: "leah",
     role: "Treasurer",
-    name: "Full Name",
-    country: "kr",
+    name: "Leah Mast",
+    country: "TODO",
     countryLabel: "South Korea",
-    major: "Finance",
-    hometown: "Ames, IA",
-    year: "Sophomore",
-    blurb: "Treasurer's blurb — keeping the books balanced and the boba flowing. A few sentences about how they got into the role, what they're working on this year, and the events they're most looking forward to budgeting for. They're also the person to talk to about reimbursements at the end of the night.",
+    major: "Accounting",
+    hometown: "TODO",
+    year: "TODO",
+    blurb: "TODO",
   },
   {
-    id: "community",
+    id: "ethan",
     role: "Community Chair",
     name: "Full Name",
-    country: "cn",
-    countryLabel: "China",
-    major: "Psychology",
-    hometown: "Chicago, IL",
-    year: "Junior",
-    blurb: "Community chair's blurb — building bridges with VSA, KASA, and the rest of the cultural orgs on campus. A few sentences about the collaborations they're planning for the year, what 'community' means to them personally, and how new members can get more involved.",
-  },
-  {
-    id: "fundraising",
-    role: "Fundraising Chair",
-    name: "Full Name",
-    country: "ph",
-    countryLabel: "Philippines",
-    major: "Marketing",
-    hometown: "Minneapolis, MN",
-    year: "Senior",
-    blurb: "Fundraising chair's blurb — the brains behind every ramen night, boba pop-up, and bake sale that keeps ASU's calendar full. Talk about what fundraisers are in the pipeline this year, the silliest one they've planned, and the cause they're proudest to be raising for.",
-  },
-  {
-    id: "mm1",
-    role: "Multimedia Member",
-    name: "Full Name",
     country: "vn",
-    countryLabel: "Vietnam",
-    major: "Graphic Design",
-    hometown: "Iowa City, IA",
+    countryLabel: "Vietnamese",
+    major: "Computer Science",
+    hometown: "Sioux City, Iowa",
     year: "Sophomore",
-    blurb: "Multimedia member's blurb — designing graphics for posts, posters, and recaps. A few sentences about their design style, the project they're most proud of this year, and how members can pitch creative ideas to the team. End with an open invite to collaborate.",
+    blurb: "TODO",
   },
   {
-    id: "mm2",
-    role: "Multimedia Member",
-    name: "Full Name",
-    country: "kr",
-    countryLabel: "South Korea",
-    major: "Digital Media",
-    hometown: "Chicago, IL",
-    year: "Junior",
-    blurb: "Multimedia member's blurb — editing videos, motion clips, and behind-the-scenes reels for socials. A few sentences about their workflow, the event they had the most fun documenting, and a quick wave to anyone who's ever been caught on their camera.",
-  },
-  {
-    id: "mm3",
-    role: "Multimedia Member",
-    name: "Full Name",
+    id: "olivia",
+    role: "Fundraising Chair",
+    name: "Olivia Chen",
     country: "cn",
-    countryLabel: "China",
-    major: "Marketing",
-    hometown: "Minneapolis, MN",
-    year: "Sophomore",
-    blurb: "Multimedia member's blurb — running content strategy and helping the team turn events into stories worth sharing. A few sentences about their approach to creative direction, what they're most excited to ship this year, and how new members can get involved in the team.",
+    countryLabel: "Chinese",
+    major: "Accounting",
+    hometown: "TODO",
+    year: "TODO",
+    blurb: "TODO",
+  },
+  {
+    id: "yukari",
+    role: "Multimedia Member",
+    name: "Yukari Matsunaga",
+    country: "jp",
+    countryLabel: "Japanese",
+    major: "Interior Design",
+    hometown: "Higashikurume, Tokyo",
+    year: "Junior",
+    blurb: "TODO",
+  },
+  {
+    id: "elle",
+    role: "Multimedia Member",
+    name: "Elle Chandy",
+    country: "la",
+    countryLabel: "Laos",
+    major: "Digital Media",
+    hometown: "TODO",
+    year: "TODO",
+    blurb: "TODO",
+  },
+  {
+    id: "cathy",
+    role: "Multimedia Member",
+    name: "Cathy",
+    country: "vn",
+    countryLabel: "Vietnamese",
+    major: "Industrial Engineering",
+    hometown: "Davenport, Iowa",
+    year: "Senior",
+    blurb: "TODO",
   },
   {
     id: "photographer",
     role: "Photography Chair",
-    name: "Full Name",
-    country: "jp",
-    countryLabel: "Japan",
-    major: "Graphic Design",
-    hometown: "Seattle, WA",
+    name: "Jordan Nguyen",
+    country: "vn",
+    countryLabel: "Vietnamese",
+    major: "Computer Engineering",
+    hometown: "Des Moines, Iowa",
+    year: "Senior",
+    blurb: "TODO",
+  },
+  {
+    id: "gavin",
+    role: "Event Planning Chair",
+    name: "Gavin Macanip",
+    country: "TODO",
+    countryLabel: "TODO",
+    major: "Computer Engineering",
+    hometown: "Macanip",
     year: "Sophomore",
-    blurb: "Behind every group photo and event recap reel — the photographer's blurb goes here. A few sentences about how they got into photography, what they love shooting at ASU events, and where members can find their work. End with an invitation to tag them in your favorite event posts.",
+    blurb: "TODO",
   },
   {
-    id: "event",
-    role: "Event Management Chair",
-    name: "Full Name",
-    country: "tw",
-    countryLabel: "Taiwan",
-    major: "Event Management",
-    hometown: "San Jose, CA",
-    year: "Junior",
-    blurb: "The mastermind behind every GBM, mixer, and themed night. A few sentences about the events they're most excited to bring back, the ideas they're cooking up for the spring, and how members can pitch their own. Always open to new event ideas — just slide into the DMs.",
-  },
-  {
-    id: "outreach",
+    id: "nathan",
     role: "Outreach Chair",
-    name: "Full Name",
-    country: "th",
-    countryLabel: "Thailand",
-    major: "Communications",
-    hometown: "New York, NY",
+    name: "Nathan Sison",
+    country: "ph",
+    countryLabel: "Filipino",
+    major: "Finance",
+    hometown: "TODO",
     year: "Sophomore",
-    blurb: "The voice of ASU online — running socials, replying to DMs, and making sure every member feels seen. A few sentences about their approach to outreach, the platforms they spend the most time on, and the kind of community they're working to build. End with a friendly hello to anyone who just followed the page.",
+    blurb: "TODO",
   },
 ];
 
@@ -274,13 +274,10 @@ function OfficerCard({
       style={{ minHeight: "min(780px, 90vh)" }}
     >
       <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_1fr] gap-8 lg:gap-24 items-center h-full">
-
         {/* ── MEDIA column ── */}
         <div
           className={`relative flex items-end justify-center h-auto lg:h-[720px] ${
-            isEven
-              ? "lg:order-2 lg:justify-end"
-              : "lg:order-1 lg:justify-start"
+            isEven ? "lg:order-2 lg:justify-end" : "lg:order-1 lg:justify-start"
           }`}
         >
           {/* Country flag — flies in from outer edge */}
@@ -303,7 +300,11 @@ function OfficerCard({
               prefersReduced
                 ? { duration: 0 }
                 : {
-                    x: { duration: 1.5, ease: [0.18, 0.78, 0.18, 1], delay: 0.25 },
+                    x: {
+                      duration: 1.5,
+                      ease: [0.18, 0.78, 0.18, 1],
+                      delay: 0.25,
+                    },
                     rotate: {
                       duration: 1.5,
                       ease: [0.18, 0.78, 0.18, 1],
@@ -348,13 +349,19 @@ function OfficerCard({
             }}
             initial={{ width: 0, opacity: 0 }}
             animate={
-              isInView ? { width: "100%", opacity: 0.9 } : { width: 0, opacity: 0 }
+              isInView
+                ? { width: "100%", opacity: 0.9 }
+                : { width: 0, opacity: 0 }
             }
             transition={
               prefersReduced
                 ? { duration: 0 }
                 : {
-                    width: { duration: 1.2, ease: [0.2, 0.7, 0.2, 1], delay: 0.5 },
+                    width: {
+                      duration: 1.2,
+                      ease: [0.2, 0.7, 0.2, 1],
+                      delay: 0.5,
+                    },
                     opacity: { duration: 0.6, delay: 0.55 },
                   }
             }
@@ -373,13 +380,19 @@ function OfficerCard({
               }}
               initial={{ scaleX: 0.4, opacity: 0 }}
               animate={
-                isInView ? { scaleX: 1, opacity: 1 } : { scaleX: 0.4, opacity: 0 }
+                isInView
+                  ? { scaleX: 1, opacity: 1 }
+                  : { scaleX: 0.4, opacity: 0 }
               }
               transition={
                 prefersReduced
                   ? { duration: 0 }
                   : {
-                      scaleX: { duration: 1.1, ease: [0.2, 0.7, 0.2, 1], delay: 0.7 },
+                      scaleX: {
+                        duration: 1.1,
+                        ease: [0.2, 0.7, 0.2, 1],
+                        delay: 0.7,
+                      },
                       opacity: { duration: 0.7, delay: 0.75 },
                     }
               }
@@ -402,19 +415,20 @@ function OfficerCard({
                 prefersReduced
                   ? { duration: 0 }
                   : {
-                      y: { duration: 1.4, ease: [0.18, 0.78, 0.2, 1], delay: 0.2 },
+                      y: {
+                        duration: 1.4,
+                        ease: [0.18, 0.78, 0.2, 1],
+                        delay: 0.2,
+                      },
                       opacity: { duration: 0.7, delay: 0.25 },
                     }
               }
             >
-              {/*
-                Replace this placeholder with the officer's headshot:
-                <img
-                  src={`/images/board/${officer.id}.webp`}
-                  alt={`${officer.name}, ${officer.role}`}
-                  className="w-full h-full object-cover object-top"
-                />
-              */}
+              <img
+                src={`/images/board/${officer.id}.webp`}
+                alt={`${officer.name}, ${officer.role}`}
+                className="w-full h-full object-cover object-top"
+              />
               <div className="w-full h-full bg-asu-beige flex items-end justify-center">
                 <span className="font-ui text-[11px] tracking-[0.2em] uppercase text-asu-muted mb-8 opacity-50 select-none">
                   Photo coming soon
@@ -568,7 +582,7 @@ export function OfficerRoster() {
           }
         });
       },
-      { threshold: 0 }
+      { threshold: 0 },
     );
     if (rosterRef.current) io.observe(rosterRef.current);
 
@@ -589,7 +603,7 @@ export function OfficerRoster() {
       const y = el.getBoundingClientRect().top + window.scrollY - 80;
       window.scrollTo({ top: y, behavior: "smooth" });
     },
-    []
+    [],
   );
 
   return (

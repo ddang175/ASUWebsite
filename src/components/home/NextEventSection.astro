@@ -1,6 +1,6 @@
 ---
-import { fetchUpcomingEvent, type EventData } from '../lib/fetchEvents';
-import fallbackData from '../data/events.json';
+import { fetchUpcomingEvent, type EventData } from '../../lib/fetchEvents';
+import fallbackData from '../../data/events.json';
 
 // Fetch from Google Sheet at build time (requires EVENTS_SHEET_ID in .env).
 // Falls back to events.json if the variable is missing or the fetch fails.

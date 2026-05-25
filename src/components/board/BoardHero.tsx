@@ -30,15 +30,13 @@ export function BoardHero() {
         className="absolute inset-0 overflow-hidden"
         style={prefersReduced ? {} : { scale: 1.08, y: bgY }}
       >
-        {/*
-          Replace this placeholder div with the team photo once available:
-          <img
-            src="/images/board/team-photo.webp"
-            alt=""
-            className="w-full h-full object-cover"
-            decoding="async"
-          />
-        */}
+        <img
+          src="/images/board/team-photo.webp"
+          alt=""
+          className="w-full h-full object-cover"
+          decoding="async"
+        />
+
         <div className="w-full h-full bg-asu-espresso" />
       </motion.div>
 
