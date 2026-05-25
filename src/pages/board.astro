@@ -1,0 +1,69 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { BoardHero } from '../components/BoardHero';
+import { BoardIntro } from '../components/BoardIntro';
+import { OfficerRoster } from '../components/OfficerRoster';
+---
+
+<Layout
+  title="Meet the Team — Asian Student Union @ Iowa State"
+  description="Meet the Executive Board of the Asian Student Union at Iowa State — the students who keep ASU running."
+>
+  <main class="relative overflow-x-hidden">
+
+    {/* 1. Cinematic hero — parallax + ribbon draws on load */}
+    <BoardHero client:load />
+
+    {/* 2. Intro strip — dark/ivory transition + ribbon + officer count */}
+    <BoardIntro client:visible />
+
+    {/* 3. Officer roster — 11 officers, alternating layout, flag fly-ins, side rail */}
+    <OfficerRoster client:visible />
+
+    {/* 4. Endcap CTA */}
+    <section
+      class="relative z-[1] bg-asu-espresso text-asu-cream text-center overflow-hidden"
+      style="padding: 200px 56px 140px;"
+    >
+      {/* Ivory bleed from roster into endcap */}
+      <svg
+        class="absolute top-[-2px] left-0 right-0 w-full pointer-events-none"
+        style="height: 160px;"
+        viewBox="0 0 1920 160"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M 0 0 L 1920 0 L 1920 70 C 1480 130, 1080 40, 700 90 C 360 130, 120 70, 0 100 Z"
+          fill="#FFF9ED"
+        />
+      </svg>
+
+      <div class="relative z-10 max-w-3xl mx-auto">
+        <p class="font-ui text-[12px] tracking-[0.25em] uppercase text-asu-gold mb-5">
+          Want to join the board?
+        </p>
+        <h3
+          class="font-display text-asu-cream leading-[1.08] mb-6 mx-auto"
+          style="font-size: clamp(2.5rem, 5vw, 4rem); max-width: 760px;"
+        >
+          Applications open every spring.
+        </h3>
+        <p
+          class="font-body font-light text-base leading-[1.7] text-asu-cream max-w-[520px] mx-auto mb-9"
+          style="opacity: 0.78;"
+        >
+          Interested in helping run ASU next year? Watch our socials and the
+          newsletter for when officer applications open.
+        </p>
+        <a
+          href="/connect/socials"
+          class="inline-flex items-center gap-2.5 px-[30px] py-[14px] bg-asu-red text-asu-ivory font-ui font-medium text-[14px] tracking-[0.08em] rounded transition-colors hover:bg-asu-red-hover"
+        >
+          Get notified →
+        </a>
+      </div>
+    </section>
+
+  </main>
+</Layout>
