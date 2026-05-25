@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useLayoutEffect } from "react";
 import { PolaroidCard, type AnimateVariant } from "./PolaroidCard";
 import type { CSSProperties } from "react";
 
@@ -29,11 +29,49 @@ const THRESHOLDS = {
     hideAllAt: 1050, // all cards hide below this width
   },
   height: {
-    hideTopCenterAt: 900, // top-center cards hide below this height (before other top cards)
+    hideTopCenterAt: 1000, // top-center cards hide below this height (before other top cards)
     hideOuterAt: 820, // "top" + "bottom" vertical cards hide below this height
     hideMiddleAt: 650, // reserved — assign verticalGroup: "middle-outer" to use
     hideAllAt: 550, // all cards hide below this height
   },
+} as const;
+
+// ═══════════════════════════════════════════════════════════════════════════
+// LARGE-SCREEN TUNING — applies at 2560×1440 and above
+//
+// These values ONLY take effect above transitionStart. At 1920×1080 and
+// below, largeProgress = 0 and the layout is pixel-identical to before.
+// Values are linearly interpolated between transitionStart and transitionEnd.
+//
+// HOW IT WORKS — safe separation from the intro animation:
+//   Card spreading uses CSS layout properties (left / right / top) via
+//   calc() strings, NOT Motion transform values (x / y / scale / rotate).
+//   Card scaling uses CSS transform on the inner frame <div>, NOT on the
+//   motion.div that Motion controls. The intro animation is untouched.
+//
+// transitionStart      — viewport px below which the 1920p layout is exact
+// transitionEnd        — viewport px at which all values are fully applied
+// cardScaleMax         — max CSS scale on the Polaroid frame (1 = unchanged)
+// logoScaleMax         — max CSS scale on the ASU logo (1 = unchanged)
+// extraSpreadX         — extra px pushed beyond screen-edge restoration (per side)
+// extraSpreadY         — extra px top/bottom-group cards spread vertically
+// gridHeightBonus      — extra px added to the grid clamp max-height
+// outerSpreadFraction  — spread multiplier for outer-group cards (1.0 = full)
+// middleSpreadFraction — spread multiplier for middle-group cards
+//                        Keep lower than outerSpreadFraction so outer cards
+//                        spread further, creating a scattered rather than
+//                        grouped look.
+// ═══════════════════════════════════════════════════════════════════════════
+const LARGE_SCREEN = {
+  transitionStart: 1920,
+  transitionEnd: 2560,
+  cardScaleMax: 1.35,
+  logoScaleMax: 1.28,
+  extraSpreadX: 80,
+  extraSpreadY: 60,
+  gridHeightBonus: 180,
+  outerSpreadFraction: 0.7,
+  middleSpreadFraction: 0.35,
 } as const;
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -422,10 +460,23 @@ const POLAROIDS: PolaroidConfig[] = [
 // ─────────────────────────────────────────────────────────────────────────────
 // Viewport size tracking — RAF-throttled so resize events don't trigger
 // more than one state update per animation frame.
+//
+// The INITIAL measurement uses useLayoutEffect (synchronous, fires before the
+// browser paints and before any useEffect hooks run). This guarantees that the
+// grid height and large-screen CSS positions are correct on the very first
+// paint, so there is no layout shift visible to the user when the page loads
+// on a 1440p+ screen.
 // ─────────────────────────────────────────────────────────────────────────────
 function useWindowSize() {
   const [size, setSize] = useState({ width: 0, height: 0 });
 
+  // Synchronous initial measurement — must happen before paint so the grid
+  // height and card positions are correct from frame one.
+  useLayoutEffect(() => {
+    setSize({ width: window.innerWidth, height: window.innerHeight });
+  }, []);
+
+  // Ongoing resize listener — async RAF throttle is correct here.
   useEffect(() => {
     let raf: number | null = null;
 
@@ -437,7 +488,6 @@ function useWindowSize() {
       });
     }
 
-    setSize({ width: window.innerWidth, height: window.innerHeight });
     window.addEventListener("resize", onResize, { passive: true });
 
     return () => {
@@ -510,6 +560,37 @@ export function PolaroidGrid() {
     width < THRESHOLDS.width.hideMiddleAt &&
     width >= THRESHOLDS.width.hideAllAt;
 
+  // ── Large-screen layout ─────────────────────────────────────────────────
+  // Progress: 0 at ≤ transitionStart (1920p layout exact), ramps to 1 at
+  // transitionEnd (all values fully applied), capped at 1 beyond.
+  // Zero on SSR / before first layout measurement.
+  const largeProgress =
+    width > 0
+      ? Math.min(
+          1,
+          Math.max(
+            0,
+            (width - LARGE_SCREEN.transitionStart) /
+              (LARGE_SCREEN.transitionEnd - LARGE_SCREEN.transitionStart),
+          ),
+        )
+      : 0;
+
+  // Extra horizontal space (px) on each side of the 1920px content box.
+  // Outer cards are pushed outward by this amount to restore their 1920p
+  // screen-edge appearance, then pushed an additional extraSpreadX px.
+  const containerMargin = Math.max(0, (width - 1920) / 2);
+
+  // Interpolated scale values (1 = no change at 1920p)
+  const computedCardScale = 1 + (LARGE_SCREEN.cardScaleMax - 1) * largeProgress;
+  const computedLogoScale = 1 + (LARGE_SCREEN.logoScaleMax - 1) * largeProgress;
+
+  // Grid height: raise the clamp max for large screens so the composition
+  // fills the extra vertical space and reduces the gap above Next Event.
+  const gridMaxH = Math.round(
+    780 + LARGE_SCREEN.gridHeightBonus * largeProgress,
+  );
+
   return (
     /*
      * overflow-visible so cards are never clipped by this container.
@@ -517,7 +598,7 @@ export function PolaroidGrid() {
      */
     <div
       className="relative w-full overflow-visible"
-      style={{ height: "clamp(520px, 70vh, 780px)" }}
+      style={{ height: `clamp(520px, 70vh, ${gridMaxH}px)` }}
     >
       {/* Centered logo — rendered first so all polaroid cards layer on top of it */}
       <div
@@ -525,7 +606,7 @@ export function PolaroidGrid() {
         style={{
           top: "68%",
           left: "50%",
-          transform: "translate(-50%, -50%)",
+          transform: `translate(-50%, -50%) scale(${computedLogoScale.toFixed(4)})`,
           zIndex: 0,
         }}
       >
@@ -558,6 +639,70 @@ export function PolaroidGrid() {
           ? card.compressedRotation
           : undefined;
 
+        // ── Large-screen CSS position adjustment ───────────────────────────
+        // Adjusts CSS layout properties (left / right / top) via calc()
+        // strings. Motion's own transform values (x, y, scale, rotate) are
+        // NOT touched — the intro animation is completely unaffected.
+        //
+        // Outer cards get the full spread; middle cards get a smaller
+        // fraction. This produces the scattered look: outer cards land near
+        // the screen edge while middle cards stay closer to center.
+        let effectivePosition: CSSProperties = card.position;
+        if (largeProgress > 0) {
+          const { flyOffDirection, horizontalGroup, verticalGroup } =
+            card.responsiveVisibility;
+
+          const hFraction =
+            horizontalGroup === "outer"
+              ? LARGE_SCREEN.outerSpreadFraction
+              : horizontalGroup === "middle"
+                ? LARGE_SCREEN.middleSpreadFraction
+                : 0;
+
+          // Total horizontal shift = restore 1920p screen-edge position
+          // (containerMargin) + extra outward push (extraSpreadX).
+          const hDelta =
+            (containerMargin + LARGE_SCREEN.extraSpreadX) *
+            largeProgress *
+            hFraction;
+
+          // Vertical fraction mirrors horizontal: edge cards spread more.
+          const vFraction =
+            horizontalGroup === "outer"
+              ? 1.0
+              : horizontalGroup === "middle"
+                ? 0.5
+                : 0;
+          const vDelta = LARGE_SCREEN.extraSpreadY * largeProgress * vFraction;
+
+          const overrides: CSSProperties = {};
+
+          if (hDelta > 0.5) {
+            if (flyOffDirection === "left" && card.position.left != null) {
+              // Push further left: reduce the left value (negative = past edge)
+              overrides.left = `calc(${card.position.left} - ${hDelta.toFixed(1)}px)`;
+            } else if (
+              flyOffDirection === "right" &&
+              card.position.right != null
+            ) {
+              // Push further right: reduce the right value (negative = past edge)
+              overrides.right = `calc(${card.position.right} - ${hDelta.toFixed(1)}px)`;
+            }
+          }
+
+          if (vDelta > 0.5 && card.position.top != null) {
+            if (verticalGroup === "top") {
+              overrides.top = `calc(${card.position.top} - ${vDelta.toFixed(1)}px)`;
+            } else if (verticalGroup === "bottom") {
+              overrides.top = `calc(${card.position.top} + ${vDelta.toFixed(1)}px)`;
+            }
+          }
+
+          if (Object.keys(overrides).length > 0) {
+            effectivePosition = { ...card.position, ...overrides };
+          }
+        }
+
         return (
           <PolaroidCard
             key={i}
@@ -571,11 +716,12 @@ export function PolaroidGrid() {
             entryX={entryX}
             entryY={entryY}
             delay={card.delay}
-            positionStyle={card.position}
+            positionStyle={effectivePosition}
             animateVariant={animateVariant}
             compressedX={compressedX}
             compressedY={compressedY}
             compressedRotation={compressedRotation}
+            innerScale={computedCardScale}
           />
         );
       })}

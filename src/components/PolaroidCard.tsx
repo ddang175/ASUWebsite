@@ -37,6 +37,12 @@ interface Props {
   compressedY?: number;
   /** Rotation used in the compressed state. Defaults to finalRotation. */
   compressedRotation?: number;
+  /**
+   * Visual scale factor applied to the Polaroid frame via CSS transform.
+   * Does NOT touch any Motion animation value — safe at all screen sizes.
+   * Default 1 (no change). Used for large-screen upscaling only.
+   */
+  innerScale?: number;
 }
 
 // Distance cards travel when flying off / back — mirrors ENTRY_OFFSETS
@@ -64,6 +70,7 @@ export function PolaroidCard({
   compressedX = 0,
   compressedY = 0,
   compressedRotation,
+  innerScale = 1,
 }: Props) {
   // Track whether this card has completed its first (intro) animation.
   // Before the intro completes, visible-state transitions include the stagger
@@ -201,6 +208,7 @@ export function PolaroidCard({
         style={{
           paddingBottom: "2.5rem",
           boxShadow: "0px 6px 24px rgba(30, 28, 18, 0.12)",
+          transform: innerScale !== 1 ? `scale(${innerScale.toFixed(4)})` : undefined,
         }}
       >
         {/*
