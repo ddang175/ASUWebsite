@@ -211,7 +211,7 @@ const POLAROIDS: PolaroidConfig[] = [
     imageSrc: "/images/polaroidImages/iceCreamSocial.webp",
     date: "Sept. 19th, 2025",
     gradient: "linear-gradient(135deg, #E8C66A, #D4A853)",
-    position: { top: "58%", left: "17%" },
+    position: { top: "58%", left: "17%", zIndex: "20" },
     finalRotation: -17,
     initialRotation: 30,
     entryDirection: "left",

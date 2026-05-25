@@ -1,0 +1,14 @@
+{
+  "upcoming": {
+    "title": "No Upcoming Event",
+    "date": null,
+    "startTime": null,
+    "endTime": null,
+    "location": null,
+    "description": "There are no upcoming events announced at this time. Check back soon for updates from Asian Student Union.",
+    "imageUrl": null,
+    "collab": null,
+    "rsvpUrl": null,
+    "tags": ["Coming Soon"]
+  }
+}

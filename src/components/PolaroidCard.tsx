@@ -188,14 +188,18 @@ export function PolaroidCard({
         y: (compressedY ?? 0) - 8,
         transition: { type: "spring", stiffness: 280, damping: 22 },
       }}
-      style={{ position: "absolute", willChange: "transform", ...positionStyle }}
+      style={{
+        position: "absolute",
+        willChange: "transform",
+        ...positionStyle,
+      }}
       className="cursor-default select-none"
     >
       {/* Polaroid frame — no fixed width; card shrink-wraps to the photo's natural width */}
       <div
         className="bg-asu-cream rounded p-3 md:p-4"
         style={{
-          paddingBottom: "2.75rem",
+          paddingBottom: "2.5rem",
           boxShadow: "0px 6px 24px rgba(30, 28, 18, 0.12)",
         }}
       >
@@ -224,11 +228,11 @@ export function PolaroidCard({
           )}
         </div>
 
-        <div className="mt-2">
-          <p className="font-display text-[12px] md:text-[13px] leading-snug text-asu-dark truncate">
+        <div className="mt-1.5">
+          <p className="font-marker text-[25px] md:text-[25px] leading-tight text-asu-dark truncate">
             {title}
           </p>
-          <p className="font-body text-[10px] md:text-[11px] leading-tight text-asu-dark opacity-50 mt-[3px] truncate">
+          <p className="font-marker text-[18px] md:text-[18px] leading-tight text-asu-dark opacity-50 mt-[3px] truncate">
             {date}
           </p>
         </div>

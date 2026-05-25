@@ -13,6 +13,9 @@ node_modules/
 .env.*
 !.env.example
 
+# event cover image downloaded from external sources at build/dev time
+public/images/events/event-cover.*
+
 # OS
 .DS_Store
 Thumbs.db
