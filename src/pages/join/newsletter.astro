@@ -1,0 +1,13 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { NewsletterHero } from '../../components/newsletter/NewsletterHero';
+---
+
+<Layout
+  title="Newsletter — Asian Student Union @ Iowa State"
+  description="Sign up for the ASU newsletter and get updates on events, fundraisers, and everything happening at the Asian Student Union at Iowa State."
+>
+  <main class="flex-1">
+    <NewsletterHero client:load />
+  </main>
+</Layout>

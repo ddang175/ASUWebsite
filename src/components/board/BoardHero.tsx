@@ -9,7 +9,7 @@ import {
 const EASE_OUT = [0.18, 0.78, 0.2, 1] as [number, number, number, number];
 
 const HERO_RIBBON =
-  "M -40 1040 C 360 1080, 620 700, 760 540 C 880 400, 720 240, 460 320 C 220 400, 220 660, 540 720 C 880 780, 1240 540, 1400 380 C 1560 220, 1900 180, 3500 280";
+  "M -40 1040 C 360 1080, 640 760, 780 540 C 880 400, 550 400, 600 400 C 220 400, 220 660, 540 720 C 880 780, 1240 620, 1400 520 C 1560 400, 1900 380, 3500 480";
 
 export function BoardHero() {
   const prefersReduced = useReducedMotion();

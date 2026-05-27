@@ -118,7 +118,6 @@ function SingleRibbon({
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        {/* Ribbon body */}
         <motion.path
           d={ribbon.path}
           stroke="#E5291E"
@@ -128,19 +127,7 @@ function SingleRibbon({
           fill="none"
           vectorEffect="non-scaling-stroke"
           style={{ pathLength }}
-          opacity={0.58}
-        />
-        {/* Warm sheen highlight */}
-        <motion.path
-          d={ribbon.path}
-          stroke="#FFB8A8"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          fill="none"
-          vectorEffect="non-scaling-stroke"
-          style={{ pathLength }}
-          opacity={0.5}
+          opacity={0.88}
         />
       </svg>
     </div>
