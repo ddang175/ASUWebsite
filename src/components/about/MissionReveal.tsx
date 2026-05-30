@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { motion, useInView, useReducedMotion } from "motion/react";
 
 const MISSION_TEXT =
-  "To foster a welcoming community that celebrates Asian culture and heritage — empowering our members and creating lasting spaces for connection, growth, and joy at Iowa State.";
+  "To foster a welcoming and safe community that celebrates Asian culture and heritage, empowering our members by creating lasting spaces for connection, growth, and joy at Iowa State University.";
 
 const EASE_OUT = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
@@ -17,16 +17,13 @@ export function MissionReveal() {
   return (
     <section className="relative z-[1] bg-asu-espresso py-32 md:py-44 px-8 overflow-hidden">
       <div className="max-w-[900px] mx-auto">
-
         {/* Section label */}
         <motion.div
           className="flex flex-col items-center mb-14"
           initial={{ opacity: 0, y: 16 }}
           animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
           transition={
-            prefersReduced
-              ? { duration: 0 }
-              : { duration: 0.6, ease: EASE_OUT }
+            prefersReduced ? { duration: 0 } : { duration: 0.6, ease: EASE_OUT }
           }
         >
           {/* Gold rule */}
@@ -55,7 +52,10 @@ export function MissionReveal() {
               animate={
                 isInView
                   ? { opacity: 1, y: 0 }
-                  : { opacity: prefersReduced ? 1 : 0, y: prefersReduced ? 0 : 22 }
+                  : {
+                      opacity: prefersReduced ? 1 : 0,
+                      y: prefersReduced ? 0 : 22,
+                    }
               }
               transition={
                 prefersReduced
@@ -77,11 +77,17 @@ export function MissionReveal() {
           className="mx-auto mt-14 bg-asu-gold"
           style={{ width: "40px", height: "1px" }}
           initial={{ scaleX: 0, opacity: 0 }}
-          animate={isInView ? { scaleX: 1, opacity: 1 } : { scaleX: 0, opacity: 0 }}
+          animate={
+            isInView ? { scaleX: 1, opacity: 1 } : { scaleX: 0, opacity: 0 }
+          }
           transition={
             prefersReduced
               ? { duration: 0 }
-              : { duration: 0.6, delay: words.length * 0.048 + 0.1, ease: EASE_OUT }
+              : {
+                  duration: 0.6,
+                  delay: words.length * 0.048 + 0.1,
+                  ease: EASE_OUT,
+                }
           }
         />
       </div>

@@ -156,8 +156,8 @@ export function BoardHero() {
               : { duration: 0.9, ease: EASE_OUT, delay: 0.82 }
           }
         >
-          The students who keep ASU running — planning every GBM, fundraiser,
-          and showcase you'll see this year.
+          The students who keep ASU running by planning every GBM, fundraiser,
+          and social you'll see this year.
           <span className="block w-14 h-px bg-asu-gold mt-[22px]" />
         </motion.p>
       </div>

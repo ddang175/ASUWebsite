@@ -111,7 +111,7 @@ export function AboutHero() {
                 : { duration: 0.6, delay: 0.25, ease: EASE_OUT }
             }
           >
-            Asian Student Union @ Iowa State
+            Asian Student Union @ Iowa State University
           </motion.p>
 
           {/* Display heading */}
@@ -144,9 +144,9 @@ export function AboutHero() {
                 : { duration: 0.75, delay: 0.55, ease: EASE_OUT }
             }
           >
-            Who we are, where we come from,
+            Who we are, what we stand for
             <br />
-            and what we stand for.
+            and our purpose.
           </motion.p>
 
           {/* Gold accent rule */}

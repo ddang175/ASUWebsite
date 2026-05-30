@@ -17,7 +17,7 @@ interface OfficerData {
 
 const OFFICERS: OfficerData[] = [
   {
-    id: "president",
+    id: "danton",
     role: "President",
     name: "Danton Dang",
     country: "vn",
@@ -25,7 +25,8 @@ const OFFICERS: OfficerData[] = [
     major: "Software Engineering",
     hometown: "Davenport, IA",
     year: "Senior",
-    blurb: "TODO",
+    blurb:
+      "asda sas das das dasdas das da sd asdasdasd asd asd asd asdas dasd asda sdasd asd asd as dadsljfh al;sdjhf l;askjdf; lkasjdfl kjsdf lksdf sdf kjsl fksja lkfsjd fks lkasjdf alksdjf lksdj fklsdj s jsj fs fjsdj ksjk fjskldj sajl sdlfsdfklj sdkla fjasldkf sdfsdlk jaslkd fjsalkd fjlksdjf lkasj dlasjd fasdlf jaslkdjf laskjdfasdflk jasldkf jsdlkf jsadlk fjasldk fjksdj fkdsjkf jsd fjsdf jksdj fksdjf sjd sdj d",
   },
   {
     id: "jennifer",
@@ -42,8 +43,8 @@ const OFFICERS: OfficerData[] = [
     id: "leah",
     role: "Treasurer",
     name: "Leah Mast",
-    country: "TODO",
-    countryLabel: "South Korea",
+    country: "cn",
+    countryLabel: "Chinese",
     major: "Accounting",
     hometown: "TODO",
     year: "TODO",
@@ -105,7 +106,7 @@ const OFFICERS: OfficerData[] = [
     blurb: "TODO",
   },
   {
-    id: "photographer",
+    id: "jordan",
     role: "Photography Chair",
     name: "Jordan Nguyen",
     country: "vn",
@@ -255,6 +256,7 @@ function OfficerCard({
 }) {
   const prefersReduced = useReducedMotion();
   const ref = useRef<HTMLElement>(null);
+  const [imgError, setImgError] = useState(false);
   const inViewHook = useInView(ref, { once: true, amount: 0.2 });
   const isInView = prefersReduced ? true : inViewHook;
 
@@ -273,18 +275,20 @@ function OfficerCard({
       className="relative py-24 md:py-28"
       style={{ minHeight: "min(780px, 90vh)" }}
     >
-      <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_1fr] gap-8 lg:gap-24 items-center h-full">
+      <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-8 lg:gap-20 items-center h-full">
         {/* ── MEDIA column ── */}
         <div
-          className={`relative flex items-end justify-center h-auto lg:h-[720px] ${
-            isEven ? "lg:order-2 lg:justify-end" : "lg:order-1 lg:justify-start"
+          className={`relative flex items-end justify-center h-auto ${
+            isEven
+              ? "lg:order-2 lg:justify-end lg:-mr-12"
+              : "lg:order-1 lg:justify-start lg:-ml-12"
           }`}
         >
           {/* Country flag — flies in from outer edge */}
           <motion.div
             className="absolute top-[30px] pointer-events-none"
             style={{
-              [isEven ? "right" : "left"]: -220,
+              [isEven ? "right" : "left"]: -120,
               width: "clamp(200px, 22vw, 340px)",
               aspectRatio: "3/2",
               zIndex: 0,
@@ -399,15 +403,14 @@ function OfficerCard({
             />
           </div>
 
-          {/* Portrait frame — overflow:hidden clips the rising portrait */}
+          {/* Portrait frame — fixed height, natural width so images aren't cropped */}
           <div
-            className="relative overflow-hidden z-[2] w-full"
-            style={{ maxWidth: 620, aspectRatio: "620 / 720" }}
+            className="relative overflow-hidden z-[2]"
+            style={{ height: 580, width: "fit-content" }}
           >
             <motion.div
-              className="w-full h-full"
               initial={{
-                y: prefersReduced ? 0 : "100%",
+                y: prefersReduced ? 0 : 580,
                 opacity: prefersReduced ? 1 : 0,
               }}
               animate={isInView ? { y: 0, opacity: 1 } : {}}
@@ -424,16 +427,28 @@ function OfficerCard({
                     }
               }
             >
-              <img
-                src={`/images/board/${officer.id}.webp`}
-                alt={`${officer.name}, ${officer.role}`}
-                className="w-full h-full object-cover object-top"
-              />
-              <div className="w-full h-full bg-asu-beige flex items-end justify-center">
-                <span className="font-ui text-[11px] tracking-[0.2em] uppercase text-asu-muted mb-8 opacity-50 select-none">
-                  Photo coming soon
-                </span>
-              </div>
+              {imgError ? (
+                <div
+                  className="bg-asu-beige flex items-end justify-center"
+                  style={{ width: 400, height: 580 }}
+                >
+                  <span className="font-ui text-[11px] tracking-[0.2em] uppercase text-asu-muted mb-8 opacity-50 select-none">
+                    Photo coming soon
+                  </span>
+                </div>
+              ) : (
+                <img
+                  src={`/images/board/${officer.id}.webp`}
+                  alt={`${officer.name}, ${officer.role}`}
+                  style={{
+                    height: 580,
+                    width: "auto",
+                    maxWidth: "none",
+                    display: "block",
+                  }}
+                  onError={() => setImgError(true)}
+                />
+              )}
             </motion.div>
           </div>
         </div>

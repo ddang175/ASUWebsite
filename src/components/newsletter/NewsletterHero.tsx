@@ -160,14 +160,14 @@ export function NewsletterHero() {
               : { duration: 0.8, ease: EASE_OUT, delay: 0.95 }
           }
         >
-          Get updates on events, fundraisers, and everything happening at ASU —
+          Get updates on events, fundraisers, and everything happening at ASU
           straight to your inbox.
         </motion.p>
 
-        {/* CTA button */}
-        <motion.a
-          href="#"
-          className="inline-flex items-center gap-3 px-9 py-4 bg-asu-red text-asu-cream font-ui font-semibold text-[15px] tracking-[0.06em] rounded transition-colors duration-200 hover:bg-asu-red-hover"
+        {/* CTA button — no form link yet, greyed out placeholder */}
+        <motion.span
+          className="inline-flex items-center gap-3 px-9 py-4 bg-asu-beige/50 text-asu-muted font-ui font-semibold text-[15px] tracking-[0.06em] rounded cursor-not-allowed select-none border border-dashed border-asu-muted/30"
+          aria-disabled="true"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={
@@ -176,23 +176,9 @@ export function NewsletterHero() {
               : { duration: 0.8, ease: EASE_OUT, delay: 1.1 }
           }
         >
-          Sign Up Here
-          <svg
-            width="15"
-            height="15"
-            viewBox="0 0 15 15"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path
-              d="M2 7.5h11M9 3.5l4 4-4 4"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </motion.a>
+          Sign Up
+          <span className="font-bold tracking-widest text-asu-brown/60">— TODO</span>
+        </motion.span>
       </div>
 
       {/* ── Scroll cue ──────────────────────────────────────────────── */}

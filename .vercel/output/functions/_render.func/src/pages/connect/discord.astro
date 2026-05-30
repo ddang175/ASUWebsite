@@ -1,0 +1,13 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { DiscordHero } from '../../components/discord/DiscordHero';
+---
+
+<Layout
+  title="Discord — Asian Student Union @ Iowa State University"
+  description="Join the ASU Discord server to connect with members, get real-time updates, and hang out with the community."
+>
+  <main class="flex-1">
+    <DiscordHero client:load />
+  </main>
+</Layout>

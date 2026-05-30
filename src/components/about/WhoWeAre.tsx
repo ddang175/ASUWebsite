@@ -10,11 +10,10 @@ import {
 const EASE_OUT = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
 const STATS = [
-  { value: "150+", label: "Members" },
   { value: "10+", label: "Years" },
-  { value: "50+", label: "Events / Year" },
+  { value: "15+", label: "Events / Year" },
+  { value: "50+", label: "Avg. Attendance / Event" },
 ];
-
 
 export function WhoWeAre() {
   const prefersReduced = useReducedMotion();
@@ -41,7 +40,6 @@ export function WhoWeAre() {
     >
       <div className="max-w-[1280px] mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-
           {/* ── Left: overlapping parallax images ─────────────────────────── */}
           <div
             className="relative flex justify-center lg:justify-start"
@@ -95,7 +93,9 @@ export function WhoWeAre() {
               initial={{ opacity: 0, x: 24 }}
               animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 24 }}
               transition={
-                prefersReduced ? { duration: 0 } : { duration: 0.6, ease: EASE_OUT }
+                prefersReduced
+                  ? { duration: 0 }
+                  : { duration: 0.6, ease: EASE_OUT }
               }
             >
               <div className="w-8 h-px bg-asu-red" />
@@ -107,7 +107,10 @@ export function WhoWeAre() {
             {/* Heading */}
             <motion.h2
               className="font-display text-asu-dark mb-6 leading-tight"
-              style={{ fontSize: "clamp(2.25rem, 4vw, 3.25rem)", letterSpacing: "-0.01em" }}
+              style={{
+                fontSize: "clamp(2.25rem, 4vw, 3.25rem)",
+                letterSpacing: "-0.01em",
+              }}
               initial={{ opacity: 0, x: 30 }}
               animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 30 }}
               transition={
@@ -116,7 +119,8 @@ export function WhoWeAre() {
                   : { duration: 0.7, delay: 0.1, ease: EASE_OUT }
               }
             >
-              More than a club —<br />a family.
+              We aren't just a club, <br />
+              We are a community
             </motion.h2>
 
             {/* Body text */}
@@ -132,13 +136,15 @@ export function WhoWeAre() {
             >
               <p className="font-body text-body-lg leading-relaxed text-asu-dark opacity-80">
                 The Asian Student Union (ASU) at Iowa State University is a
-                student-led organization dedicated to building an inclusive community
-                for Asian and Asian-American students.
+                student-led organization dedicated to building an inclusive
+                community for Asian and Asian-American students.
               </p>
               <p className="font-body text-body-lg leading-relaxed text-asu-dark opacity-80">
-                From cultural showcases and food fundraisers to professional
-                development workshops and social gatherings — we celebrate who we are
-                and grow together, every step of the way.
+                We bring our community together through many different types of
+                events. Members can expect to enjoy many different types of
+                events such as engaging general body meetings (GBMs), food
+                fundraisers, cultural showcases, professional development
+                events, and more!
               </p>
             </motion.div>
 

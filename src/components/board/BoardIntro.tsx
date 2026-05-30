@@ -78,26 +78,10 @@ export function BoardIntro() {
               : { duration: 0.9, ease: EASE_OUT, delay: 0.12 }
           }
         >
-          Eleven students.
+          Get to know the students working
           <br />
-          One family.
+          behind the scenes for ASU!
         </motion.h2>
-
-        {/* Lede */}
-        <motion.p
-          className="font-body font-light text-[17px] leading-[1.7] max-w-[620px] mx-auto mb-14 text-asu-brown"
-          initial={{ opacity: 0, y: 36 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={
-            prefersReduced
-              ? { duration: 0 }
-              : { duration: 0.9, ease: EASE_OUT, delay: 0.26 }
-          }
-        >
-          From planning CelebrAsian to balancing the books and capturing every
-          kickoff — here are the people behind ASU this year. Get to know each
-          of them below.
-        </motion.p>
 
         {/* Officer count */}
         <motion.div

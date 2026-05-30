@@ -7,22 +7,22 @@ const VALUES = [
   {
     num: "01",
     name: "Community",
-    desc: "Building authentic bonds across backgrounds, year groups, and generations.",
+    desc: "Building authentic bonds across different backgrounds, ages, and interests.",
   },
   {
     num: "02",
-    name: "Culture",
+    name: "Inclusivity",
     desc: "Honoring and celebrating the richness and diversity of Asian heritage.",
   },
   {
     num: "03",
-    name: "Growth",
-    desc: "Empowering every member to lead, learn, and step into their potential.",
+    name: "Connection",
+    desc: "Encouraging social connection, breaking down barriers and forming life-long friendships.",
   },
   {
     num: "04",
-    name: "Joy",
-    desc: "Creating events and memories worth carrying far beyond graduation.",
+    name: "Understanding",
+    desc: "Striving to accept and learn other's backgrounds, cultures, and identity.",
   },
 ];
 
@@ -35,7 +35,6 @@ export function ValuesSection() {
   return (
     <section className="relative z-[1] bg-asu-dark py-28 md:py-40 px-8 md:px-16 lg:px-24 overflow-hidden">
       <div className="max-w-[1280px] mx-auto">
-
         {/* Section header */}
         <div className="text-center mb-20 md:mb-24">
           <motion.div
@@ -43,7 +42,9 @@ export function ValuesSection() {
             initial={{ opacity: 0, y: 16 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
             transition={
-              prefersReduced ? { duration: 0 } : { duration: 0.6, ease: EASE_OUT }
+              prefersReduced
+                ? { duration: 0 }
+                : { duration: 0.6, ease: EASE_OUT }
             }
           >
             <div className="w-8 h-px bg-asu-gold mb-5" />
@@ -53,7 +54,10 @@ export function ValuesSection() {
           </motion.div>
           <motion.h2
             className="font-display text-asu-cream leading-tight"
-            style={{ fontSize: "clamp(2.5rem, 5vw, 4rem)", letterSpacing: "-0.02em" }}
+            style={{
+              fontSize: "clamp(2.5rem, 5vw, 4rem)",
+              letterSpacing: "-0.02em",
+            }}
             initial={{ opacity: 0, y: 24 }}
             animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 24 }}
             transition={
@@ -67,7 +71,10 @@ export function ValuesSection() {
         </div>
 
         {/* 2×2 values grid */}
-        <div ref={ref} className="grid grid-cols-1 md:grid-cols-2 gap-px bg-asu-espresso">
+        <div
+          ref={ref}
+          className="grid grid-cols-1 md:grid-cols-2 gap-px bg-asu-espresso"
+        >
           {VALUES.map((val, i) => (
             <motion.div
               key={val.num}
@@ -82,7 +89,10 @@ export function ValuesSection() {
               whileHover={
                 prefersReduced
                   ? {}
-                  : { backgroundColor: "#241611", transition: { duration: 0.25 } }
+                  : {
+                      backgroundColor: "#241611",
+                      transition: { duration: 0.25 },
+                    }
               }
             >
               {/* Number */}
@@ -106,7 +116,10 @@ export function ValuesSection() {
               </h3>
 
               {/* Description */}
-              <p className="font-body text-sm leading-relaxed" style={{ color: "rgba(252,238,201,0.55)" }}>
+              <p
+                className="font-body text-sm leading-relaxed"
+                style={{ color: "rgba(252,238,201,0.55)" }}
+              >
                 {val.desc}
               </p>
             </motion.div>
