@@ -163,6 +163,16 @@ async function localizeExternalImage(url: string): Promise<string> {
   }
 }
 
+// Ensures a URL is safe to use as an href — only https:// allowed.
+function isSafeHttpsUrl(url: string): boolean {
+  if (!url) return false;
+  try {
+    return new URL(url).protocol === 'https:';
+  } catch {
+    return false;
+  }
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 
 export async function fetchUpcomingEvent(
@@ -252,6 +262,10 @@ export async function fetchUpcomingEvent(
       ? await localizeExternalImage(normalizeImageUrl(rawImage))
       : "";
 
+    const rawRsvp = get("rsvp_url");
+    // Only allow https:// links — blocks javascript: and other protocol injection
+    const rsvpUrl = isSafeHttpsUrl(rawRsvp) ? rawRsvp : null;
+
     return {
       title:       get("title") || "Event Title TBA",
       date:        getDate("date") || "Date TBA",
@@ -261,7 +275,7 @@ export async function fetchUpcomingEvent(
       description: get("description") || "Details coming soon.",
       imageUrl,
       collab:      get("collab") || null,
-      rsvpUrl:     get("rsvp_url") || null,
+      rsvpUrl,
       tags,
     };
   } catch {

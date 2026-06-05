@@ -1,8 +1,8 @@
 import { c as createComponent } from './astro-component_Ctp5UCQ_.mjs';
 import 'piccolore';
 import { aV as maybeRenderHead, b8 as renderTemplate, a5 as addAttribute } from './params-and-props_BxzUSTsX.mjs';
-import { r as renderComponent } from './entrypoint_FkoWJ4US.mjs';
-import { $ as $$Layout } from './Layout_BhXlIqNj.mjs';
+import { r as renderComponent } from './entrypoint_CloO7E9G.mjs';
+import { $ as $$Layout } from './Layout_uzxEJ57Z.mjs';
 import { jsx, jsxs } from 'react/jsx-runtime';
 import { useRef, useEffect, useState, useLayoutEffect } from 'react';
 import { motion } from 'motion/react';
@@ -717,6 +717,14 @@ async function localizeExternalImage(url) {
     return url;
   }
 }
+function isSafeHttpsUrl(url) {
+  if (!url) return false;
+  try {
+    return new URL(url).protocol === "https:";
+  } catch {
+    return false;
+  }
+}
 async function fetchUpcomingEvent(sheetId) {
   try {
     const endpoint = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&headers=1`;
@@ -766,6 +774,8 @@ async function fetchUpcomingEvent(sheetId) {
     const rawImage = get("image_url");
     const tags = get("tags").split(",").map((t) => t.trim()).filter(Boolean);
     const imageUrl = rawImage ? await localizeExternalImage(normalizeImageUrl(rawImage)) : "";
+    const rawRsvp = get("rsvp_url");
+    const rsvpUrl = isSafeHttpsUrl(rawRsvp) ? rawRsvp : null;
     return {
       title: get("title") || "Event Title TBA",
       date: getDate("date") || "Date TBA",
@@ -775,7 +785,7 @@ async function fetchUpcomingEvent(sheetId) {
       description: get("description") || "Details coming soon.",
       imageUrl,
       collab: get("collab") || null,
-      rsvpUrl: get("rsvp_url") || null,
+      rsvpUrl,
       tags
     };
   } catch {

@@ -1,8 +1,8 @@
 import { c as createComponent } from './astro-component_Ctp5UCQ_.mjs';
 import 'piccolore';
 import { b8 as renderTemplate, aV as maybeRenderHead } from './params-and-props_BxzUSTsX.mjs';
-import { r as renderComponent } from './entrypoint_FkoWJ4US.mjs';
-import { $ as $$Layout } from './Layout_BhXlIqNj.mjs';
+import { r as renderComponent } from './entrypoint_CloO7E9G.mjs';
+import { $ as $$Layout } from './Layout_uzxEJ57Z.mjs';
 import { jsxs, jsx } from 'react/jsx-runtime';
 import { useRef, useState, useEffect, useMemo } from 'react';
 import { useReducedMotion, useScroll, useTransform, motion, useInView } from 'motion/react';
@@ -320,7 +320,7 @@ const OFFICERS = [
     major: "Software Engineering",
     hometown: "Davenport, IA",
     year: "Senior",
-    blurb: "asda sas das das dasdas das da sd asdasdasd asd asd asd asdas dasd asda sdasd asd asd as dadsljfh al;sdjhf l;askjdf; lkasjdfl kjsdf lksdf sdf kjsl fksja lkfsjd fks lkasjdf alksdjf lksdj fklsdj s jsj fs fjsdj ksjk fjskldj sajl sdlfsdfklj sdkla fjasldkf sdfsdlk jaslkd fjsalkd fjlksdjf lkasj dlasjd fasdlf jaslkdjf laskjdfasdflk jasldkf jsdlkf jsadlk fjasldk fjksdj fkdsjkf jsd fjsdf jksdj fksdjf sjd sdj d"
+    blurb: "Hey everyone! My name is Danton, and I will be your guys' president this year :P I am always open to a fun conversation, so feel free to come up to me at ASU events to talk! Outside of work and school, I love dancing, playing volleyball, hanging out with friends, and learning random things (building up random stats lol). I can't wait to meet everyone and bring you guys a great year!"
   },
   {
     id: "jennifer",
@@ -329,9 +329,9 @@ const OFFICERS = [
     country: "vn",
     countryLabel: "Vietnamese",
     major: "Accounting",
-    hometown: "TODO",
-    year: "TODO",
-    blurb: "TODO"
+    hometown: "Bloomington, MN",
+    year: "Junior",
+    blurb: "Hellooo! My name is Jennifer Tran, but you can also call me Jenni!! When I’m not crying over my accounting homework, you’ll probably find me crocheting, knitting, or raging in Valorant. Aside from my hobbies, joining ASU has been one of the best parts of my college experience. Through ASU, I’ve made amazing memories and met some amazing people. I’ve always admired the E-Board’s hard work and dedication, which is what inspired me to join. I want to help create the same welcoming environment and lasting memories for future members as well!"
   },
   {
     id: "leah",
@@ -340,20 +340,20 @@ const OFFICERS = [
     country: "cn",
     countryLabel: "Chinese",
     major: "Accounting",
-    hometown: "TODO",
-    year: "TODO",
-    blurb: "TODO"
+    hometown: "Payson, IL",
+    year: "Junior",
+    blurb: "Hello, my name is Leah! I'm the current treasurer of the Asian Student Union (ASU). I've been a member of the organization since my first year at Iowa State.  ASU has a wonderful community and celebrates Asian cultures, which is how I fell in love with the organization. When I'm not serving as the treasurer at general board meetings, you could catch me serving as the Resident Assistant at Towers, online gaming, or at the library studying!"
   },
   {
     id: "ethan",
     role: "Community Chair",
-    name: "Full Name",
+    name: "Ethan Pham",
     country: "vn",
     countryLabel: "Vietnamese",
     major: "Computer Science",
-    hometown: "Sioux City, Iowa",
+    hometown: "Sioux City, IA",
     year: "Sophomore",
-    blurb: "TODO"
+    blurb: "A little bit more about me is that ASU helped me find my friend group through its community. I hope, as Community Chair, that people can look back and be proud that they were a part of ASU. Outside of ASU, you can find me at hackathons, playing volleyball on the court, or sleeping tbh. Oh, and I once clogged the school's bathroom so hard that it became Snapchat famous."
   },
   {
     id: "olivia",
@@ -362,9 +362,9 @@ const OFFICERS = [
     country: "cn",
     countryLabel: "Chinese",
     major: "Accounting",
-    hometown: "TODO",
-    year: "TODO",
-    blurb: "TODO"
+    hometown: "Brooklyn, NY",
+    year: "Sophmore",
+    blurb: "Hi everyone! my name is Olivia, feel free to call me by whatever! I am going to be ASU's fundraising chair for this year so here's some of my interests! I love to dance and bake, reading the tri-man (manga, manhwa, and manhua) as well as webtoons like Eleceed, Omniscient Reader's Viewpoint, and Heaven's Official Blessing. Live, love, laugh Haikyuu and I love desserts so let me know if any of ya'll want to hit up a fire dessert place 😛"
   },
   {
     id: "yukari",
@@ -375,7 +375,7 @@ const OFFICERS = [
     major: "Interior Design",
     hometown: "Higashikurume, Tokyo",
     year: "Junior",
-    blurb: "TODO"
+    blurb: "I’m Yukari Matsunaga from Japan!! My favorite American food is cheese curds. I like singing and going for walks. I have two dogs, and whenever I miss them, I like looking through photos of them. It’s something I do almost every day"
   },
   {
     id: "elle",
@@ -383,21 +383,21 @@ const OFFICERS = [
     name: "Elle Chandy",
     country: "la",
     countryLabel: "Laos",
-    major: "Digital Media",
-    hometown: "TODO",
-    year: "TODO",
-    blurb: "TODO"
+    major: "ashion Design and Merchandising ",
+    hometown: "Sioux City, IA",
+    year: "Sophomore",
+    blurb: "Hey everyone!! My name is Elle Chandy but it’s said like Ellie. I will be apart of your new Multi-Media crew. My interests/hobbies are reading, sewing, gaming, and drawing. Fun Fact, some of the reasons that I joined ASU was the loving environment and amazing E-Board. I hope to try my hardest I can to make ASU the absolute best!!!"
   },
   {
     id: "cathy",
     role: "Multimedia Member",
-    name: "Cathy",
+    name: "Cathy Bui",
     country: "vn",
     countryLabel: "Vietnamese",
     major: "Industrial Engineering",
-    hometown: "Davenport, Iowa",
+    hometown: "Davenport, IA",
     year: "Senior",
-    blurb: "TODO"
+    blurb: "Hi, I’m Cathy and one of my favorite things to get into is arts and craft! I can crochet, make felt keychains, origami, etc. It’s also how I got interested in my major since I love designing things : )  One of my favorite projects I’ve done is designing a lucky cat inspired diffuser which actually works, yippee. I want to use my expertise in design and make awesome asu merch for everyone!"
   },
   {
     id: "jordan",
@@ -406,20 +406,20 @@ const OFFICERS = [
     country: "vn",
     countryLabel: "Vietnamese",
     major: "Computer Engineering",
-    hometown: "Des Moines, Iowa",
+    hometown: "Des Moines, IA",
     year: "Senior",
-    blurb: "TODO"
+    blurb: "hi, i'm jordan! i'm a computer engineer with a focus on vlsi design and electrical engineering. i enjoy media production as a hobby and occasionally dabble in video, automotive and portrait work. last school year, i was responsible for photoshoots, portraits, and camera work used for asian student union's media presence to promote and document events and other collaborations with partnered student organizations. my other hobbies include computer-related tech, drawing, and lifting."
   },
   {
     id: "gavin",
     role: "Event Planning Chair",
     name: "Gavin Macanip",
-    country: "TODO",
-    countryLabel: "TODO",
+    country: "ph",
+    countryLabel: "Filipino",
     major: "Computer Engineering",
-    hometown: "Macanip",
+    hometown: "Plainfield, IL",
     year: "Sophomore",
-    blurb: "TODO"
+    blurb: "Hi! My name is Gavin Macanip, this year’s event planner! I like to climb rocks, kick things (fun fact: I met an olympic athlete cause of this), take photos, and doing random side quests. I am an avid Bruno Mars enjoyer and professional yearner too (especially with karaoke 🇵🇭). I love to listen to music and playing it too."
   },
   {
     id: "nathan",
@@ -428,9 +428,9 @@ const OFFICERS = [
     country: "ph",
     countryLabel: "Filipino",
     major: "Finance",
-    hometown: "TODO",
+    hometown: "Mount Prospect, IL",
     year: "Sophomore",
-    blurb: "TODO"
+    blurb: "Hi there! I'm Nathaniel Sison, but you can just call me Nathan. Let me share a bit about myself. I'm proudly FILIPINO RAAAAH, hailing from the Illinois region, and I'm currently pursuing a degree in Finance. I enjoy a variety of activities, including playing volleyball, singing, and indulging in delicious food. My favorite color is red, and I'm always eager to meet new friends. If you happen to see me around, don't hesitate to come over and say hello I'm always here to be a friend if you need one."
   }
 ];
 const ROSTER_ITEMS = [

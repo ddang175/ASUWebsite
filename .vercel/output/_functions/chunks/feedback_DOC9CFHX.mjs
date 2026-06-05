@@ -1,28 +1,36 @@
 import { c as createComponent } from './astro-component_Ctp5UCQ_.mjs';
 import 'piccolore';
 import { b8 as renderTemplate, aV as maybeRenderHead } from './params-and-props_BxzUSTsX.mjs';
-import { r as renderComponent } from './entrypoint_FkoWJ4US.mjs';
-import { $ as $$Layout } from './Layout_BhXlIqNj.mjs';
+import { r as renderComponent } from './entrypoint_CloO7E9G.mjs';
+import { $ as $$Layout } from './Layout_uzxEJ57Z.mjs';
 import { jsxs, jsx } from 'react/jsx-runtime';
 import { useRef } from 'react';
 import { useReducedMotion, useScroll, useTransform, motion } from 'motion/react';
 
 const EASE_OUT = [0.16, 1, 0.3, 1];
 const FLY_IN = [0.16, 1, 0.3, 1];
-const RIBBON_PATH = "M -80,820 C 180,680 420,900 660,740 C 900,580 820,360 1060,520 C 1300,680 1200,880 1460,740 C 1720,600 1900,700 2700,660";
-function DiscordLogo({ className }) {
-  return /* @__PURE__ */ jsx(
+const RIBBON_PATH = "M -300,980 C 100,820 380,600 680,440 C 900,320 1060,480 1240,340 C 1420,200 1560,80 2000,-60";
+function FeedbackIcon({ className }) {
+  return /* @__PURE__ */ jsxs(
     "svg",
     {
       className,
       viewBox: "0 0 24 24",
-      fill: "currentColor",
+      fill: "none",
+      stroke: "currentColor",
+      strokeWidth: 1.5,
+      strokeLinecap: "round",
+      strokeLinejoin: "round",
       "aria-hidden": "true",
-      children: /* @__PURE__ */ jsx("path", { d: "M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057.1 18.082.114 18.105.132 18.12a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z" })
+      children: [
+        /* @__PURE__ */ jsx("path", { d: "M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" }),
+        /* @__PURE__ */ jsx("line", { x1: "8", y1: "9", x2: "16", y2: "9" }),
+        /* @__PURE__ */ jsx("line", { x1: "8", y1: "13", x2: "13", y2: "13" })
+      ]
     }
   );
 }
-function DiscordHero() {
+function FeedbackHero() {
   const prefersReduced = useReducedMotion();
   const sectionRef = useRef(null);
   const { scrollY } = useScroll();
@@ -33,7 +41,7 @@ function DiscordHero() {
       ref: sectionRef,
       className: "relative w-full overflow-hidden bg-asu-espresso text-asu-cream",
       style: { height: "100vh", minHeight: 640 },
-      "aria-label": "Discord community server",
+      "aria-label": "Member feedback survey",
       children: [
         /* @__PURE__ */ jsx(
           motion.div,
@@ -99,15 +107,15 @@ function DiscordHero() {
                   initial: { opacity: 0, y: 16 },
                   animate: { opacity: 1, y: 0 },
                   transition: prefersReduced ? { duration: 0 } : { duration: 0.7, ease: EASE_OUT, delay: 0.2 },
-                  children: "Asian Student Union · Discord"
+                  children: "Asian Student Union · Feedback"
                 }
               ),
               /* @__PURE__ */ jsx(
                 motion.div,
                 {
                   className: "mb-7",
-                  initial: prefersReduced ? { opacity: 0 } : { x: 520, y: -340, rotate: 28, scale: 1.12, opacity: 0 },
-                  animate: prefersReduced ? { opacity: 1 } : { x: 0, y: 0, rotate: -6, scale: 1, opacity: 1 },
+                  initial: prefersReduced ? { opacity: 0 } : { x: -480, y: -300, rotate: -26, scale: 1.12, opacity: 0 },
+                  animate: prefersReduced ? { opacity: 1 } : { x: 0, y: 0, rotate: 5, scale: 1, opacity: 1 },
                   transition: prefersReduced ? { duration: 0 } : {
                     duration: 0.9,
                     ease: FLY_IN,
@@ -120,10 +128,10 @@ function DiscordHero() {
                   },
                   whileHover: prefersReduced ? {} : {
                     y: -10,
-                    rotate: -3,
+                    rotate: 2,
                     transition: { type: "spring", stiffness: 280, damping: 22 }
                   },
-                  children: /* @__PURE__ */ jsx(DiscordLogo, { className: "w-32 h-32 text-asu-gold" })
+                  children: /* @__PURE__ */ jsx(FeedbackIcon, { className: "w-32 h-32 text-asu-gold" })
                 }
               ),
               /* @__PURE__ */ jsx(
@@ -134,11 +142,11 @@ function DiscordHero() {
                     fontSize: "clamp(3.5rem, 9vw, 7.5rem)",
                     letterSpacing: "-0.02em"
                   },
-                  children: [["Join", "the"], ["Community."]].map((line, li) => /* @__PURE__ */ jsx("div", { className: "block", children: line.map((word, wi) => /* @__PURE__ */ jsx(
+                  children: [["Your", "Voice"], ["Matters."]].map((line, li) => /* @__PURE__ */ jsx("div", { className: "block", children: line.map((word, wi) => /* @__PURE__ */ jsx(
                     "span",
                     {
                       className: "inline-block overflow-hidden align-top",
-                      style: { marginRight: word === "Community." ? 0 : "0.2em" },
+                      style: { marginRight: word === "Matters." ? 0 : "0.2em" },
                       children: /* @__PURE__ */ jsx(
                         motion.span,
                         {
@@ -171,24 +179,26 @@ function DiscordHero() {
               /* @__PURE__ */ jsx(
                 motion.p,
                 {
-                  className: "font-body text-[17px] leading-relaxed max-w-sm mb-10",
+                  className: "font-body text-[17px] leading-relaxed max-w-md mb-10",
                   style: { color: "rgba(252,238,201,0.72)" },
                   initial: { opacity: 0, y: 20 },
                   animate: { opacity: 1, y: 0 },
                   transition: prefersReduced ? { duration: 0 } : { duration: 0.8, ease: EASE_OUT, delay: 1.22 },
-                  children: "Participate in online-only events, chat with members and the board, play games, get live updates, and be involved with the community!"
+                  children: "Help us improve ASU. Your feedback goes directly to our executive board and shapes how we plan events, run GBMs, and support the community. It takes less than two minutes."
                 }
               ),
               /* @__PURE__ */ jsxs(
                 motion.a,
                 {
-                  href: "#",
+                  href: "https://docs.google.com/forms/d/e/1FAIpQLSdshUXz4SKhja37p6Q2S3Y6OzK7wArOo6DM6XehXoUOWF565A/viewform?usp=header",
+                  target: "_blank",
+                  rel: "noopener noreferrer",
                   className: "inline-flex items-center gap-3 px-9 py-4 bg-asu-red text-asu-cream font-ui font-semibold text-[15px] tracking-[0.06em] rounded transition-colors duration-200 hover:bg-asu-red-hover",
                   initial: { opacity: 0, y: 20 },
                   animate: { opacity: 1, y: 0 },
                   transition: prefersReduced ? { duration: 0 } : { duration: 0.8, ease: EASE_OUT, delay: 1.36 },
                   children: [
-                    "Join the Server",
+                    "Take the Survey",
                     /* @__PURE__ */ jsx(
                       "svg",
                       {
@@ -252,16 +262,16 @@ function DiscordHero() {
   );
 }
 
-const $$Discord = createComponent(($$result, $$props, $$slots) => {
-  return renderTemplate`${renderComponent($$result, "Layout", $$Layout, { "title": "Discord — Asian Student Union @ Iowa State University", "description": "Join the ASU Discord server to connect with members, get real-time updates, and hang out with the community." }, { "default": ($$result2) => renderTemplate` ${maybeRenderHead()}<main class="flex-1"> ${renderComponent($$result2, "DiscordHero", DiscordHero, { "client:load": true, "client:component-hydration": "load", "client:component-path": "C:/Bench/ASUWebsite/src/components/discord/DiscordHero", "client:component-export": "DiscordHero" })} </main> ` })}`;
-}, "C:/Bench/ASUWebsite/src/pages/connect/discord.astro", void 0);
+const $$Feedback = createComponent(($$result, $$props, $$slots) => {
+  return renderTemplate`${renderComponent($$result, "Layout", $$Layout, { "title": "Feedback — Asian Student Union @ Iowa State University", "description": "Share your thoughts with the ASU exec board. Your feedback helps shape our events, GBMs, and community experience." }, { "default": ($$result2) => renderTemplate` ${maybeRenderHead()}<main class="flex-1"> ${renderComponent($$result2, "FeedbackHero", FeedbackHero, { "client:load": true, "client:component-hydration": "load", "client:component-path": "C:/Bench/ASUWebsite/src/components/feedback/FeedbackHero", "client:component-export": "FeedbackHero" })} </main> ` })}`;
+}, "C:/Bench/ASUWebsite/src/pages/feedback.astro", void 0);
 
-const $$file = "C:/Bench/ASUWebsite/src/pages/connect/discord.astro";
-const $$url = "/connect/discord";
+const $$file = "C:/Bench/ASUWebsite/src/pages/feedback.astro";
+const $$url = "/feedback";
 
 const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
   __proto__: null,
-  default: $$Discord,
+  default: $$Feedback,
   file: $$file,
   url: $$url
 }, Symbol.toStringTag, { value: 'Module' }));

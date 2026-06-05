@@ -1,7 +1,7 @@
 import { c as createComponent } from './astro-component_Ctp5UCQ_.mjs';
 import 'piccolore';
 import { aV as maybeRenderHead, a5 as addAttribute, b8 as renderTemplate, b4 as renderHead, b5 as renderSlot } from './params-and-props_BxzUSTsX.mjs';
-import { r as renderComponent } from './entrypoint_FkoWJ4US.mjs';
+import { r as renderComponent } from './entrypoint_CloO7E9G.mjs';
 import 'clsx';
 
 const $$Nav = createComponent(($$result, $$props, $$slots) => {

@@ -1,8 +1,8 @@
 import { c as createComponent } from './astro-component_Ctp5UCQ_.mjs';
 import 'piccolore';
 import { b8 as renderTemplate, aV as maybeRenderHead } from './params-and-props_BxzUSTsX.mjs';
-import { r as renderComponent } from './entrypoint_FkoWJ4US.mjs';
-import { $ as $$Layout } from './Layout_BhXlIqNj.mjs';
+import { r as renderComponent } from './entrypoint_CloO7E9G.mjs';
+import { $ as $$Layout } from './Layout_uzxEJ57Z.mjs';
 import { jsx, Fragment, jsxs } from 'react/jsx-runtime';
 import { useReducedMotion, useScroll, useTransform, motion, useInView } from 'motion/react';
 import { useRef } from 'react';
