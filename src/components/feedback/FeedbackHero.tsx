@@ -12,7 +12,7 @@ const FLY_IN = [0.16, 1, 0.3, 1] as [number, number, number, number];
 // Enters bottom-left, arcs up through the center, exits top-right —
 // distinct from the Discord (bottom wave) and Newsletter (top-right loop).
 const RIBBON_PATH =
-  "M -300,980 C 100,820 380,600 680,440 C 900,320 1060,480 1240,340 C 1420,200 1560,80 2000,-60";
+  "M -2000,1040 C -1400,1020 -800,1000 -300,980 C 100,820 380,600 680,440 C 900,320 1060,480 1240,340 C 1420,200 1700,80 2200,-40 C 2800,-120 3400,-60 5000,-80";
 
 // Feedback / speech-bubble form icon
 function FeedbackIcon({ className }: { className?: string }) {

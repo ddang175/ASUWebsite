@@ -29,20 +29,13 @@ var $$Nav = createComponent(($$result, $$props, $$slots) => {
 		},
 		{
 			label: "About",
-			dropdown: [
-				{
-					label: "About Us",
-					href: "/about"
-				},
-				{
-					label: "Executive Board",
-					href: "/board"
-				},
-				{
-					label: "Club History",
-					href: "/history"
-				}
-			]
+			dropdown: [{
+				label: "About Us",
+				href: "/about"
+			}, {
+				label: "Executive Board",
+				href: "/board"
+			}]
 		},
 		{
 			label: "Join",
@@ -70,7 +63,7 @@ var $$Nav = createComponent(($$result, $$props, $$slots) => {
 		}
 	];
 	const currentPath = Astro.url.pathname;
-	return renderTemplate`${maybeRenderHead($$result)}<header class="sticky top-0 z-50 bg-asu-ivory border-b border-asu-beige" data-astro-cid-vi6cectr><div class="max-w-[1280px] mx-auto px-8 md:px-16 flex items-center justify-between h-16" data-astro-cid-vi6cectr><!-- Logo --><a href="/" class="flex items-center shrink-0 opacity-100 hover:opacity-80 transition-opacity duration-200" aria-label="Asian Student Union — home" data-astro-cid-vi6cectr><img src="/images/asu-logo.webp" alt="Asian Student Union logo" class="h-10 w-auto" data-astro-cid-vi6cectr></a><!-- Desktop nav --><nav aria-label="Main navigation" data-astro-cid-vi6cectr><ul class="hidden md:flex items-center gap-1 list-none m-0 p-0" data-astro-cid-vi6cectr>${navItems.map((item) => item.dropdown ? renderTemplate`<li class="group relative" data-astro-cid-vi6cectr><button class="flex items-center gap-1 px-3 py-2 font-ui text-sm font-medium text-asu-dark hover:text-asu-red transition-colors duration-200 cursor-default select-none rounded" aria-haspopup="true" aria-expanded="false" data-astro-cid-vi6cectr>${item.label}<svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" class="transition-transform duration-200 group-hover:rotate-180" data-astro-cid-vi6cectr><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-vi6cectr></path></svg></button><!-- Dropdown panel --><div class="absolute top-full left-1/2 -translate-x-1/2 pt-1 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-150 pointer-events-none group-hover:pointer-events-auto" data-astro-cid-vi6cectr><div class="bg-asu-cream rounded py-1 min-w-[176px]" style="box-shadow: 0px 4px 20px rgba(30, 28, 18, 0.08); border: 0.5px solid rgba(30, 28, 18, 0.08);" data-astro-cid-vi6cectr>${item.dropdown.map((child) => renderTemplate`<a${addAttribute(child.href, "href")} class="block px-4 py-2.5 font-ui text-sm font-medium text-asu-dark hover:text-asu-red hover:bg-[rgba(229,41,30,0.05)] transition-colors duration-150" data-astro-cid-vi6cectr>${child.label}</a>`)}</div></div></li>` : renderTemplate`<li class="relative" data-astro-cid-vi6cectr><a${addAttribute(item.href, "href")}${addAttribute(["block px-3 py-2 font-ui text-sm font-medium transition-colors duration-200 rounded", currentPath === item.href ? "text-asu-red" : "text-asu-dark hover:text-asu-red"], "class:list")} data-astro-cid-vi6cectr>${item.label}${currentPath === item.href && renderTemplate`<span class="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-asu-red" aria-hidden="true" data-astro-cid-vi6cectr></span>`}</a></li>`)}</ul></nav><!-- Mobile hamburger button --><button id="mobile-menu-btn" class="md:hidden p-2 text-asu-dark hover:text-asu-red transition-colors" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu" data-astro-cid-vi6cectr><svg id="icon-open" width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true" data-astro-cid-vi6cectr><path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" data-astro-cid-vi6cectr></path></svg><svg id="icon-close" class="hidden" width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true" data-astro-cid-vi6cectr><path d="M5 5l12 12M17 5L5 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" data-astro-cid-vi6cectr></path></svg></button></div><!--
+	return renderTemplate`${maybeRenderHead($$result)}<header class="sticky top-0 z-50 bg-asu-ivory border-b border-asu-beige" data-astro-cid-vi6cectr><div class="max-w-[1280px] mx-auto px-8 md:px-16 flex items-center justify-between h-16" data-astro-cid-vi6cectr><!-- Logo --><a href="/" class="flex items-center shrink-0 opacity-100 hover:opacity-80 transition-opacity duration-200" aria-label="Asian Student Union — home" data-astro-cid-vi6cectr><img src="/images/asu-logo.webp" alt="Asian Student Union logo" class="h-10 w-auto" data-astro-cid-vi6cectr></a><!-- Desktop nav --><nav aria-label="Main navigation" data-astro-cid-vi6cectr><ul class="hidden md:flex items-center gap-1 list-none m-0 p-0" data-astro-cid-vi6cectr>${navItems.map((item) => item.dropdown ? renderTemplate`<li class="group relative" data-astro-cid-vi6cectr><button class="desk-dropdown-btn flex items-center gap-1 px-3 py-2 font-ui text-sm font-medium text-asu-dark hover:text-asu-red transition-colors duration-200 cursor-pointer select-none rounded" aria-haspopup="true" aria-expanded="false" data-astro-cid-vi6cectr>${item.label}<svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" class="desk-chevron transition-transform duration-200 group-hover:rotate-180" data-astro-cid-vi6cectr><path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-vi6cectr></path></svg></button><!-- Dropdown panel --><div class="desk-dropdown-panel absolute top-full left-1/2 -translate-x-1/2 pt-1 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-150 pointer-events-none group-hover:pointer-events-auto" data-astro-cid-vi6cectr><div class="bg-asu-cream rounded py-1 min-w-[176px]" style="box-shadow: 0px 4px 20px rgba(30, 28, 18, 0.08); border: 0.5px solid rgba(30, 28, 18, 0.08);" data-astro-cid-vi6cectr>${item.dropdown.map((child) => renderTemplate`<a${addAttribute(child.href, "href")} class="block px-4 py-2.5 font-ui text-sm font-medium text-asu-dark hover:text-asu-red hover:bg-[rgba(229,41,30,0.05)] transition-colors duration-150" data-astro-cid-vi6cectr>${child.label}</a>`)}</div></div></li>` : renderTemplate`<li class="relative" data-astro-cid-vi6cectr><a${addAttribute(item.href, "href")}${addAttribute(["block px-3 py-2 font-ui text-sm font-medium transition-colors duration-200 rounded", currentPath === item.href ? "text-asu-red" : "text-asu-dark hover:text-asu-red"], "class:list")} data-astro-cid-vi6cectr>${item.label}${currentPath === item.href && renderTemplate`<span class="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-asu-red" aria-hidden="true" data-astro-cid-vi6cectr></span>`}</a></li>`)}</ul></nav><!-- Mobile hamburger button --><button id="mobile-menu-btn" class="md:hidden p-2 text-asu-dark hover:text-asu-red transition-colors" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu" data-astro-cid-vi6cectr><svg id="icon-open" width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true" data-astro-cid-vi6cectr><path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" data-astro-cid-vi6cectr></path></svg><svg id="icon-close" class="hidden" width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true" data-astro-cid-vi6cectr><path d="M5 5l12 12M17 5L5 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" data-astro-cid-vi6cectr></path></svg></button></div><!--
     Mobile menu panel.
     Sits inside the sticky <header> so it sticks with it while scrolling.
     Height is animated via CSS grid-template-rows (see <style> above).
@@ -84,20 +77,13 @@ var $$Footer = createComponent(($$result, $$props, $$slots) => {
 	return renderTemplate`${maybeRenderHead($$result)}<footer class="bg-asu-espresso text-asu-cream"><div class="max-w-[1280px] mx-auto px-8 md:px-16 py-16"><div class="flex flex-col md:flex-row gap-12 md:gap-16"><!-- Logo + tagline --><div class="shrink-0 md:w-56"><a href="/" aria-label="Asian Student Union — home" class="inline-block mb-4 opacity-90 hover:opacity-100 transition-opacity duration-200"><img src="/images/asu-logo.webp" alt="Asian Student Union logo" class="h-14 w-auto" style="filter: brightness(0) invert(1);"></a><p class="font-body text-sm leading-relaxed" style="color: rgba(252,238,201,0.55);">A community rooted in<br>heritage, growing together.</p></div><!-- Nav link columns --><div class="flex flex-wrap gap-10 md:gap-16 flex-1">${[
 		{
 			heading: "About",
-			items: [
-				{
-					label: "About Us",
-					href: "/about"
-				},
-				{
-					label: "Executive Board",
-					href: "/board"
-				},
-				{
-					label: "Club History",
-					href: "/history"
-				}
-			]
+			items: [{
+				label: "About Us",
+				href: "/about"
+			}, {
+				label: "Executive Board",
+				href: "/board"
+			}]
 		},
 		{
 			heading: "Join",

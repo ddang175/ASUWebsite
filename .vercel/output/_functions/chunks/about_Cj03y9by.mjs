@@ -1,6 +1,6 @@
 import { n as __exportAll, t as createComponent } from "./compiler_BbbvFB7Z.mjs";
 import { i as renderComponent, m as maybeRenderHead, u as renderTemplate } from "./server_BLE2ae5B.mjs";
-import { t as $$Layout } from "./Layout_YS8GGEOw.mjs";
+import { t as $$Layout } from "./Layout_DCqJGwVF.mjs";
 import { useRef } from "react";
 import { motion, useInView, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { Fragment as Fragment$1, jsx, jsxs } from "react/jsx-runtime";
@@ -23,7 +23,7 @@ var RIBBONS = [
 			zIndex: 45
 		},
 		viewBox: "0 0 1440 360",
-		path: "M -80,320 C 120,-100 480,380 660,200 C 840,20 720,-100 1000,200 C 1180,360 1380,100 1540,260",
+		path: "M -2000,340 C -1400,335 -800,328 -80,320 C 120,-100 480,380 660,200 C 840,20 720,-100 1000,200 C 1180,360 1500,100 1800,200 C 2200,300 2800,220 4000,260",
 		scrollRange: [.36, .56]
 	},
 	{
@@ -37,7 +37,7 @@ var RIBBONS = [
 			zIndex: 45
 		},
 		viewBox: "0 0 1440 360",
-		path: "M -80,340 C 160,-100 520,300 700,150 C 880,0 740,-100 1020,180 C 1200,380 1380,80 1540,260",
+		path: "M -2000,360 C -1400,355 -800,348 -80,340 C 160,-100 520,300 700,150 C 880,0 740,-100 1020,180 C 1200,380 1500,80 1800,200 C 2200,320 2800,180 4000,260",
 		scrollRange: [.65, .82]
 	},
 	{
@@ -51,7 +51,7 @@ var RIBBONS = [
 			zIndex: 45
 		},
 		viewBox: "0 0 1440 340",
-		path: "M 1520,260 C 1280,-80 960,360 70,190 C -500,20 100, -100 -400,10 C 220,380 60,80 -1200,240",
+		path: "M 4000,280 C 3200,275 2400,268 1520,260 C 1280,-80 960,360 70,190 C -500,20 100,-100 -400,10 C 220,380 -200,80 -800,180 C -1400,280 -2200,200 -4000,240",
 		scrollRange: [.8, .96]
 	}
 ];
@@ -146,12 +146,14 @@ function AboutHero() {
 					xmlns: "http://www.w3.org/2000/svg",
 					children: /* @__PURE__ */ jsx(motion.path, {
 						d: [
-							"M -30,110",
+							"M -2000,160",
+							"C -1400,145 -800,130 -30,110",
 							"C 100,-200 500,380 280,470",
 							"C -180,560 500,320 200,540",
 							"C -50,720 -70,850 110,910",
 							"C 340,970 840,895 1160,858",
-							"C 1370,838 1510,864 1540,848"
+							"C 1370,838 1700,864 2000,845",
+							"C 2500,820 3000,855 4000,840"
 						].join(" "),
 						stroke: "#E5291E",
 						strokeWidth: "3",

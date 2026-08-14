@@ -1,6 +1,6 @@
 import { n as __exportAll, t as createComponent } from "./compiler_BbbvFB7Z.mjs";
 import { i as renderComponent, m as maybeRenderHead, u as renderTemplate } from "./server_BLE2ae5B.mjs";
-import { t as $$Layout } from "./Layout_YS8GGEOw.mjs";
+import { t as $$Layout } from "./Layout_DCqJGwVF.mjs";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { motion, useInView, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { jsx, jsxs } from "react/jsx-runtime";
@@ -11,7 +11,7 @@ var EASE_OUT$2 = [
 	.2,
 	1
 ];
-var HERO_RIBBON = "M -40 1040 C 360 1080, 640 760, 780 540 C 880 400, 550 400, 600 400 C 220 400, 220 660, 540 720 C 880 780, 1240 620, 1400 520 C 1560 400, 1900 380, 3500 480";
+var HERO_RIBBON = "M -2000 1060 C -1400 1055, -800 1048, -40 1040 C 360 1080, 640 760, 780 540 C 880 400, 550 400, 600 400 C 220 400, 220 660, 540 720 C 880 780, 1240 620, 1400 520 C 1560 400, 2200 380, 3000 440 C 3800 480, 4500 460, 6000 480";
 function BoardHero() {
 	const prefersReduced = useReducedMotion();
 	const heroRef = useRef(null);
@@ -97,7 +97,7 @@ function BoardHero() {
 							ease: EASE_OUT$2,
 							delay: .8
 						},
-						children: "Asian Student Union · Executive Board 2025–26"
+						children: "Asian Student Union · Executive Board 2026–27"
 					}),
 					/* @__PURE__ */ jsxs("h1", {
 						className: "font-display leading-none mb-[22px] text-asu-cream",
@@ -235,7 +235,7 @@ function BoardIntro() {
 					d: "M 0 0 L 1920 0 L 1920 60 C 1500 110, 1100 30, 700 75 C 380 105, 120 70, 0 90 Z",
 					fill: "#1E1C12"
 				}), /* @__PURE__ */ jsx(motion.path, {
-					d: "M -20 100 C 240 60, 520 130, 820 90 C 1100 56, 1340 120, 1620 80 C 1780 60, 1900 70, 3500 88",
+					d: "M -2000 110 C -1400 108, -800 105, -20 100 C 240 60, 520 130, 820 90 C 1100 56, 1340 120, 1620 80 C 1780 60, 2200 70, 3000 80 C 3800 88, 4500 85, 6000 88",
 					fill: "none",
 					stroke: "#E5291E",
 					strokeWidth: 4.5,

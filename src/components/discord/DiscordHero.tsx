@@ -11,7 +11,7 @@ const EASE_OUT = [0.16, 1, 0.3, 1] as [number, number, number, number];
 const FLY_IN = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
 const RIBBON_PATH =
-  "M -80,820 C 180,680 420,900 660,740 C 900,580 820,360 1060,520 C 1300,680 1200,880 1460,740 C 1720,600 1900,700 2700,660";
+  "M -2000,880 C -1400,860 -800,840 -80,820 C 180,680 420,900 660,740 C 900,580 820,360 1060,520 C 1300,680 1200,880 1460,740 C 1720,600 2200,700 3000,680 C 3500,660 4000,680 5000,670";
 
 function DiscordLogo({ className }: { className?: string }) {
   return (

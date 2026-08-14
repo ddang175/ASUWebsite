@@ -12,7 +12,7 @@ const EASE_OUT = [0.16, 1, 0.3, 1] as [number, number, number, number];
 // then sweeps all the way off the left edge.
 // Loop center ~(1350,700), below y≈580 where the CTA button sits.
 const RIBBON_PATH =
-  "M 1700,80 C 1460,-40 1280,220 1150,480 C 1100,600 1200,780 1350,840 C 1500,900 1580,700 1480,540 C 1380,380 1250,420 1150,480 C 950,640 500,700 100,740 C -200,760 -800,730 -2500,720";
+  "M 4000,60 C 3200,50 2400,65 1700,80 C 1460,-40 1280,220 1150,480 C 1100,600 1200,780 1350,840 C 1500,900 1580,700 1480,540 C 1380,380 1250,420 1150,480 C 950,640 500,700 100,740 C -200,760 -1000,735 -2000,725 C -2800,720 -3600,730 -5000,720";
 
 export function NewsletterHero() {
   const prefersReduced = useReducedMotion();

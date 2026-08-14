@@ -1,6 +1,6 @@
 import { n as __exportAll, t as createComponent } from "./compiler_BbbvFB7Z.mjs";
 import { i as renderComponent, m as maybeRenderHead, u as renderTemplate } from "./server_BLE2ae5B.mjs";
-import { t as $$Layout } from "./Layout_YS8GGEOw.mjs";
+import { t as $$Layout } from "./Layout_DCqJGwVF.mjs";
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { jsx, jsxs } from "react/jsx-runtime";
@@ -11,7 +11,7 @@ var EASE_OUT = [
 	.3,
 	1
 ];
-var RIBBON_PATH = "M 1700,80 C 1460,-40 1280,220 1150,480 C 1100,600 1200,780 1350,840 C 1500,900 1580,700 1480,540 C 1380,380 1250,420 1150,480 C 950,640 500,700 100,740 C -200,760 -800,730 -2500,720";
+var RIBBON_PATH = "M 4000,60 C 3200,50 2400,65 1700,80 C 1460,-40 1280,220 1150,480 C 1100,600 1200,780 1350,840 C 1500,900 1580,700 1480,540 C 1380,380 1250,420 1150,480 C 950,640 500,700 100,740 C -200,760 -1000,735 -2000,725 C -2800,720 -3600,730 -5000,720";
 function NewsletterHero() {
 	const prefersReduced = useReducedMotion();
 	const sectionRef = useRef(null);

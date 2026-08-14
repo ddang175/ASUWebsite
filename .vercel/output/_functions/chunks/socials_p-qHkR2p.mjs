@@ -1,6 +1,6 @@
 import { n as __exportAll, t as createComponent } from "./compiler_BbbvFB7Z.mjs";
 import { i as renderComponent, m as maybeRenderHead, u as renderTemplate } from "./server_BLE2ae5B.mjs";
-import { t as $$Layout } from "./Layout_YS8GGEOw.mjs";
+import { t as $$Layout } from "./Layout_DCqJGwVF.mjs";
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useReducedMotion, useSpring } from "motion/react";
 import { jsx, jsxs } from "react/jsx-runtime";
@@ -55,7 +55,7 @@ function SocialCard({ platform, index, handle, tagline, description, href, label
 		children: /* @__PURE__ */ jsx("div", {
 			onMouseEnter: () => setFocused(platform),
 			onMouseLeave: () => setFocused(null),
-			className: "relative cursor-pointer flex-1 flex flex-col",
+			className: "relative flex-1 flex flex-col",
 			children: /* @__PURE__ */ jsxs("div", {
 				className: "relative overflow-hidden rounded-3xl flex flex-col flex-1",
 				style: {
@@ -201,7 +201,7 @@ function SocialsHero() {
 				"aria-hidden": "true",
 				style: { zIndex: 1 },
 				children: /* @__PURE__ */ jsx(motion.path, {
-					d: "M -80,760 C 240,660 560,820 860,700 C 1160,580 1240,760 1660,680",
+					d: "M -2000,800 C -1400,790 -800,780 -80,760 C 240,660 560,820 860,700 C 1160,580 1340,760 1660,680 C 2000,640 2600,700 3500,680 C 4000,660 4500,680 5500,670",
 					fill: "none",
 					stroke: "#E5291E",
 					strokeWidth: 2.5,

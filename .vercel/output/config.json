@@ -40,10 +40,6 @@
 			"dest": "_render"
 		},
 		{
-			"src": "^/history/?$",
-			"dest": "_render"
-		},
-		{
 			"src": "^/join/newsletter/?$",
 			"dest": "_render"
 		},

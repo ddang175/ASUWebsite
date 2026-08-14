@@ -69,17 +69,14 @@ export function AboutHero() {
           >
             <motion.path
               d={[
-                // Start top-left
-                "M -30,110",
-                // First arc: sweeps up-right then loops back left — creates the big upward loop
+                "M -2000,160",
+                "C -1400,145 -800,130 -30,110",
                 "C 100,-200 500,380 280,470",
-                // Second wind: pulls hard left then right — figure-eight crossing
                 "C -180,560 500,320 200,540",
-                // Third bend: continues winding left and further down
                 "C -50,720 -70,850 110,910",
-                // Final sweep: travels right across the bottom of the hero
                 "C 340,970 840,895 1160,858",
-                "C 1370,838 1510,864 1540,848",
+                "C 1370,838 1700,864 2000,845",
+                "C 2500,820 3000,855 4000,840",
               ].join(" ")}
               stroke="#E5291E"
               strokeWidth="3"
