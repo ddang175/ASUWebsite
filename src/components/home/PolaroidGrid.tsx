@@ -25,7 +25,7 @@ import type { CSSProperties } from "react";
 const THRESHOLDS = {
   width: {
     hideOuterAt: 1500, // inner (center) horizontal cards hide below this width
-    hideMiddleAt: 1660, // middle left/right cards also hide below this
+    hideMiddleAt: 1788, // middle left/right cards also hide below this
     hideAllAt: 1050, // all cards hide below this width
   },
   height: {
@@ -288,7 +288,7 @@ const POLAROIDS: PolaroidConfig[] = [
     date: "Nov. 9th, 2025",
     imageSrc: "/images/polaroidImages/go.webp",
     gradient: "linear-gradient(135deg, #E8C66A, #D4A853)",
-    position: { top: "103%", left: "20%" },
+    position: { top: "103%", left: "18%" },
     finalRotation: 11,
     initialRotation: 30,
     entryDirection: "left",
@@ -307,7 +307,7 @@ const POLAROIDS: PolaroidConfig[] = [
     date: "Oct. 9th, 2025",
     imageSrc: "/images/polaroidImages/drinkFundraiser.webp",
     gradient: "linear-gradient(135deg, #E5291E, #FCEEC9)",
-    position: { top: "-5%", left: "33%" },
+    position: { top: "-10%", left: "33%" },
     finalRotation: 6,
     initialRotation: -22,
     entryDirection: "top",
@@ -324,7 +324,7 @@ const POLAROIDS: PolaroidConfig[] = [
     imageSrc: "/images/polaroidImages/asuDance.webp",
     date: "Apr. 3rd, 2026",
     gradient: "linear-gradient(145deg, #5C0D0A, #E5291E)",
-    position: { top: "-3%", left: "50%" },
+    position: { top: "-10%", left: "50%" },
     finalRotation: -5,
     initialRotation: -20,
     entryDirection: "bottom",
@@ -443,7 +443,7 @@ const POLAROIDS: PolaroidConfig[] = [
     date: "Apr 26th, 2025",
     imageSrc: "/images/polaroidImages/triplePlay.webp",
     gradient: "linear-gradient(135deg, #FCEEC9, #FFF9ED)",
-    position: { top: "102%", right: "20%" },
+    position: { top: "102%", right: "17%" },
     finalRotation: -10,
     initialRotation: -54,
     entryDirection: "right",
@@ -585,11 +585,15 @@ export function PolaroidGrid() {
   const computedCardScale = 1 + (LARGE_SCREEN.cardScaleMax - 1) * largeProgress;
   const computedLogoScale = 1 + (LARGE_SCREEN.logoScaleMax - 1) * largeProgress;
 
+  const isMobile = width > 0 && width < 768;
+
   // Grid height: raise the clamp max for large screens so the composition
   // fills the extra vertical space and reduces the gap above Next Event.
-  const gridMaxH = Math.round(
-    780 + LARGE_SCREEN.gridHeightBonus * largeProgress,
-  );
+  // On mobile all polaroid cards are hidden, so a much shorter container is used
+  // to keep the logo prominent and the "Next Event" cue visible without scrolling.
+  const gridMaxH = isMobile
+    ? 380
+    : Math.round(780 + LARGE_SCREEN.gridHeightBonus * largeProgress);
 
   return (
     /*
@@ -598,22 +602,38 @@ export function PolaroidGrid() {
      */
     <div
       className="relative w-full overflow-visible"
-      style={{ height: `clamp(520px, 70vh, ${gridMaxH}px)` }}
+      style={{
+        height: isMobile
+          ? `clamp(300px, 46dvh, ${gridMaxH}px)`
+          : `clamp(520px, 70vh, ${gridMaxH}px)`,
+      }}
     >
       {/* Centered logo — rendered first so all polaroid cards layer on top of it */}
       <div
         className="absolute"
         style={{
-          top: "68%",
+          top: isMobile ? "62%" : "68%",
           left: "50%",
-          transform: `translate(-50%, -50%) scale(${computedLogoScale.toFixed(4)})`,
+          // ── MOBILE LOGO SCALE ──────────────────────────────────────────────
+          // `scale(N)` here is the easiest knob: raise it to make the logo
+          // appear larger on mobile (both wider AND taller). The parent
+          // <section> has overflow-x-clip so horizontal overflow is safe.
+          // Start at 1.4 and increase in 0.1 steps until it looks right.
+          transform: isMobile
+            ? `translate(-50%, -50%) scale(1.6)`
+            : `translate(-50%, -50%) scale(${computedLogoScale.toFixed(4)})`,
           zIndex: 0,
         }}
       >
         <img
           src="/images/asu-logo.webp"
           alt="Asian Student Union"
-          className="w-100 md:w-125 h-auto select-none pointer-events-none"
+          // ── MOBILE LOGO WIDTH ──────────────────────────────────────────────
+          // Inline style used (not a Tailwind class) so the value is always
+          // applied regardless of CSS generation / scanning. Change the vw
+          // value here to adjust base width before scaling above is applied.
+          style={isMobile ? { width: "100vw" } : undefined}
+          className="md:w-125 h-auto select-none pointer-events-none"
           decoding="async"
           draggable={false}
         />
@@ -690,7 +710,11 @@ export function PolaroidGrid() {
             }
           }
 
-          if (vDelta > 0.5 && card.position.top != null && verticalGroup === "top") {
+          if (
+            vDelta > 0.5 &&
+            card.position.top != null &&
+            verticalGroup === "top"
+          ) {
             overrides.top = `calc(${card.position.top} - ${vDelta.toFixed(1)}px)`;
           }
 

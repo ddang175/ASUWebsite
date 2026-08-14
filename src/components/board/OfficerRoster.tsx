@@ -1,7 +1,20 @@
-import { useRef, useState, useEffect, useMemo } from "react";
+import { useRef, useState, useEffect, useLayoutEffect, useMemo } from "react";
 import { motion, useInView, useReducedMotion } from "motion/react";
 
 const EASE_OUT = [0.18, 0.78, 0.2, 1] as [number, number, number, number];
+
+function useIsMobile() {
+  const [isMobile, setIsMobile] = useState(false);
+  useLayoutEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", check, { passive: true });
+    return () => window.removeEventListener("resize", check);
+  }, []);
+  return isMobile;
+}
 
 interface OfficerData {
   id: string;
@@ -72,9 +85,9 @@ const OFFICERS: OfficerData[] = [
     countryLabel: "Chinese",
     major: "Accounting",
     hometown: "Brooklyn, NY",
-    year: "Sophmore",
+    year: "Sophomore",
     blurb:
-      "Hi everyone! my name is Olivia, feel free to call me by whatever! I am going to be ASU's fundraising chair for this year so here's some of my interests! I love to dance and bake, reading the tri-man (manga, manhwa, and manhua) as well as webtoons like Eleceed, Omniscient Reader's Viewpoint, and Heaven's Official Blessing. Live, love, laugh Haikyuu and I love desserts so let me know if any of ya'll want to hit up a fire dessert place 😛",
+      "Hi everyone! My name is Olivia, feel free to call me by whatever! I am going to be ASU's fundraising chair for this year so here's some of my interests! I love to dance and bake, reading the tri-man (manga, manhwa, and manhua) as well as webtoons like Eleceed, Omniscient Reader's Viewpoint, and Heaven's Official Blessing. Live, love, laugh Haikyuu and I love desserts so let me know if any of y'all want to hit up a fire dessert place 😛",
   },
   {
     id: "yukari",
@@ -94,11 +107,11 @@ const OFFICERS: OfficerData[] = [
     name: "Elle Chandy",
     country: "la",
     countryLabel: "Laos",
-    major: "ashion Design and Merchandising ",
+    major: "Fashion Design and Merchandising",
     hometown: "Sioux City, IA",
     year: "Sophomore",
     blurb:
-      "Hey everyone!! My name is Elle Chandy but it’s said like Ellie. I will be apart of your new Multi-Media crew. My interests/hobbies are reading, sewing, gaming, and drawing. Fun Fact, some of the reasons that I joined ASU was the loving environment and amazing E-Board. I hope to try my hardest I can to make ASU the absolute best!!!",
+      "Hey everyone!! My name is Elle Chandy but it’s said like Ellie. I will be a part of your new Multi-Media crew. My interests/hobbies are reading, sewing, gaming, and drawing. Fun Fact, some of the reasons that I joined ASU were the loving environment and amazing E-Board. I hope to try my hardest I can to make ASU the absolute best!!!",
   },
   {
     id: "cathy",
@@ -134,7 +147,7 @@ const OFFICERS: OfficerData[] = [
     hometown: "Plainfield, IL",
     year: "Sophomore",
     blurb:
-      "Hi! My name is Gavin Macanip, this year’s event planner! I like to climb rocks, kick things (fun fact: I met an olympic athlete cause of this), take photos, and doing random side quests. I am an avid Bruno Mars enjoyer and professional yearner too (especially with karaoke 🇵🇭). I love to listen to music and playing it too.",
+      "Hi! My name is Gavin Macanip, this year’s event planner! I like to climb rocks, kick things (fun fact: I met an olympic athlete cause of this), take photos, and do random side quests. I am an avid Bruno Mars enjoyer and professional yearner too (especially with karaoke 🇵🇭). I love to listen to music and playing it too.",
   },
   {
     id: "nathan",
@@ -146,7 +159,7 @@ const OFFICERS: OfficerData[] = [
     hometown: "Mount Prospect, IL",
     year: "Sophomore",
     blurb:
-      "Hi there! I'm Nathaniel Sison, but you can just call me Nathan. Let me share a bit about myself. I'm proudly FILIPINO RAAAAH, hailing from the Illinois region, and I'm currently pursuing a degree in Finance. I enjoy a variety of activities, including playing volleyball, singing, and indulging in delicious food. My favorite color is red, and I'm always eager to meet new friends. If you happen to see me around, don't hesitate to come over and say hello I'm always here to be a friend if you need one.",
+      "Hi there! I'm Nathaniel Sison, but you can just call me Nathan. Let me share a bit about myself. I'm proudly FILIPINO RAAAAH, hailing from the Illinois region, and I'm currently pursuing a degree in Finance. I enjoy a variety of activities, including playing volleyball, singing, and indulging in delicious food. My favorite color is red, and I'm always eager to meet new friends. If you happen to see me around, don't hesitate to come over and say hello — I'm always here to be a friend if you need one.",
   },
 ];
 
@@ -260,9 +273,11 @@ function SectionDivider({ label }: { label: string }) {
 function OfficerCard({
   officer,
   officerIndex,
+  isMobile,
 }: {
   officer: OfficerData;
   officerIndex: number;
+  isMobile: boolean;
 }) {
   const prefersReduced = useReducedMotion();
   const ref = useRef<HTMLElement>(null);
@@ -282,10 +297,10 @@ function OfficerCard({
     <article
       ref={ref}
       id={`officer-${officer.id}`}
-      className="relative py-24 md:py-28"
-      style={{ minHeight: "min(780px, 90vh)" }}
+      className="relative pt-8 pb-24 md:py-28"
+      style={isMobile ? undefined : { minHeight: "min(780px, 90vh)" }}
     >
-      <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-8 lg:gap-20 items-center h-full">
+      <div className="grid grid-cols-1 lg:grid-cols-[1.5fr_1fr] gap-0 md:gap-8 lg:gap-20 items-center h-full">
         {/* ── MEDIA column ── */}
         <div
           className={`relative flex items-end justify-center h-auto ${
@@ -294,38 +309,65 @@ function OfficerCard({
               : "lg:order-1 lg:justify-start lg:-ml-12"
           }`}
         >
-          {/* Country flag — flies in from outer edge */}
+          {/* Country flag
+               Desktop: flies in from the outer screen edge, lands beside the portrait.
+               Mobile:  fades in centered behind the portrait, peeking out at the sides
+                        and slightly above — gives a "flag behind the head" effect.      */}
           <motion.div
-            className="absolute top-[30px] pointer-events-none"
-            style={{
-              [isEven ? "right" : "left"]: -120,
-              width: "clamp(200px, 22vw, 340px)",
-              aspectRatio: "3/2",
-              zIndex: 0,
-              filter: "drop-shadow(0 22px 36px rgba(26,20,16,0.18))",
-            }}
-            initial={{ x: flagStartX, rotate: flagFlyRotate, opacity: 0 }}
-            animate={
-              isInView
-                ? { x: 0, rotate: flagRestRotate, opacity: 0.92 }
+            className="absolute pointer-events-none"
+            style={
+              isMobile
+                ? {
+                    top: -80,
+                    left: 0,
+                    right: 0,
+                    margin: "auto",
+                    width: "95%",
+                    aspectRatio: "3/2",
+                    zIndex: 0,
+                    filter: "drop-shadow(0 12px 24px rgba(26,20,16,0.20))",
+                  }
+                : {
+                    top: 30,
+                    [isEven ? "right" : "left"]: -120,
+                    width: "clamp(200px, 22vw, 340px)",
+                    aspectRatio: "3/2",
+                    zIndex: 0,
+                    filter: "drop-shadow(0 22px 36px rgba(26,20,16,0.18))",
+                  }
+            }
+            initial={
+              isMobile
+                ? { x: 0, rotate: 0, opacity: 0 }
                 : { x: flagStartX, rotate: flagFlyRotate, opacity: 0 }
+            }
+            animate={
+              isMobile
+                ? isInView
+                  ? { x: 0, rotate: 0, opacity: 0.82 }
+                  : { x: 0, rotate: 0, opacity: 0 }
+                : isInView
+                  ? { x: 0, rotate: flagRestRotate, opacity: 0.92 }
+                  : { x: flagStartX, rotate: flagFlyRotate, opacity: 0 }
             }
             transition={
               prefersReduced
                 ? { duration: 0 }
-                : {
-                    x: {
-                      duration: 1.5,
-                      ease: [0.18, 0.78, 0.18, 1],
-                      delay: 0.25,
-                    },
-                    rotate: {
-                      duration: 1.5,
-                      ease: [0.18, 0.78, 0.18, 1],
-                      delay: 0.25,
-                    },
-                    opacity: { duration: 0.9, delay: 0.35 },
-                  }
+                : isMobile
+                  ? { opacity: { duration: 0.9, delay: 0.3 } }
+                  : {
+                      x: {
+                        duration: 1.5,
+                        ease: [0.18, 0.78, 0.18, 1],
+                        delay: 0.25,
+                      },
+                      rotate: {
+                        duration: 1.5,
+                        ease: [0.18, 0.78, 0.18, 1],
+                        delay: 0.25,
+                      },
+                      opacity: { duration: 0.9, delay: 0.35 },
+                    }
             }
             aria-hidden="true"
           >
@@ -353,10 +395,11 @@ function OfficerCard({
             </span>
           </motion.div>
 
-          {/* Ground line — expands from outer edge inward when revealed */}
+          {/* Ground line — expands from outer edge inward when revealed (desktop only) */}
           <motion.div
             className="absolute bottom-0 h-px z-[4]"
             style={{
+              display: isMobile ? "none" : undefined,
               [isEven ? "right" : "left"]: 0,
               background:
                 "linear-gradient(90deg, transparent 0%, #E8C66A 18%, #E5291E 50%, #E8C66A 82%, transparent 100%)",
@@ -381,10 +424,16 @@ function OfficerCard({
             }
           />
 
-          {/* Elliptical floor shadow */}
+          {/* Elliptical floor shadow (desktop only) */}
           <div
             className="absolute pointer-events-none"
-            style={{ bottom: -8, left: "15%", width: "70%", height: 32 }}
+            style={{
+              display: isMobile ? "none" : undefined,
+              bottom: -8,
+              left: "15%",
+              width: "70%",
+              height: 32,
+            }}
           >
             <motion.div
               className="w-full h-full"
@@ -413,34 +462,47 @@ function OfficerCard({
             />
           </div>
 
-          {/* Portrait frame — fixed height, natural width so images aren't cropped */}
+          {/* Portrait frame —
+               Desktop: fixed 580px height, natural width, overflow-hidden for slide-up reveal.
+               Mobile:  natural height (no cropping), full width of the 85% container,
+                        fade-in only so overflow-hidden is not needed.                        */}
           <div
-            className="relative overflow-hidden z-[2]"
-            style={{ height: 580, width: "fit-content" }}
+            className={`relative z-[2] ${isMobile ? "" : "overflow-hidden"}`}
+            style={
+              isMobile
+                ? { width: "85%" }
+                : { height: 580, width: "fit-content" }
+            }
           >
             <motion.div
               initial={{
-                y: prefersReduced ? 0 : 580,
+                y: prefersReduced ? 0 : isMobile ? 0 : 580,
                 opacity: prefersReduced ? 1 : 0,
               }}
               animate={isInView ? { y: 0, opacity: 1 } : {}}
               transition={
                 prefersReduced
                   ? { duration: 0 }
-                  : {
-                      y: {
-                        duration: 1.4,
-                        ease: [0.18, 0.78, 0.2, 1],
-                        delay: 0.2,
-                      },
-                      opacity: { duration: 0.7, delay: 0.25 },
-                    }
+                  : isMobile
+                    ? { opacity: { duration: 0.8, delay: 0.2 } }
+                    : {
+                        y: {
+                          duration: 1.4,
+                          ease: [0.18, 0.78, 0.2, 1],
+                          delay: 0.2,
+                        },
+                        opacity: { duration: 0.7, delay: 0.25 },
+                      }
               }
             >
               {imgError ? (
                 <div
                   className="bg-asu-beige flex items-end justify-center"
-                  style={{ width: 400, height: 580 }}
+                  style={
+                    isMobile
+                      ? { width: "100%", minHeight: 260 }
+                      : { width: 400, height: 580 }
+                  }
                 >
                   <span className="font-ui text-[11px] tracking-[0.2em] uppercase text-asu-muted mb-8 opacity-50 select-none">
                     Photo coming soon
@@ -450,12 +512,20 @@ function OfficerCard({
                 <img
                   src={`/images/board/${officer.id}.webp`}
                   alt={`${officer.name}, ${officer.role}`}
-                  style={{
-                    height: 580,
-                    width: "auto",
-                    maxWidth: "none",
-                    display: "block",
-                  }}
+                  style={
+                    isMobile
+                      ? {
+                          width: "100%",
+                          height: "auto",
+                          display: "block",
+                        }
+                      : {
+                          height: 580,
+                          width: "auto",
+                          maxWidth: "none",
+                          display: "block",
+                        }
+                  }
                   onError={() => setImgError(true)}
                 />
               )}
@@ -465,7 +535,7 @@ function OfficerCard({
 
         {/* ── TEXT column ── */}
         <div
-          className={`relative z-[2] py-3 px-0 md:px-3 ${
+          className={`relative z-[2] pt-6 pb-3 md:py-3 px-0 md:px-3 ${
             isEven ? "lg:order-1" : "lg:order-2"
           }`}
         >
@@ -488,7 +558,7 @@ function OfficerCard({
           <motion.h3
             className="font-display text-asu-dark m-0 mb-[22px] leading-none"
             style={{
-              fontSize: "clamp(2.5rem, 4.5vw, 4.75rem)",
+              fontSize: "clamp(2rem, 4.5vw, 4.75rem)",
               letterSpacing: "-0.005em",
             }}
             initial={{ opacity: 0, y: 28 }}
@@ -576,6 +646,7 @@ function OfficerCard({
 
 /* ─── Root export ─── */
 export function OfficerRoster() {
+  const isMobile = useIsMobile();
   const [activeIndex, setActiveIndex] = useState(-1);
   const [railVisible, setRailVisible] = useState(false);
   const rosterRef = useRef<HTMLElement>(null);
@@ -676,6 +747,7 @@ export function OfficerRoster() {
               key={item.officer.id}
               officer={item.officer}
               officerIndex={item.officerIndex}
+              isMobile={isMobile}
             />
           );
         })}

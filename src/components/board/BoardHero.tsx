@@ -90,7 +90,7 @@ export function BoardHero() {
               : { duration: 0.9, ease: EASE_OUT, delay: 0.8 }
           }
         >
-          Asian Student Union · Executive Board 2025–26
+          Asian Student Union · Executive Board 2026–27
         </motion.p>
 
         <h1

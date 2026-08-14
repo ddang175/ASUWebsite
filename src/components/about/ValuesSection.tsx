@@ -22,7 +22,7 @@ const VALUES = [
   {
     num: "04",
     name: "Understanding",
-    desc: "Striving to accept and learn other's backgrounds, cultures, and identity.",
+    desc: "Striving to accept and learn others' backgrounds, cultures, and identities.",
   },
 ];
 

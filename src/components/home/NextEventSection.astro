@@ -83,7 +83,7 @@ const timeStr = event.startTime
       </div>
 
       <!-- ── RIGHT: Event details ───────────────────────────────────────── -->
-      <div class="flex-1 lg:pt-2">
+      <div class="flex-1 min-w-0 lg:pt-2">
 
         <!-- Event title -->
         <h2
@@ -137,8 +137,8 @@ const timeStr = event.startTime
 
         <!-- Description -->
         <p
-          class="font-body text-base text-asu-dark leading-relaxed mb-6 max-w-[560px]"
-          style="opacity: 0.72;"
+          class="font-body text-base text-asu-dark leading-relaxed mb-6 max-w-[560px] break-words"
+          style="opacity: 0.72; overflow-wrap: anywhere;"
         >
           {event.description}
         </p>

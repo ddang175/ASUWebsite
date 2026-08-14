@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   motion,
   useMotionValue,
@@ -62,34 +62,8 @@ function SocialCard({
   setFocused,
 }: CardProps) {
   const prefersReduced = useReducedMotion();
-  const ref = useRef<HTMLDivElement>(null);
-  const rx = useMotionValue(0);
-  const ry = useMotionValue(0);
-  const srx = useSpring(rx, { damping: 18, stiffness: 240 });
-  const sry = useSpring(ry, { damping: 18, stiffness: 240 });
-  const [glowPos, setGlowPos] = useState({ x: 50, y: 50 });
-
   const isHovered = focused === platform;
   const isIG = platform === "instagram";
-
-  const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (prefersReduced) return;
-    const el = ref.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    ry.set(((e.clientX - r.left - r.width / 2) / (r.width / 2)) * 7);
-    rx.set(-((e.clientY - r.top - r.height / 2) / (r.height / 2)) * 7);
-    setGlowPos({
-      x: ((e.clientX - r.left) / r.width) * 100,
-      y: ((e.clientY - r.top) / r.height) * 100,
-    });
-  };
-
-  const onLeave = () => {
-    rx.set(0);
-    ry.set(0);
-    setFocused(null);
-  };
 
   return (
     <motion.div
@@ -101,58 +75,26 @@ function SocialCard({
           : { duration: 1.1, ease: EASE_OUT, delay: 0.85 + index * 0.18 }
       }
       style={{
-        perspective: 1100,
         flex: 1,
         display: "flex",
         flexDirection: "column",
       }}
     >
-      <motion.div
-        ref={ref}
-        style={
-          prefersReduced
-            ? { flex: 1, display: "flex", flexDirection: "column" }
-            : {
-                flex: 1,
-                display: "flex",
-                flexDirection: "column",
-                rotateX: srx,
-                rotateY: sry,
-                transformStyle: "preserve-3d",
-              }
-        }
-        onMouseMove={onMove}
+      <div
         onMouseEnter={() => setFocused(platform)}
-        onMouseLeave={onLeave}
-        className="relative cursor-pointer"
+        onMouseLeave={() => setFocused(null)}
+        className="relative flex-1 flex flex-col"
       >
-        {/* Shadow + border ring that animates on hover */}
-        <motion.div
-          className="absolute -inset-px rounded-3xl pointer-events-none"
-          animate={{
-            boxShadow:
-              isHovered && !prefersReduced
-                ? "0 0 0 1.5px rgba(229,41,30,0.6), 0 24px 64px rgba(229,41,30,0.14), 0 8px 28px rgba(30,28,18,0.18)"
-                : "0 0 0 1px rgba(232,198,106,0.18), 0 6px 24px rgba(30,28,18,0.1)",
-          }}
-          transition={{ duration: 0.3 }}
-        />
-
         {/* Card body — dark espresso for contrast against ivory page */}
         <div
           className="relative overflow-hidden rounded-3xl flex flex-col flex-1"
-          style={{ background: "#241611", minHeight: 520 }}
+          style={{
+            background: "#241611",
+            minHeight: 520,
+            boxShadow:
+              "0 0 0 1px rgba(232,198,106,0.18), 0 6px 24px rgba(30,28,18,0.1)",
+          }}
         >
-          {/* Cursor-tracking warm glow */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background: `radial-gradient(380px circle at ${glowPos.x}% ${glowPos.y}%, rgba(229,41,30,0.16), transparent 65%)`,
-              opacity: isHovered ? 1 : 0,
-              transition: "opacity 0.35s ease",
-            }}
-          />
-
           {/* Gold top stripe */}
           <div
             className="absolute top-0 left-8 right-8 pointer-events-none"
@@ -165,31 +107,21 @@ function SocialCard({
 
           {/* Content */}
           <div className="relative z-10 flex flex-col h-full p-9 gap-6">
-            {/* Large platform icon + eyebrow row */}
-            <div className="flex items-start justify-between">
-              {/* Icon in a soft circle */}
-              <div
-                className="flex items-center justify-center rounded-2xl flex-shrink-0"
-                style={{
-                  width: 80,
-                  height: 80,
-                  background: "rgba(252,238,201,0.07)",
-                  border: "1px solid rgba(252,238,201,0.1)",
-                }}
-              >
-                {isIG ? (
-                  <InstagramIcon className="w-10 h-10 text-asu-cream" />
-                ) : (
-                  <TikTokIcon className="w-10 h-10 text-asu-cream" />
-                )}
-              </div>
-              {/* Faint editorial number */}
-              <span
-                className="font-display leading-none select-none"
-                style={{ fontSize: "5rem", color: "rgba(252,238,201,0.04)" }}
-              >
-                {isIG ? "01" : "02"}
-              </span>
+            {/* Large platform icon */}
+            <div
+              className="flex items-center justify-center rounded-2xl flex-shrink-0"
+              style={{
+                width: 80,
+                height: 80,
+                background: "rgba(252,238,201,0.07)",
+                border: "1px solid rgba(252,238,201,0.1)",
+              }}
+            >
+              {isIG ? (
+                <InstagramIcon className="w-10 h-10 text-asu-cream" />
+              ) : (
+                <TikTokIcon className="w-10 h-10 text-asu-cream" />
+              )}
             </div>
 
             {/* Platform eyebrow */}
@@ -275,7 +207,7 @@ function SocialCard({
             </a>
           </div>
         </div>
-      </motion.div>
+      </div>
     </motion.div>
   );
 }

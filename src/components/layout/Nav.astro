@@ -1,14 +1,4 @@
 ---
-/**
- * Nav.astro — Site navigation
- *
- * Pure CSS hover dropdowns via Tailwind group/group-hover.
- * No JavaScript required. Mobile hamburger menu comes in Phase 7.
- *
- * Structure:
- *   [ASU logo]       [Home] [About ▾] [Join ▾] [Connect ▾] [Feedback]
- */
-
 const navItems = [
   { label: 'Home', href: '/' },
   {
@@ -16,7 +6,6 @@ const navItems = [
     dropdown: [
       { label: 'About Us', href: '/about' },
       { label: 'Executive Board', href: '/board' },
-      { label: 'Club History', href: '/history' },
     ],
   },
   {
@@ -38,6 +27,71 @@ const navItems = [
 
 const currentPath = Astro.url.pathname;
 ---
+
+<style>
+  /*
+   * Mobile menu — grid-template-rows trick animates height from 0 to auto.
+   * The direct child must have overflow:hidden to clip during collapse.
+   */
+  :global(#mobile-menu) {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+      grid-template-rows 240ms cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 200ms ease;
+  }
+  :global(#mobile-menu.is-open) {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+  /* Clip overflow during height animation */
+  :global(#mobile-menu > .menu-inner) {
+    overflow: hidden;
+  }
+  /* Slide the visible content down as the container expands */
+  :global(#mobile-menu > .menu-inner > .menu-content) {
+    transform: translateY(-6px);
+    transition: transform 220ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  :global(#mobile-menu.is-open > .menu-inner > .menu-content) {
+    transform: translateY(0);
+  }
+
+  /* Dropdown accordions — same grid trick */
+  :global(.mobile-dropdown) {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition:
+      grid-template-rows 200ms cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 160ms ease;
+  }
+  :global(.mobile-dropdown.is-open) {
+    grid-template-rows: 1fr;
+    opacity: 1;
+  }
+  :global(.mobile-dropdown > .dropdown-inner) {
+    overflow: hidden;
+  }
+
+  /* Never show the mobile panel on desktop */
+  @media (min-width: 768px) {
+    :global(#mobile-menu) {
+      display: none;
+    }
+  }
+
+  /* Desktop dropdown — click-open state overrides CSS-only hover classes */
+  :global(li.desk-open .desk-dropdown-panel) {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  :global(li.desk-open .desk-chevron) {
+    transform: rotate(180deg);
+  }
+</style>
 
 <header class="sticky top-0 z-50 bg-asu-ivory border-b border-asu-beige">
   <div class="max-w-[1280px] mx-auto px-8 md:px-16 flex items-center justify-between h-16">
@@ -64,26 +118,22 @@ const currentPath = Astro.url.pathname;
             /* ── Dropdown item ── */
             <li class="group relative">
               <button
-                class="flex items-center gap-1 px-3 py-2 font-ui text-sm font-medium text-asu-dark hover:text-asu-red transition-colors duration-200 cursor-default select-none rounded"
+                class="desk-dropdown-btn flex items-center gap-1 px-3 py-2 font-ui text-sm font-medium text-asu-dark hover:text-asu-red transition-colors duration-200 cursor-pointer select-none rounded"
                 aria-haspopup="true"
                 aria-expanded="false"
               >
                 {item.label}
-                <!-- Chevron down -->
                 <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 12 12"
-                  fill="none"
+                  width="12" height="12" viewBox="0 0 12 12" fill="none"
                   aria-hidden="true"
-                  class="transition-transform duration-200 group-hover:rotate-180"
+                  class="desk-chevron transition-transform duration-200 group-hover:rotate-180"
                 >
                   <path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </button>
 
               <!-- Dropdown panel -->
-              <div class="absolute top-full left-1/2 -translate-x-1/2 pt-1 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-150 pointer-events-none group-hover:pointer-events-auto">
+              <div class="desk-dropdown-panel absolute top-full left-1/2 -translate-x-1/2 pt-1 invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-150 pointer-events-none group-hover:pointer-events-auto">
                 <div
                   class="bg-asu-cream rounded py-1 min-w-[176px]"
                   style="box-shadow: 0px 4px 20px rgba(30, 28, 18, 0.08); border: 0.5px solid rgba(30, 28, 18, 0.08);"
@@ -112,7 +162,6 @@ const currentPath = Astro.url.pathname;
                 ]}
               >
                 {item.label}
-                <!-- Active indicator dot -->
                 {currentPath === item.href && (
                   <span
                     class="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-asu-red"
@@ -127,17 +176,188 @@ const currentPath = Astro.url.pathname;
       </ul>
     </nav>
 
-    <!-- Mobile menu placeholder (Phase 7) -->
+    <!-- Mobile hamburger button -->
     <button
+      id="mobile-menu-btn"
       class="md:hidden p-2 text-asu-dark hover:text-asu-red transition-colors"
       aria-label="Open menu"
       aria-expanded="false"
-      id="mobile-menu-btn"
+      aria-controls="mobile-menu"
     >
-      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+      <svg id="icon-open" width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
         <path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <svg id="icon-close" class="hidden" width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <path d="M5 5l12 12M17 5L5 17" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
       </svg>
     </button>
 
   </div>
+
+  <!--
+    Mobile menu panel.
+    Sits inside the sticky <header> so it sticks with it while scrolling.
+    Height is animated via CSS grid-template-rows (see <style> above).
+    `inert` prevents focus/interaction while visually collapsed.
+  -->
+  <div id="mobile-menu" inert aria-hidden="true">
+    <div class="menu-inner">
+      <div class="menu-content border-t border-asu-beige">
+        <nav aria-label="Mobile navigation">
+          <ul class="list-none m-0 px-4 py-2">
+
+            {navItems.map((item) => (
+              item.dropdown ? (
+                /* ── Mobile dropdown item ── */
+                <li class="border-b border-asu-beige/60 last:border-0">
+                  <button
+                    class="mobile-dropdown-btn flex items-center justify-between w-full px-2 py-3.5 font-ui text-sm font-medium text-asu-dark"
+                    aria-expanded="false"
+                  >
+                    {item.label}
+                    <svg
+                      class="mobile-chevron shrink-0 transition-transform duration-200"
+                      width="14" height="14" viewBox="0 0 12 12" fill="none"
+                      aria-hidden="true"
+                    >
+                      <path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </button>
+
+                  <div class="mobile-dropdown">
+                    <div class="dropdown-inner pb-2">
+                      {item.dropdown.map((child) => (
+                        <a
+                          href={child.href}
+                          class="block px-4 py-2.5 font-ui text-sm text-asu-dark/75 hover:text-asu-red transition-colors"
+                        >
+                          {child.label}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </li>
+              ) : (
+                /* ── Mobile direct link ── */
+                <li class="border-b border-asu-beige/60 last:border-0">
+                  <a
+                    href={item.href}
+                    class:list={[
+                      'block px-2 py-3.5 font-ui text-sm font-medium transition-colors',
+                      currentPath === item.href ? 'text-asu-red' : 'text-asu-dark hover:text-asu-red',
+                    ]}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              )
+            ))}
+
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
 </header>
+
+<script>
+  const menuBtn  = document.getElementById('mobile-menu-btn')!;
+  const menu     = document.getElementById('mobile-menu')!;
+  const iconOpen  = document.getElementById('icon-open')!;
+  const iconClose = document.getElementById('icon-close')!;
+
+  function openMenu() {
+    menu.removeAttribute('inert');
+    menu.setAttribute('aria-hidden', 'false');
+    menu.classList.add('is-open');
+    menuBtn.setAttribute('aria-expanded', 'true');
+    menuBtn.setAttribute('aria-label', 'Close menu');
+    iconOpen.classList.add('hidden');
+    iconClose.classList.remove('hidden');
+  }
+
+  function closeMenu() {
+    menu.classList.remove('is-open');
+    menu.setAttribute('aria-hidden', 'true');
+    menuBtn.setAttribute('aria-expanded', 'false');
+    menuBtn.setAttribute('aria-label', 'Open menu');
+    iconOpen.classList.remove('hidden');
+    iconClose.classList.add('hidden');
+    // Restore inert after the collapse animation finishes (240 ms)
+    setTimeout(() => menu.setAttribute('inert', ''), 240);
+    // Collapse any open dropdowns
+    menu.querySelectorAll<HTMLElement>('.mobile-dropdown').forEach(d => d.classList.remove('is-open'));
+    menu.querySelectorAll<HTMLButtonElement>('.mobile-dropdown-btn').forEach(b => {
+      b.setAttribute('aria-expanded', 'false');
+      b.querySelector('.mobile-chevron')?.classList.remove('rotate-180');
+    });
+  }
+
+  menuBtn.addEventListener('click', () => {
+    menu.classList.contains('is-open') ? closeMenu() : openMenu();
+  });
+
+  // Per-dropdown accordion toggle
+  menu.querySelectorAll<HTMLButtonElement>('.mobile-dropdown-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const panel   = btn.closest('li')?.querySelector('.mobile-dropdown');
+      const chevron = btn.querySelector('.mobile-chevron');
+      const isOpen  = btn.getAttribute('aria-expanded') === 'true';
+
+      // Collapse any other open dropdown
+      menu.querySelectorAll<HTMLButtonElement>('.mobile-dropdown-btn').forEach((other) => {
+        if (other === btn) return;
+        other.setAttribute('aria-expanded', 'false');
+        other.querySelector('.mobile-chevron')?.classList.remove('rotate-180');
+        other.closest('li')?.querySelector('.mobile-dropdown')?.classList.remove('is-open');
+      });
+
+      btn.setAttribute('aria-expanded', String(!isOpen));
+      panel?.classList.toggle('is-open', !isOpen);
+      chevron?.classList.toggle('rotate-180', !isOpen);
+    });
+  });
+
+  // Close the whole menu when a nav link is tapped
+  menu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeMenu));
+
+  // ── Desktop dropdown click support ──
+  const deskBtns = document.querySelectorAll<HTMLButtonElement>('.desk-dropdown-btn');
+
+  function closeDeskDropdowns(except?: HTMLElement) {
+    document.querySelectorAll<HTMLElement>('li.desk-open').forEach((li) => {
+      if (li === except) return;
+      li.classList.remove('desk-open');
+      li.querySelector<HTMLButtonElement>('.desk-dropdown-btn')?.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  deskBtns.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const li = btn.closest('li') as HTMLElement;
+      const isOpen = li.classList.contains('desk-open');
+      closeDeskDropdowns();
+      if (!isOpen) {
+        li.classList.add('desk-open');
+        btn.setAttribute('aria-expanded', 'true');
+      } else {
+        btn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    const target = e.target as Element;
+    document.querySelectorAll<HTMLElement>('li.desk-open').forEach((li) => {
+      if (!li.contains(target)) {
+        li.classList.remove('desk-open');
+        li.querySelector<HTMLButtonElement>('.desk-dropdown-btn')?.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeDeskDropdowns();
+  });
+</script>
