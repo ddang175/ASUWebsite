@@ -484,7 +484,14 @@ function OfficerCard({
                 prefersReduced
                   ? { duration: 0 }
                   : isMobile
-                    ? { opacity: { duration: 0.8, delay: 0.2 } }
+                    ? {
+                        y: {
+                          duration: 1.8,
+                          ease: [0.18, 0.78, 0.2, 1],
+                          delay: 0.2,
+                        },
+                        opacity: { duration: 0.8, delay: 0.2 },
+                      }
                     : {
                         y: {
                           duration: 1.4,

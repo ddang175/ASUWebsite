@@ -164,10 +164,12 @@ export function NewsletterHero() {
           straight to your inbox.
         </motion.p>
 
-        {/* CTA button — no form link yet, greyed out placeholder */}
-        <motion.span
-          className="inline-flex items-center gap-3 px-9 py-4 bg-asu-beige/50 text-asu-muted font-ui font-semibold text-[15px] tracking-[0.06em] rounded cursor-not-allowed select-none border border-dashed border-asu-muted/30"
-          aria-disabled="true"
+        {/* CTA button */}
+        <motion.a
+          href="https://docs.google.com/forms/d/e/1FAIpQLSc6RwD20t_GylP39qJjvmbIHN1oNyfmf_crkB8G7bv4hgS_8w/viewform?usp=header"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-3 px-9 py-4 bg-asu-red text-asu-cream font-ui font-semibold text-[15px] tracking-[0.06em] rounded transition-colors duration-200 hover:bg-asu-red-hover"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={
@@ -177,8 +179,7 @@ export function NewsletterHero() {
           }
         >
           Sign Up
-          <span className="font-bold tracking-widest text-asu-brown/60">— TODO</span>
-        </motion.span>
+        </motion.a>
       </div>
 
       {/* ── Scroll cue ──────────────────────────────────────────────── */}

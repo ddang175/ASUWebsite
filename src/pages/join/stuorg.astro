@@ -10,11 +10,11 @@ import Layout from '../../layouts/Layout.astro';
 
     <!-- ── 1. Compact page header ─────────────────────────────────────── -->
     <section
-      class="relative bg-asu-espresso text-asu-cream overflow-hidden"
-      style="min-height: 340px; padding: 80px 56px 72px;"
+      class="relative bg-asu-espresso text-asu-cream overflow-hidden px-6 md:px-14"
+      style="min-height: 340px; padding-top: 80px; padding-bottom: 72px;"
     >
       <!-- Background image — right half, fades in left-to-right -->
-      <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div class="absolute inset-0 pointer-events-none hidden md:block" aria-hidden="true">
         <img
           src="/images/aboutUs/heroImage.webp"
           alt=""
@@ -32,7 +32,7 @@ import Layout from '../../layouts/Layout.astro';
 
       <!-- Decorative ribbon — streams left→right on load -->
       <svg
-        class="absolute inset-0 w-full h-full pointer-events-none"
+        class="absolute inset-0 w-full h-full pointer-events-none hidden md:block"
         viewBox="0 0 1440 340"
         preserveAspectRatio="none"
         aria-hidden="true"
@@ -170,7 +170,7 @@ import Layout from '../../layouts/Layout.astro';
                 aria-disabled="true"
               >
                 Purchase Dues
-                <span class="font-bold tracking-widest text-asu-brown/60">— TODO</span>
+                <span class="font-bold tracking-widest text-asu-brown/60">- Not Available</span>
               </span>
               <a
                 href="https://www.stuorg.iastate.edu/asu"
@@ -300,7 +300,7 @@ import Layout from '../../layouts/Layout.astro';
                     Looped Eligibility
                   </p>
                   <p class="font-body text-[15px] leading-relaxed text-asu-muted">
-                    Only official members get to participate in our new Looped program. To learn more about the Looped program, visit the Looped program page here.
+                    Only official members get to participate in our new Looped program. To learn more about the Looped program, visit the Looped program page <a href="https://www.instagram.com/asu_iastate?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" class="text-asu-red underline hover:opacity-75 transition-opacity">here</a>.
                   </p>
                 </div>
               </li>
@@ -339,7 +339,7 @@ import Layout from '../../layouts/Layout.astro';
       <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-8">
         <p class="font-body text-[15px] leading-relaxed text-asu-muted flex-1">
           Questions about membership? Reach out to us on our socials or at
-          a General Body Meeting — we're happy to help.
+          a General Body Meeting. We're happy to help.
         </p>
         <a
           href="/connect/socials"

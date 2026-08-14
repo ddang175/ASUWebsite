@@ -46,7 +46,7 @@ export function DiscordHero() {
         style={prefersReduced ? {} : { scale: 1.1, y: bgY }}
       >
         <img
-          src="/images/aboutUs/heroImage.webp"
+          src="/images/discord/asugames.jpg"
           alt="ASU community gathering"
           className="w-full h-full object-cover"
           decoding="async"

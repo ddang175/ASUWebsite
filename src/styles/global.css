@@ -8,6 +8,7 @@
 
 @theme {
   /* Colors — Core Brand */
+  --color-white: #ffffff;
   --color-asu-red: #e5291e;
   --color-asu-red-deep: #c00004;
   --color-asu-red-hover: #b51f17;
@@ -126,6 +127,5 @@ img {
 }
 
 a {
-  color: inherit;
   text-decoration: none;
 }

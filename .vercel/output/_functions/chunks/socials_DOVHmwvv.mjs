@@ -1,6 +1,6 @@
 import { n as __exportAll, t as createComponent } from "./compiler_BbbvFB7Z.mjs";
 import { i as renderComponent, m as maybeRenderHead, u as renderTemplate } from "./server_BLE2ae5B.mjs";
-import { t as $$Layout } from "./Layout_DCqJGwVF.mjs";
+import { t as $$Layout } from "./Layout_CXCUxMaR.mjs";
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useReducedMotion, useSpring } from "motion/react";
 import { jsx, jsxs } from "react/jsx-runtime";
@@ -123,7 +123,7 @@ function SocialCard({ platform, index, handle, tagline, description, href, label
 							href,
 							target: "_blank",
 							rel: "noopener noreferrer",
-							className: "inline-flex items-center justify-center gap-3 w-full px-8 py-4 bg-asu-red text-asu-cream font-ui font-semibold rounded-lg transition-colors duration-200 hover:bg-asu-red-hover flex-shrink-0",
+							className: "inline-flex items-center justify-center gap-3 w-full px-8 py-4 bg-asu-red text-white font-ui font-semibold rounded-lg transition-colors duration-200 hover:bg-asu-red-hover flex-shrink-0",
 							style: {
 								fontSize: "clamp(0.9rem, 1.1vw, 1rem)",
 								letterSpacing: "0.05em"
