@@ -74,7 +74,7 @@ var $$Nav = createComponent(($$result, $$props, $$slots) => {
 //#region src/components/layout/Footer.astro
 var $$Footer = createComponent(($$result, $$props, $$slots) => {
 	const year = (/* @__PURE__ */ new Date()).getFullYear();
-	return renderTemplate`${maybeRenderHead($$result)}<footer class="bg-asu-espresso text-asu-cream"><div class="max-w-[1280px] mx-auto px-8 md:px-16 py-16"><div class="flex flex-col md:flex-row gap-12 md:gap-16"><!-- Logo + tagline --><div class="shrink-0 md:w-56"><a href="/" aria-label="Asian Student Union — home" class="inline-block mb-4 opacity-90 hover:opacity-100 transition-opacity duration-200"><img src="/images/asu-logo.webp" alt="Asian Student Union logo" class="h-14 w-auto" style="filter: brightness(0) invert(1);"></a><p class="font-body text-sm leading-relaxed" style="color: rgba(252,238,201,0.55);">A community rooted in<br>heritage, growing together.</p></div><!-- Nav link columns --><div class="flex flex-wrap gap-10 md:gap-16 flex-1">${[
+	return renderTemplate`${maybeRenderHead($$result)}<footer class="bg-asu-espresso text-asu-cream"><div class="max-w-[1280px] mx-auto px-8 md:px-16 py-16"><div class="flex flex-col md:flex-row gap-12 md:gap-16"><!-- Logo + tagline --><div class="shrink-0 md:w-56"><a href="/" aria-label="Asian Student Union — home" class="inline-block mb-4 opacity-90 hover:opacity-100 transition-opacity duration-200"><img src="/images/asu-logo.webp" alt="Asian Student Union logo" class="h-14 w-auto" style="filter: brightness(0) invert(1);"></a></div><!-- Nav link columns --><div class="flex flex-wrap gap-10 md:gap-16 flex-1">${[
 		{
 			heading: "About",
 			items: [{
@@ -121,7 +121,7 @@ var $$Layout = createComponent(($$result, $$props, $$slots) => {
 	const Astro = $$result.createAstro($$props, $$slots);
 	Astro.self = $$Layout;
 	const { title = "Asian Student Union @ Iowa State University", description = "Asian Student Union at Iowa State University — a community rooted in heritage, growing together." } = Astro.props;
-	return renderTemplate`<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description"${addAttribute(description, "content")}><meta name="generator"${addAttribute(Astro.generator, "content")}><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" href="/favicon.ico"><title>${title}</title>${renderHead($$result)}</head><body class="flex flex-col min-h-screen">${renderComponent($$result, "Nav", $$Nav, {})}${renderSlot($$result, $$slots["default"])}${renderComponent($$result, "Footer", $$Footer, {})}</body></html>`;
+	return renderTemplate`<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description"${addAttribute(description, "content")}><meta name="generator"${addAttribute(Astro.generator, "content")}><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="icon" href="/favicon.ico"><title>${title}</title>${renderHead($$result)}</head><body class="flex flex-col min-h-screen">${renderComponent($$result, "Nav", $$Nav, {})}${renderSlot($$result, $$slots["default"])}${renderComponent($$result, "Footer", $$Footer, {})}${renderScript($$result, "C:/Bench/ASUWebsite/src/layouts/Layout.astro?astro&type=script&index=0&lang.ts")}</body></html>`;
 }, "C:/Bench/ASUWebsite/src/layouts/Layout.astro", void 0);
 //#endregion
 export { $$Layout as t };

@@ -1,6 +1,6 @@
 import { n as __exportAll, t as createComponent } from "./compiler_BbbvFB7Z.mjs";
 import { i as renderComponent, m as maybeRenderHead, u as renderTemplate } from "./server_BLE2ae5B.mjs";
-import { t as $$Layout } from "./Layout_CXCUxMaR.mjs";
+import { t as $$Layout } from "./Layout_D7Wv8G-L.mjs";
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import { jsx, jsxs } from "react/jsx-runtime";
@@ -227,7 +227,7 @@ function FeedbackHero() {
 						href: "https://docs.google.com/forms/d/e/1FAIpQLSdshUXz4SKhja37p6Q2S3Y6OzK7wArOo6DM6XehXoUOWF565A/viewform?usp=header",
 						target: "_blank",
 						rel: "noopener noreferrer",
-						className: "inline-flex items-center gap-3 px-9 py-4 bg-asu-red text-white font-ui font-semibold text-[15px] tracking-[0.06em] rounded transition-colors duration-200 hover:bg-asu-red-hover",
+						className: "inline-flex items-center gap-3 px-9 py-4 bg-asu-red text-asu-cream font-ui font-semibold text-[15px] tracking-[0.06em] rounded transition-colors duration-200 hover:bg-asu-red-hover",
 						initial: {
 							opacity: 0,
 							y: 20
