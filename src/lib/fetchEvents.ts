@@ -135,6 +135,10 @@ async function localizeExternalImage(url: string): Promise<string> {
   // Relative paths are already on the site — nothing to do
   if (!url.startsWith("http")) return url;
 
+  // In SSR mode (e.g. Vercel serverless), the filesystem is read-only.
+  // Skip localization and serve the already-normalized external URL directly.
+  if (!import.meta.env.DEV && import.meta.env.SSR) return url;
+
   try {
     const { writeFileSync, mkdirSync } = await import("node:fs");
     const { join } = await import("node:path");
@@ -150,9 +154,7 @@ async function localizeExternalImage(url: string): Promise<string> {
         : "jpg";
     const filename = `event-cover.${ext}`;
 
-    const targetDir = import.meta.env.DEV
-      ? join(process.cwd(), "public", "images", "events")
-      : join(process.cwd(), "dist", "images", "events");
+    const targetDir = join(process.cwd(), "public", "images", "events");
 
     mkdirSync(targetDir, { recursive: true });
     writeFileSync(join(targetDir, filename), Buffer.from(await res.arrayBuffer()));

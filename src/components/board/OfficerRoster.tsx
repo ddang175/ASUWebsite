@@ -119,7 +119,7 @@ const OFFICERS: OfficerData[] = [
     name: "Cathy Bui",
     country: "vn",
     countryLabel: "Vietnamese",
-    major: "Industrial Engineering",
+    major: "Industrial Design",
     hometown: "Davenport, IA",
     year: "Senior",
     blurb:
