@@ -11,6 +11,7 @@ export function BoardIntro() {
 
   return (
     <section
+      id="board-intro"
       ref={ref}
       className="relative bg-asu-ivory text-center overflow-hidden"
       style={{ padding: "140px 56px 0px" }}

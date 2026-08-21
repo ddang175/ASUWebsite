@@ -22,7 +22,7 @@ export function BoardHero() {
     <section
       ref={heroRef}
       className="relative w-full overflow-hidden bg-asu-espresso text-asu-cream"
-      style={{ height: "100vh", minHeight: 720 }}
+      style={{ height: "calc(100vh - 4rem)", minHeight: 640 }}
       aria-label="Meet the team hero"
     >
       {/* Background — parallax container */}
@@ -45,7 +45,7 @@ export function BoardHero() {
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            "linear-gradient(180deg, rgba(26,20,16,0.35) 0%, rgba(26,20,16,0.15) 30%, rgba(26,20,16,0.55) 75%, rgba(26,20,16,0.80) 100%)",
+            "linear-gradient(to top, rgba(30,28,18,0.96) 0%, rgba(30,28,18,0.55) 45%, rgba(30,28,18,0.18) 100%)",
           zIndex: 1,
         }}
       />
@@ -162,37 +162,38 @@ export function BoardHero() {
         </motion.p>
       </div>
 
-      {/* Scroll cue — bottom-right, desktop only */}
-      <motion.div
-        className="absolute z-[3] text-center hidden md:block"
-        style={{ right: 56, bottom: 36 }}
+      {/* Scroll cue — centered, matches home screen style */}
+      <motion.a
+        href="#board-intro"
+        className="absolute z-[3] left-1/2 -translate-x-1/2 bottom-10 flex flex-col items-center gap-1.5 no-underline cursor-pointer"
+        style={{ color: "rgba(252,238,201,0.5)" }}
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.7 }}
+        animate={{ opacity: 1 }}
         transition={
           prefersReduced ? { duration: 0 } : { duration: 1, delay: 1.2 }
         }
-        aria-hidden="true"
+        whileHover={{ color: "rgba(252,238,201,0.75)" }}
       >
-        <span className="font-ui text-[11px] tracking-[0.3em] uppercase text-asu-cream block mb-2">
+        <span className="font-ui text-[14px] font-bold tracking-[0.12em] uppercase">
           Scroll
         </span>
         <motion.svg
-          width="14"
-          height="18"
-          viewBox="0 0 14 18"
+          className="w-5 h-5"
+          viewBox="0 0 16 16"
           fill="none"
+          aria-hidden="true"
           animate={prefersReduced ? {} : { y: [0, 5, 0] }}
           transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
         >
           <path
-            d="M7 1 V15 M2 10 L7 15 L12 10"
-            stroke="#FCEEC9"
-            strokeWidth="1.4"
+            d="M8 3v10M3.5 9l4.5 4.5L12.5 9"
+            stroke="currentColor"
+            strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
           />
         </motion.svg>
-      </motion.div>
+      </motion.a>
     </section>
   );
 }

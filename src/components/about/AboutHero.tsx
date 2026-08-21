@@ -160,45 +160,38 @@ export function AboutHero() {
           />
         </div>
 
-        {/* Scroll cue — bottom right */}
-        <motion.div
-          className="absolute right-8 md:right-16 bottom-8 flex flex-col items-center gap-2"
-          style={{ color: "rgba(252,238,201,0.4)" }}
+        {/* Scroll cue — centered, matches home screen "Next Event" style */}
+        <motion.a
+          href="#mission"
+          className="absolute left-1/2 -translate-x-1/2 bottom-10 flex flex-col items-center gap-1.5 no-underline cursor-pointer"
+          style={{ color: "rgba(252,238,201,0.5)" }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={
             prefersReduced ? { duration: 0 } : { duration: 1, delay: 1.3 }
           }
-          aria-hidden="true"
+          whileHover={{ color: "rgba(252,238,201,0.75)" }}
         >
-          <span className="font-ui text-[10px] font-bold tracking-[0.18em] uppercase">
+          <span className="font-ui text-[14px] font-bold tracking-[0.12em] uppercase">
             Scroll
           </span>
           <motion.svg
-            width="14"
-            height="22"
-            viewBox="0 0 14 22"
+            className="w-5 h-5"
+            viewBox="0 0 16 16"
             fill="none"
+            aria-hidden="true"
             animate={prefersReduced ? {} : { y: [0, 5, 0] }}
             transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
           >
-            <rect
-              x="5.5"
-              y="0"
-              width="3"
-              height="9"
-              rx="1.5"
-              fill="currentColor"
-            />
             <path
-              d="M 2,13 L 7,19 L 12,13"
+              d="M8 3v10M3.5 9l4.5 4.5L12.5 9"
               stroke="currentColor"
               strokeWidth="1.5"
               strokeLinecap="round"
               strokeLinejoin="round"
             />
           </motion.svg>
-        </motion.div>
+        </motion.a>
       </div>
     </section>
   );

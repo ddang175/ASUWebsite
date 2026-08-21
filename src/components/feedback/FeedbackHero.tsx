@@ -56,7 +56,7 @@ export function FeedbackHero() {
         style={prefersReduced ? {} : { scale: 1.1, y: bgY }}
       >
         <img
-          src="/images/feedback/asudancewide.jpg"
+          src="/images/feedback/asudancewide.webp"
           alt="ASU community gathering"
           className="w-full h-full object-cover"
           decoding="async"
@@ -116,41 +116,15 @@ export function FeedbackHero() {
           Asian Student Union · Feedback
         </motion.p>
 
-        {/* ── Feedback icon — polaroid fly-in from top-left ─────────── */}
+        {/* ── Feedback icon ─────────── */}
         <motion.div
           className="mb-7"
-          initial={
-            prefersReduced
-              ? { opacity: 0 }
-              : { x: -480, y: -300, rotate: -26, scale: 1.12, opacity: 0 }
-          }
-          animate={
-            prefersReduced
-              ? { opacity: 1 }
-              : { x: 0, y: 0, rotate: 5, scale: 1, opacity: 1 }
-          }
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={
             prefersReduced
               ? { duration: 0 }
-              : {
-                  duration: 0.9,
-                  ease: FLY_IN,
-                  delay: 0.32,
-                  opacity: {
-                    duration: 0.18,
-                    ease: "easeOut" as const,
-                    delay: 0.32,
-                  },
-                }
-          }
-          whileHover={
-            prefersReduced
-              ? {}
-              : {
-                  y: -10,
-                  rotate: 2,
-                  transition: { type: "spring", stiffness: 280, damping: 22 },
-                }
+              : { duration: 0.7, ease: EASE_OUT, delay: 0.32 }
           }
         >
           <FeedbackIcon className="w-32 h-32 text-asu-gold" />
@@ -257,28 +231,30 @@ export function FeedbackHero() {
         </motion.a>
       </div>
 
-      {/* ── Scroll cue ───────────────────────────────────────────────── */}
+      {/* ── Scroll cue — centered, matches home screen style ──────── */}
       <motion.div
-        className="absolute z-[4] text-center"
-        style={{ left: "50%", bottom: 36, transform: "translateX(-50%)" }}
+        className="absolute z-[4] left-1/2 -translate-x-1/2 bottom-10 flex flex-col items-center gap-1.5"
+        style={{ color: "rgba(252,238,201,0.5)" }}
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.5 }}
+        animate={{ opacity: 1 }}
         transition={
           prefersReduced ? { duration: 0 } : { duration: 1, delay: 1.6 }
         }
         aria-hidden="true"
       >
+        <span className="font-ui text-[14px] font-bold tracking-[0.12em] uppercase">
+          Scroll
+        </span>
         <motion.svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
+          className="w-5 h-5"
+          viewBox="0 0 16 16"
           fill="none"
           animate={prefersReduced ? {} : { y: [0, 5, 0] }}
           transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
         >
           <path
-            d="M10 3v14M4 11l6 6 6-6"
-            stroke="#FCEEC9"
+            d="M8 3v10M3.5 9l4.5 4.5L12.5 9"
+            stroke="currentColor"
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"

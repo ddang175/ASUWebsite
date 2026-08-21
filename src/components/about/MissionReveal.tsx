@@ -15,7 +15,7 @@ export function MissionReveal() {
   const words = MISSION_TEXT.split(" ");
 
   return (
-    <section className="relative z-[1] bg-asu-espresso py-32 md:py-44 px-8 overflow-hidden">
+    <section id="mission" className="relative z-[1] bg-asu-espresso py-32 md:py-44 px-8 overflow-hidden">
       <div className="max-w-[900px] mx-auto">
         {/* Section label */}
         <motion.div

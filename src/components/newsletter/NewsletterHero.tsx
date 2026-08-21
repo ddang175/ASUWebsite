@@ -182,28 +182,30 @@ export function NewsletterHero() {
         </motion.a>
       </div>
 
-      {/* ── Scroll cue ──────────────────────────────────────────────── */}
+      {/* ── Scroll cue — centered, matches home screen style ──────── */}
       <motion.div
-        className="absolute z-[4] text-center"
-        style={{ left: "50%", bottom: 36, transform: "translateX(-50%)" }}
+        className="absolute z-[4] left-1/2 -translate-x-1/2 bottom-10 flex flex-col items-center gap-1.5"
+        style={{ color: "rgba(252,238,201,0.5)" }}
         initial={{ opacity: 0 }}
-        animate={{ opacity: 0.5 }}
+        animate={{ opacity: 1 }}
         transition={
           prefersReduced ? { duration: 0 } : { duration: 1, delay: 1.4 }
         }
         aria-hidden="true"
       >
+        <span className="font-ui text-[14px] font-bold tracking-[0.12em] uppercase">
+          Scroll
+        </span>
         <motion.svg
-          width="20"
-          height="20"
-          viewBox="0 0 20 20"
+          className="w-5 h-5"
+          viewBox="0 0 16 16"
           fill="none"
           animate={prefersReduced ? {} : { y: [0, 5, 0] }}
           transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
         >
           <path
-            d="M10 3v14M4 11l6 6 6-6"
-            stroke="#FCEEC9"
+            d="M8 3v10M3.5 9l4.5 4.5L12.5 9"
+            stroke="currentColor"
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
