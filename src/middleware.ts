@@ -36,4 +36,21 @@ const adminAuthGate = defineMiddleware(async (context, next) => {
   return next();
 });
 
-export const onRequest = sequence(sitePasswordGate, adminAuthGate);
+const pageVisibilityGate = defineMiddleware(async (context, next) => {
+  const { pathname } = context.url;
+  if (pathname.startsWith('/admin') || pathname.startsWith('/password') || pathname.startsWith('/_')) return next();
+  const staticPrefixes = ['/_astro/', '/images/', '/fonts/', '/favicon'];
+  if (staticPrefixes.some((p) => pathname.startsWith(p))) return next();
+
+  const slug = pathname === '/' ? '/' : pathname.replace(/^\//, '').replace(/\/$/, '');
+  const supabase = createServerClient(context.cookies);
+  const { data: page } = await supabase.from('pages').select('is_visible').eq('slug', slug).single();
+
+  if (page && !page.is_visible) {
+    return new Response('Not Found', { status: 404 });
+  }
+
+  return next();
+});
+
+export const onRequest = sequence(sitePasswordGate, adminAuthGate, pageVisibilityGate);

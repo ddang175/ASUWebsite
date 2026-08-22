@@ -1,6 +1,11 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { SocialsHero } from '../../components/socials/SocialsHero';
+import { createServerClient } from '../../lib/supabase/server';
+
+const supabase = createServerClient(Astro.cookies);
+const { data: settings } = await supabase.from('site_settings').select('*');
+const s = Object.fromEntries((settings ?? []).map((r) => [r.key, r.value]));
 ---
 
 <Layout
@@ -8,6 +13,14 @@ import { SocialsHero } from '../../components/socials/SocialsHero';
   description="Follow ASU on Instagram, TikTok, and Discord to stay connected with events, updates, and club life."
 >
   <main class="flex-1">
-    <SocialsHero client:load />
+    <SocialsHero
+      client:load
+      instagramUrl={s.instagram_url ?? ''}
+      instagramHandle={s.instagram_handle ?? ''}
+      tiktokUrl={s.tiktok_url ?? ''}
+      tiktokHandle={s.tiktok_handle ?? ''}
+      discordUrl={s.discord_url ?? ''}
+      discordHandle={s.discord_handle ?? ''}
+    />
   </main>
 </Layout>

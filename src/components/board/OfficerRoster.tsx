@@ -26,9 +26,12 @@ interface OfficerData {
   hometown: string;
   year: string;
   blurb: string;
+  photo_url: string;
 }
 
-const OFFICERS: OfficerData[] = [
+// Fallback used when no officers are passed as props (e.g. Supabase table is
+// empty or unreachable), so the page keeps working without the database.
+const FALLBACK_OFFICERS: OfficerData[] = [
   {
     id: "danton",
     role: "President",
@@ -40,6 +43,8 @@ const OFFICERS: OfficerData[] = [
     year: "Senior",
     blurb:
       "Hey everyone! My name is Danton, and I will be your guys' president this year :P I am always open to a fun conversation, so feel free to come up to me at ASU events to talk! Outside of work and school, I love dancing, playing volleyball, hanging out with friends, and learning random things (building up random stats lol). I can't wait to meet everyone and bring you guys a great year!",
+  
+    photo_url: "/images/board/danton.webp",
   },
   {
     id: "jennifer",
@@ -52,6 +57,8 @@ const OFFICERS: OfficerData[] = [
     year: "Junior",
     blurb:
       "Hellooo! My name is Jennifer Tran, but you can also call me Jenni!! When I’m not crying over my accounting homework, you’ll probably find me crocheting, knitting, or raging in Valorant. Aside from my hobbies, joining ASU has been one of the best parts of my college experience. Through ASU, I’ve made amazing memories and met some amazing people. I’ve always admired the E-Board’s hard work and dedication, which is what inspired me to join. I want to help create the same welcoming environment and lasting memories for future members as well!",
+  
+    photo_url: "/images/board/jennifer.webp",
   },
   {
     id: "leah",
@@ -64,6 +71,8 @@ const OFFICERS: OfficerData[] = [
     year: "Junior",
     blurb:
       "Hello, my name is Leah! I'm the current treasurer of the Asian Student Union (ASU). I've been a member of the organization since my first year at Iowa State.  ASU has a wonderful community and celebrates Asian cultures, which is how I fell in love with the organization. When I'm not serving as the treasurer at general board meetings, you could catch me serving as the Resident Assistant at Towers, online gaming, or at the library studying!",
+  
+    photo_url: "/images/board/leah.webp",
   },
   {
     id: "ethan",
@@ -76,6 +85,8 @@ const OFFICERS: OfficerData[] = [
     year: "Sophomore",
     blurb:
       "A little bit more about me is that ASU helped me find my friend group through its community. I hope, as Community Chair, that people can look back and be proud that they were a part of ASU. Outside of ASU, you can find me at hackathons, playing volleyball on the court, or sleeping tbh. Oh, and I once clogged the school's bathroom so hard that it became Snapchat famous.",
+  
+    photo_url: "/images/board/ethan.webp",
   },
   {
     id: "olivia",
@@ -88,6 +99,8 @@ const OFFICERS: OfficerData[] = [
     year: "Sophomore",
     blurb:
       "Hi everyone! My name is Olivia, feel free to call me by whatever! I am going to be ASU's fundraising chair for this year so here's some of my interests! I love to dance and bake, reading the tri-man (manga, manhwa, and manhua) as well as webtoons like Eleceed, Omniscient Reader's Viewpoint, and Heaven's Official Blessing. Live, love, laugh Haikyuu and I love desserts so let me know if any of y'all want to hit up a fire dessert place 😛",
+  
+    photo_url: "/images/board/olivia.webp",
   },
   {
     id: "yukari",
@@ -100,6 +113,8 @@ const OFFICERS: OfficerData[] = [
     year: "Junior",
     blurb:
       "I’m Yukari Matsunaga from Japan!! My favorite American food is cheese curds. I like singing and going for walks. I have two dogs, and whenever I miss them, I like looking through photos of them. It’s something I do almost every day",
+  
+    photo_url: "/images/board/yukari.webp",
   },
   {
     id: "elle",
@@ -112,6 +127,8 @@ const OFFICERS: OfficerData[] = [
     year: "Sophomore",
     blurb:
       "Hey everyone!! My name is Elle Chandy but it’s said like Ellie. I will be a part of your new Multi-Media crew. My interests/hobbies are reading, sewing, gaming, and drawing. Fun Fact, some of the reasons that I joined ASU were the loving environment and amazing E-Board. I hope to try my hardest I can to make ASU the absolute best!!!",
+  
+    photo_url: "/images/board/elle.webp",
   },
   {
     id: "cathy",
@@ -124,6 +141,8 @@ const OFFICERS: OfficerData[] = [
     year: "Senior",
     blurb:
       "Hi, I’m Cathy and one of my favorite things to get into is arts and craft! I can crochet, make felt keychains, origami, etc. It’s also how I got interested in my major since I love designing things : )  One of my favorite projects I’ve done is designing a lucky cat inspired diffuser which actually works, yippee. I want to use my expertise in design and make awesome asu merch for everyone!",
+  
+    photo_url: "/images/board/cathy.webp",
   },
   {
     id: "jordan",
@@ -136,6 +155,8 @@ const OFFICERS: OfficerData[] = [
     year: "Senior",
     blurb:
       "hi, i'm jordan! i'm a computer engineer with a focus on vlsi design and electrical engineering. i enjoy media production as a hobby and occasionally dabble in video, automotive and portrait work. last school year, i was responsible for photoshoots, portraits, and camera work used for asian student union's media presence to promote and document events and other collaborations with partnered student organizations. my other hobbies include computer-related tech, drawing, and lifting.",
+  
+    photo_url: "/images/board/jordan.webp",
   },
   {
     id: "gavin",
@@ -148,6 +169,8 @@ const OFFICERS: OfficerData[] = [
     year: "Sophomore",
     blurb:
       "Hi! My name is Gavin Macanip, this year’s event planner! I like to climb rocks, kick things (fun fact: I met an olympic athlete cause of this), take photos, and do random side quests. I am an avid Bruno Mars enjoyer and professional yearner too (especially with karaoke 🇵🇭). I love to listen to music and playing it too.",
+  
+    photo_url: "/images/board/gavin.webp",
   },
   {
     id: "nathan",
@@ -160,6 +183,8 @@ const OFFICERS: OfficerData[] = [
     year: "Sophomore",
     blurb:
       "Hi there! I'm Nathaniel Sison, but you can just call me Nathan. Let me share a bit about myself. I'm proudly FILIPINO RAAAAH, hailing from the Illinois region, and I'm currently pursuing a degree in Finance. I enjoy a variety of activities, including playing volleyball, singing, and indulging in delicious food. My favorite color is red, and I'm always eager to meet new friends. If you happen to see me around, don't hesitate to come over and say hello — I'm always here to be a friend if you need one.",
+  
+    photo_url: "/images/board/nathan.webp",
   },
 ];
 
@@ -168,31 +193,28 @@ type RosterItem =
   | { type: "divider"; label: string }
   | { type: "sep"; key: string };
 
-const ROSTER_ITEMS: RosterItem[] = [
-  { type: "officer", officer: OFFICERS[0], officerIndex: 0 },
-  { type: "sep", key: "sep-0" },
-  { type: "officer", officer: OFFICERS[1], officerIndex: 1 },
-  { type: "sep", key: "sep-1" },
-  { type: "officer", officer: OFFICERS[2], officerIndex: 2 },
-  { type: "sep", key: "sep-2" },
-  { type: "officer", officer: OFFICERS[3], officerIndex: 3 },
-  { type: "sep", key: "sep-3" },
-  { type: "officer", officer: OFFICERS[4], officerIndex: 4 },
-  { type: "sep", key: "sep-4" },
-  { type: "divider", label: "Multimedia" },
-  { type: "officer", officer: OFFICERS[5], officerIndex: 5 },
-  { type: "sep", key: "sep-5" },
-  { type: "officer", officer: OFFICERS[6], officerIndex: 6 },
-  { type: "sep", key: "sep-6" },
-  { type: "officer", officer: OFFICERS[7], officerIndex: 7 },
-  { type: "sep", key: "sep-7" },
-  { type: "officer", officer: OFFICERS[8], officerIndex: 8 },
-  { type: "sep", key: "sep-8" },
-  { type: "divider", label: "Events & Outreach" },
-  { type: "officer", officer: OFFICERS[9], officerIndex: 9 },
-  { type: "sep", key: "sep-9" },
-  { type: "officer", officer: OFFICERS[10], officerIndex: 10 },
-];
+// Builds the roster's flat render list (officer cards, ornamental separators,
+// and named section dividers) from a live officers array. The named
+// "Multimedia" / "Events & Outreach" dividers are inferred from role text so
+// the grouping keeps working as officers are added/removed/reordered via the
+// admin panel, matching the original hardcoded structure for the default roster.
+function buildRosterItems(officers: OfficerData[]): RosterItem[] {
+  const items: RosterItem[] = [];
+  officers.forEach((officer, i) => {
+    if (i > 0) {
+      const prevRole = officers[i - 1].role;
+      if (officer.role === "Multimedia Member" && prevRole !== "Multimedia Member") {
+        items.push({ type: "divider", label: "Multimedia" });
+      } else if (prevRole === "Multimedia Member" && officer.role !== "Multimedia Member") {
+        items.push({ type: "divider", label: "Events & Outreach" });
+      } else {
+        items.push({ type: "sep", key: `sep-${i - 1}` });
+      }
+    }
+    items.push({ type: "officer", officer, officerIndex: i });
+  });
+  return items;
+}
 
 /* ─── Ornamental separator between officers ─── */
 function OfficerSeparator() {
@@ -517,7 +539,7 @@ function OfficerCard({
                 </div>
               ) : (
                 <img
-                  src={`/images/board/${officer.id}.webp`}
+                  src={officer.photo_url}
                   alt={`${officer.name}, ${officer.role}`}
                   style={
                     isMobile
@@ -652,18 +674,28 @@ function OfficerCard({
 }
 
 /* ─── Root export ─── */
-export function OfficerRoster() {
+export function OfficerRoster({ officers }: { officers?: OfficerData[] }) {
   const isMobile = useIsMobile();
   const [activeIndex, setActiveIndex] = useState(-1);
   const [railVisible, setRailVisible] = useState(false);
   const rosterRef = useRef<HTMLElement>(null);
+
+  // Fall back to the built-in roster when no officers are passed (or the
+  // Supabase table returned an empty array), so the page always renders.
+  const resolvedOfficers =
+    officers && officers.length > 0 ? officers : FALLBACK_OFFICERS;
+
+  const rosterItems = useMemo(
+    () => buildRosterItems(resolvedOfficers),
+    [resolvedOfficers],
+  );
 
   useEffect(() => {
     const updateActive = () => {
       const mid = window.innerHeight * 0.5;
       let best = -1,
         bestDist = Infinity;
-      OFFICERS.forEach((officer, i) => {
+      resolvedOfficers.forEach((officer, i) => {
         const el = document.getElementById(`officer-${officer.id}`);
         if (!el) return;
         const rect = el.getBoundingClientRect();
@@ -697,7 +729,7 @@ export function OfficerRoster() {
       window.removeEventListener("resize", updateActive);
       io.disconnect();
     };
-  }, []);
+  }, [resolvedOfficers]);
 
   const scrollToOfficer = useMemo(
     () => (officerId: string) => {
@@ -720,7 +752,7 @@ export function OfficerRoster() {
         }}
         aria-label="Officer index"
       >
-        {OFFICERS.map((officer, i) => (
+        {resolvedOfficers.map((officer, i) => (
           <button
             key={officer.id}
             className="relative w-[6px] h-[6px] rounded-full border-none p-0 cursor-pointer transition-all duration-[320ms]"
@@ -742,7 +774,7 @@ export function OfficerRoster() {
 
       {/* Roster items */}
       <div className="max-w-[1440px] mx-auto px-8 md:px-14 lg:px-24 pt-16 pb-40">
-        {ROSTER_ITEMS.map((item) => {
+        {rosterItems.map((item) => {
           if (item.type === "divider") {
             return <SectionDivider key={item.label} label={item.label} />;
           }

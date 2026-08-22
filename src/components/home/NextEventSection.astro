@@ -1,31 +1,46 @@
 ---
-import { fetchUpcomingEvent, type EventData } from '../../lib/fetchEvents';
-import fallbackData from '../../data/events.json';
+import { createServerClient } from '../../lib/supabase/server';
+import type { EventData } from '../../lib/fetchEvents';
 
-// Fetch from Google Sheet at build time (requires EVENTS_SHEET_ID in .env).
-// Falls back to events.json if the variable is missing or the fetch fails.
-const sheetId = import.meta.env.EVENTS_SHEET_ID as string | undefined;
+const supabase = createServerClient(Astro.cookies);
+const { data: events } = await supabase
+  .from('events')
+  .select('*')
+  .eq('is_visible', true)
+  .gte('date', new Date().toISOString().split('T')[0])
+  .order('date')
+  .limit(1);
 
-let event: EventData | null = null;
-if (sheetId) {
-  event = await fetchUpcomingEvent(sheetId);
-}
+const row = events?.[0] ?? null;
 
-if (!event) {
-  const fb = fallbackData.upcoming;
-  event = {
-    title:       fb.title,
-    date:        fb.date,
-    startTime:   fb.startTime,
-    endTime:     fb.endTime,
-    location:    fb.location,
-    description: fb.description,
-    imageUrl:    fb.imageUrl,
-    collab:      fb.collab,
-    rsvpUrl:     fb.rsvpUrl,
-    tags:        fb.tags,
-  };
-}
+// No upcoming event in Supabase — show a graceful empty state instead of
+// hardcoded fallback data.
+const event: EventData = row
+  ? {
+      title: row.title,
+      date: row.date,
+      startTime: row.start_time,
+      endTime: row.end_time ?? '',
+      location: row.location,
+      description: row.description,
+      imageUrl: row.image_url,
+      collab: row.collab,
+      rsvpUrl: row.rsvp_url,
+      tags: row.tags ?? [],
+    }
+  : {
+      title: 'No Upcoming Event',
+      date: '',
+      startTime: '',
+      endTime: '',
+      location: '',
+      description:
+        'There are no upcoming events announced at this time. Check back soon for updates from Asian Student Union.',
+      imageUrl: '',
+      collab: null,
+      rsvpUrl: null,
+      tags: ['Coming Soon'],
+    };
 
 // Build the time string: "6:00 PM", "6:00 PM – 9:00 PM", or ""
 const timeStr = event.startTime

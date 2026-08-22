@@ -3,6 +3,26 @@ import Layout from '../layouts/Layout.astro';
 import { BoardHero } from '../components/board/BoardHero';
 import { BoardIntro } from '../components/board/BoardIntro';
 import { OfficerRoster } from '../components/board/OfficerRoster';
+import { createServerClient } from '../lib/supabase/server';
+
+const supabase = createServerClient(Astro.cookies);
+const { data: officerRows } = await supabase
+  .from('officers')
+  .select('*')
+  .order('display_order');
+
+const officers = (officerRows ?? []).map((o) => ({
+  id: o.id,
+  role: o.role,
+  name: o.name,
+  country: o.country,
+  countryLabel: o.country_label,
+  major: o.major,
+  hometown: o.hometown,
+  year: o.year,
+  blurb: o.blurb,
+  photo_url: o.photo_url,
+}));
 ---
 
 <Layout
@@ -18,7 +38,7 @@ import { OfficerRoster } from '../components/board/OfficerRoster';
     <BoardIntro client:visible />
 
     {/* 3. Officer roster — 11 officers, alternating layout, flag fly-ins, side rail */}
-    <OfficerRoster client:visible />
+    <OfficerRoster client:visible officers={officers} />
 
     {/* 4. Endcap CTA */}
     <section

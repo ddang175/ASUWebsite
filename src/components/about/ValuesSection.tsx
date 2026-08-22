@@ -3,7 +3,9 @@ import { motion, useInView, useReducedMotion } from "motion/react";
 
 const EASE_OUT = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
-const VALUES = [
+// Fallback used when no values prop is passed (e.g. Supabase is empty or
+// unreachable), so the section keeps working without the database.
+const DEFAULT_VALUES = [
   {
     num: "01",
     name: "Community",
@@ -26,11 +28,24 @@ const VALUES = [
   },
 ];
 
-export function ValuesSection() {
+const DEFAULT_LABEL = "What We Stand For";
+const DEFAULT_HEADING = "Our Values";
+
+interface ValuesSectionProps {
+  label?: string;
+  heading?: string;
+  values?: typeof DEFAULT_VALUES;
+}
+
+export function ValuesSection({ label, heading, values }: ValuesSectionProps = {}) {
   const prefersReduced = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const isInViewHook = useInView(ref, { once: true, margin: "-10% 0px" });
   const isInView = prefersReduced ? true : isInViewHook;
+
+  const resolvedLabel = label && label.trim().length > 0 ? label : DEFAULT_LABEL;
+  const resolvedHeading = heading && heading.trim().length > 0 ? heading : DEFAULT_HEADING;
+  const VALUES = values && values.length > 0 ? values : DEFAULT_VALUES;
 
   return (
     <section className="relative z-[1] bg-asu-dark py-28 md:py-40 px-8 md:px-16 lg:px-24 overflow-hidden">
@@ -49,7 +64,7 @@ export function ValuesSection() {
           >
             <div className="w-8 h-px bg-asu-gold mb-5" />
             <p className="font-ui text-[11px] font-bold tracking-[0.22em] uppercase text-asu-gold mb-5">
-              What We Stand For
+              {resolvedLabel}
             </p>
           </motion.div>
           <motion.h2
@@ -66,7 +81,7 @@ export function ValuesSection() {
                 : { duration: 0.7, delay: 0.1, ease: EASE_OUT }
             }
           >
-            Our Values
+            {resolvedHeading}
           </motion.h2>
         </div>
 

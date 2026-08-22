@@ -1,18 +1,21 @@
 import { useRef } from "react";
 import { motion, useInView, useReducedMotion } from "motion/react";
 
-const MISSION_TEXT =
+// Fallback used when no missionText prop is passed (e.g. Supabase is empty
+// or unreachable), so the section keeps working without the database.
+const DEFAULT_MISSION_TEXT =
   "To foster a welcoming and safe community that celebrates Asian culture and heritage, empowering our members by creating lasting spaces for connection, growth, and joy at Iowa State University.";
 
 const EASE_OUT = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
-export function MissionReveal() {
+export function MissionReveal({ missionText }: { missionText?: string }) {
   const prefersReduced = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
   const isInViewHook = useInView(ref, { once: true, margin: "-12% 0px" });
   const isInView = prefersReduced ? true : isInViewHook;
 
-  const words = MISSION_TEXT.split(" ");
+  const resolvedMissionText = missionText && missionText.trim().length > 0 ? missionText : DEFAULT_MISSION_TEXT;
+  const words = resolvedMissionText.split(" ");
 
   return (
     <section id="mission" className="relative z-[1] bg-asu-espresso py-32 md:py-44 px-8 overflow-hidden">
@@ -38,7 +41,7 @@ export function MissionReveal() {
           ref={ref}
           className="font-display text-asu-cream text-center leading-snug"
           style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.75rem)" }}
-          aria-label={MISSION_TEXT}
+          aria-label={resolvedMissionText}
         >
           {words.map((word, i) => (
             <motion.span

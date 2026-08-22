@@ -1,7 +1,13 @@
 ---
+import { createServerClient } from '../../lib/supabase/server';
+
 const year = new Date().getFullYear();
 
-const links = [
+type LinkGroup = { heading: string; items: Array<{ label: string; href: string }> };
+
+// Fallback used when nav_links / site_settings are empty or unreachable, so
+// the site keeps working even before Supabase is seeded.
+const DEFAULT_LINKS: LinkGroup[] = [
   {
     heading: 'About',
     items: [
@@ -30,6 +36,50 @@ const links = [
     ],
   },
 ];
+
+const DEFAULT_DISCLAIMER =
+  "The views and opinions expressed on this website are strictly those of the Asian Student " +
+  "Union at Iowa State University and its members. The contents of these pages have not been " +
+  "reviewed or approved by Iowa State University. This is not an official Iowa State University " +
+  'website.';
+
+const supabase = createServerClient(Astro.cookies);
+const { data: navRows } = await supabase
+  .from('nav_links')
+  .select('*')
+  .eq('is_visible', true)
+  .order('display_order');
+
+let links: LinkGroup[];
+
+if (navRows && navRows.length > 0) {
+  const groupsMap = new Map<string, Array<{ label: string; href: string }>>();
+  const ungrouped: Array<{ label: string; href: string }> = [];
+
+  for (const row of navRows) {
+    if (row.href === '/') continue; // Footer omits the Home link, same as before
+    if (row.parent_group) {
+      if (!groupsMap.has(row.parent_group)) groupsMap.set(row.parent_group, []);
+      groupsMap.get(row.parent_group)!.push({ label: row.label, href: row.href });
+    } else {
+      ungrouped.push({ label: row.label, href: row.href });
+    }
+  }
+
+  links = Array.from(groupsMap, ([heading, items]) => ({ heading, items }));
+  if (ungrouped.length > 0) {
+    links.push({ heading: 'More', items: ungrouped });
+  }
+} else {
+  links = DEFAULT_LINKS;
+}
+
+const { data: settingsRows } = await supabase
+  .from('site_settings')
+  .select('*')
+  .eq('key', 'footer_disclaimer');
+
+const footerDisclaimer = settingsRows?.[0]?.value ?? DEFAULT_DISCLAIMER;
 ---
 
 <footer class="bg-asu-espresso text-asu-cream">
@@ -82,10 +132,7 @@ const links = [
       style="border-top: 1px solid rgba(252,238,201,0.10);"
     >
       <p class="font-ui text-xs leading-relaxed max-w-3xl" style="color: rgba(252,238,201,0.38);">
-        The views and opinions expressed on this website are strictly those of the Asian Student
-        Union at Iowa State University and its members. The contents of these pages have not been
-        reviewed or approved by Iowa State University. This is not an official Iowa State University
-        website.
+        {footerDisclaimer}
       </p>
       <p class="font-ui text-xs" style="color: rgba(252,238,201,0.28);">
         © {year} Asian Student Union at Iowa State University. All rights reserved.

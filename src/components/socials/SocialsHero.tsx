@@ -235,9 +235,42 @@ function SocialCard({
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export function SocialsHero() {
+// Fallbacks used when no social link props are passed (e.g. Supabase is
+// empty or unreachable), so the page keeps working without the database.
+const DEFAULT_INSTAGRAM_URL =
+  "https://www.instagram.com/asu_iastate?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==";
+const DEFAULT_INSTAGRAM_HANDLE = "@asu_iastate";
+const DEFAULT_TIKTOK_URL = "https://www.tiktok.com/@asu_iastate?is_from_webapp=1&sender_device=pc";
+const DEFAULT_TIKTOK_HANDLE = "@asu_iastate";
+const DEFAULT_DISCORD_URL = "#";
+const DEFAULT_DISCORD_HANDLE = "ASU Discord";
+
+interface SocialsHeroProps {
+  instagramUrl?: string;
+  instagramHandle?: string;
+  tiktokUrl?: string;
+  tiktokHandle?: string;
+  discordUrl?: string;
+  discordHandle?: string;
+}
+
+export function SocialsHero({
+  instagramUrl,
+  instagramHandle,
+  tiktokUrl,
+  tiktokHandle,
+  discordUrl,
+  discordHandle,
+}: SocialsHeroProps = {}) {
   const prefersReduced = useReducedMotion() ?? false;
   const [focused, setFocused] = useState<string | null>(null);
+
+  const resolvedInstagramUrl = instagramUrl || DEFAULT_INSTAGRAM_URL;
+  const resolvedInstagramHandle = instagramHandle || DEFAULT_INSTAGRAM_HANDLE;
+  const resolvedTiktokUrl = tiktokUrl || DEFAULT_TIKTOK_URL;
+  const resolvedTiktokHandle = tiktokHandle || DEFAULT_TIKTOK_HANDLE;
+  const resolvedDiscordUrl = discordUrl || DEFAULT_DISCORD_URL;
+  const resolvedDiscordHandle = discordHandle || DEFAULT_DISCORD_HANDLE;
 
   // Cursor-tracking warm tint on light background
   const cx = useMotionValue(-600);
@@ -400,10 +433,10 @@ export function SocialsHero() {
             <SocialCard
               platform="instagram"
               index={0}
-              handle="@asu_iastate"
+              handle={resolvedInstagramHandle}
               tagline="Events · Updates · Community"
               description="All our events go up here first. The dates, details, and photo highlights from everything happening at ASU this semester are posted here. If you want to know what's coming up and when, this is the place to follow."
-              href="https://www.instagram.com/asu_iastate?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+              href={resolvedInstagramUrl}
               label="Follow on Instagram"
               focused={focused}
               setFocused={setFocused}
@@ -411,10 +444,10 @@ export function SocialsHero() {
             <SocialCard
               platform="tiktok"
               index={1}
-              handle="@asu_iastate"
+              handle={resolvedTiktokHandle}
               tagline="Reels · Behind the Scenes · Highlights"
               description="Behind-the-scenes moments, event recaps, and club highlights in short-form video. This is where ASU gets fun, follow along and see what we've been up to."
-              href="https://www.tiktok.com/@asu_iastate?is_from_webapp=1&sender_device=pc"
+              href={resolvedTiktokUrl}
               label="Follow on TikTok"
               focused={focused}
               setFocused={setFocused}
@@ -422,10 +455,10 @@ export function SocialsHero() {
             <SocialCard
               platform="discord"
               index={2}
-              handle="ASU Discord"
+              handle={resolvedDiscordHandle}
               tagline="Chat · Games · Live Updates"
               description="Participate in online-only events, chat with members and the board, play games, get live updates, and be involved with the community!"
-              href="#"
+              href={resolvedDiscordUrl}
               label="Join the Server"
               focused={focused}
               setFocused={setFocused}

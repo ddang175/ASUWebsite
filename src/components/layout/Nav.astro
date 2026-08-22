@@ -1,5 +1,11 @@
 ---
-const navItems = [
+import { createServerClient } from '../../lib/supabase/server';
+
+type NavItem = { label: string; href?: string; dropdown?: Array<{ label: string; href: string }> };
+
+// Fallback used when the nav_links table is empty or unreachable, so the site
+// keeps working even before Supabase is seeded.
+const DEFAULT_NAV_ITEMS: NavItem[] = [
   { label: 'Home', href: '/' },
   {
     label: 'About',
@@ -25,6 +31,44 @@ const navItems = [
   { label: 'Looped', href: '/looped' },
   { label: 'Feedback', href: '/feedback' },
 ];
+
+const supabase = createServerClient(Astro.cookies);
+const { data: links } = await supabase
+  .from('nav_links')
+  .select('*')
+  .eq('is_visible', true)
+  .order('display_order');
+
+let navItems: NavItem[];
+
+if (links && links.length > 0) {
+  // Group links: top-level (no parent_group) and dropdown groups
+  const groups = new Map<string, typeof links>();
+  for (const link of links) {
+    if (!link.parent_group) continue;
+    if (!groups.has(link.parent_group)) groups.set(link.parent_group, []);
+    groups.get(link.parent_group)!.push(link);
+  }
+
+  // Build nav items in display_order
+  navItems = [];
+  const seenGroups = new Set<string>();
+
+  for (const link of links) {
+    if (link.parent_group) {
+      if (seenGroups.has(link.parent_group)) continue;
+      seenGroups.add(link.parent_group);
+      navItems.push({
+        label: link.parent_group,
+        dropdown: groups.get(link.parent_group)!.map((l) => ({ label: l.label, href: l.href })),
+      });
+    } else {
+      navItems.push({ label: link.label, href: link.href });
+    }
+  }
+} else {
+  navItems = DEFAULT_NAV_ITEMS;
+}
 
 const currentPath = Astro.url.pathname;
 ---

@@ -15,8 +15,34 @@ const STATS = [
   { value: "50+", label: "Avg. Attendance / Event" },
 ];
 
-export function WhoWeAre() {
+// Fallbacks used when no content props are passed (e.g. Supabase is empty
+// or unreachable), so the section keeps working without the database.
+const DEFAULT_EYEBROW = "Who We Are";
+const DEFAULT_HEADING_LINE_1 = "We aren't just a club,";
+const DEFAULT_HEADING_LINE_2 = "We are a community";
+const DEFAULT_BODY =
+  "The Asian Student Union (ASU) at Iowa State University is a student-led organization dedicated to building an inclusive community for Asian and Asian-American students.";
+const DEFAULT_BODY_2 =
+  "We bring our community together through many different types of events. Members can expect to enjoy many different types of events such as engaging general body meetings (GBMs), food fundraisers, cultural showcases, professional development events, and more!";
+
+interface WhoWeAreProps {
+  eyebrow?: string;
+  heading?: string;
+  body?: string;
+  body2?: string;
+}
+
+export function WhoWeAre({ eyebrow, heading, body, body2 }: WhoWeAreProps = {}) {
   const prefersReduced = useReducedMotion();
+  const resolvedEyebrow = eyebrow && eyebrow.trim().length > 0 ? eyebrow : DEFAULT_EYEBROW;
+  const resolvedBody = body && body.trim().length > 0 ? body : DEFAULT_BODY;
+  const resolvedBody2 = body2 && body2.trim().length > 0 ? body2 : DEFAULT_BODY_2;
+  // heading is rendered as two lines; when a custom heading is supplied it is
+  // shown as a single line, matching the original two-line default otherwise.
+  const resolvedHeadingLines =
+    heading && heading.trim().length > 0
+      ? [heading]
+      : [DEFAULT_HEADING_LINE_1, DEFAULT_HEADING_LINE_2];
   const sectionRef = useRef<HTMLElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
 
@@ -100,7 +126,7 @@ export function WhoWeAre() {
             >
               <div className="w-8 h-px bg-asu-red" />
               <p className="font-ui text-[11px] font-bold tracking-[0.2em] uppercase text-asu-red">
-                Who We Are
+                {resolvedEyebrow}
               </p>
             </motion.div>
 
@@ -119,8 +145,12 @@ export function WhoWeAre() {
                   : { duration: 0.7, delay: 0.1, ease: EASE_OUT }
               }
             >
-              We aren't just a club, <br />
-              We are a community
+              {resolvedHeadingLines.map((line, i) => (
+                <span key={i}>
+                  {line}
+                  {i < resolvedHeadingLines.length - 1 && <br />}
+                </span>
+              ))}
             </motion.h2>
 
             {/* Body text */}
@@ -135,16 +165,10 @@ export function WhoWeAre() {
               }
             >
               <p className="font-body text-body-lg leading-relaxed text-asu-dark opacity-80">
-                The Asian Student Union (ASU) at Iowa State University is a
-                student-led organization dedicated to building an inclusive
-                community for Asian and Asian-American students.
+                {resolvedBody}
               </p>
               <p className="font-body text-body-lg leading-relaxed text-asu-dark opacity-80">
-                We bring our community together through many different types of
-                events. Members can expect to enjoy many different types of
-                events such as engaging general body meetings (GBMs), food
-                fundraisers, cultural showcases, professional development
-                events, and more!
+                {resolvedBody2}
               </p>
             </motion.div>
 
