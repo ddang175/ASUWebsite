@@ -1,0 +1,29 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+---
+
+<AdminLayout title="Dashboard — ASU Admin">
+  <div class="max-w-4xl">
+    <h1 class="font-display text-3xl text-asu-dark mb-2">Dashboard</h1>
+    <p class="font-body text-asu-muted mb-10">Manage your ASU website content.</p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {[
+        { label: 'Pages', href: '/admin/pages', desc: 'Toggle visibility, edit SEO' },
+        { label: 'Officers', href: '/admin/officers', desc: 'Edit the board roster' },
+        { label: 'Events', href: '/admin/events', desc: 'Add and edit events' },
+        { label: 'Images', href: '/admin/images', desc: 'Manage photo library' },
+        { label: 'Navigation', href: '/admin/nav', desc: 'Edit nav bar links' },
+        { label: 'Settings', href: '/admin/settings', desc: 'Social links, footer text' },
+      ].map(({ label, href, desc }) => (
+        <a
+          href={href}
+          class="block p-5 bg-asu-card border border-asu-beige rounded-lg hover:border-asu-red/30 transition-colors"
+        >
+          <p class="font-ui text-sm font-semibold text-asu-dark mb-1">{label}</p>
+          <p class="font-body text-xs text-asu-muted">{desc}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</AdminLayout>

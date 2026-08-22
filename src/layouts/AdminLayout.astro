@@ -1,0 +1,86 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+}
+
+const { title = 'Admin — ASU' } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+const adminNavItems = [
+  { label: 'Dashboard', href: '/admin' },
+  { label: 'Pages', href: '/admin/pages' },
+  { label: 'Officers', href: '/admin/officers' },
+  { label: 'Events', href: '/admin/events' },
+  { label: 'Images', href: '/admin/images' },
+  { label: 'Navigation', href: '/admin/nav' },
+  { label: 'Settings', href: '/admin/settings' },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/webp" href="/images/asu-logo.webp" />
+    <title>{title}</title>
+  </head>
+  <body class="bg-asu-ivory min-h-screen flex">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-asu-espresso text-asu-cream flex flex-col shrink-0 sticky top-0 h-screen">
+      <div class="p-6 border-b border-asu-cream/10">
+        <a href="/admin" class="flex items-center gap-3">
+          <img src="/images/asu-logo.webp" alt="ASU" class="h-8 w-auto" style="filter: brightness(0) invert(1);" />
+          <span class="font-ui text-sm font-bold tracking-wide">Admin</span>
+        </a>
+      </div>
+      <nav class="flex-1 py-4">
+        <ul class="list-none m-0 p-0">
+          {adminNavItems.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class:list={[
+                  'block px-6 py-2.5 font-ui text-sm transition-colors duration-150',
+                  currentPath === item.href
+                    ? 'text-asu-cream bg-asu-red/20 border-r-2 border-asu-red'
+                    : 'text-asu-cream/60 hover:text-asu-cream hover:bg-asu-cream/5',
+                ]}
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+      <div class="p-4 border-t border-asu-cream/10 space-y-2">
+        <a href="/" class="block font-ui text-xs text-asu-cream/40 hover:text-asu-cream/70 transition-colors">
+          ← Back to site
+        </a>
+        <button
+          id="logout-btn"
+          class="block font-ui text-xs text-asu-red/70 hover:text-asu-red transition-colors cursor-pointer"
+        >
+          Log out
+        </button>
+      </div>
+    </aside>
+
+    <script>
+      import { createBrowserClient } from '../lib/supabase/client';
+      document.getElementById('logout-btn')?.addEventListener('click', async () => {
+        const supabase = createBrowserClient();
+        await supabase.auth.signOut();
+        window.location.href = '/admin/login';
+      });
+    </script>
+
+    <!-- Main content -->
+    <main class="flex-1 p-8 md:p-12 overflow-x-hidden">
+      <slot />
+    </main>
+  </body>
+</html>
