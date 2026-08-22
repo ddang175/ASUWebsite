@@ -1,5 +1,6 @@
 ---
 import { createServerClient } from '../../lib/supabase/server';
+import { isSafeHttpsUrl } from '../../lib/safeUrl';
 import type { EventData } from '../../lib/fetchEvents';
 
 const supabase = createServerClient(Astro.cookies);
@@ -25,7 +26,7 @@ const event: EventData = row
       description: row.description,
       imageUrl: row.image_url,
       collab: row.collab,
-      rsvpUrl: row.rsvp_url,
+      rsvpUrl: isSafeHttpsUrl(row.rsvp_url) ? row.rsvp_url : null,
       tags: row.tags ?? [],
     }
   : {

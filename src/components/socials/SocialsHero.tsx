@@ -5,6 +5,7 @@ import {
   useSpring,
   useReducedMotion,
 } from "motion/react";
+import { isSafeHttpsUrl } from "../../lib/safeUrl";
 
 const EASE_OUT = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
@@ -265,11 +266,11 @@ export function SocialsHero({
   const prefersReduced = useReducedMotion() ?? false;
   const [focused, setFocused] = useState<string | null>(null);
 
-  const resolvedInstagramUrl = instagramUrl || DEFAULT_INSTAGRAM_URL;
+  const resolvedInstagramUrl = (isSafeHttpsUrl(instagramUrl) ? instagramUrl : null) || DEFAULT_INSTAGRAM_URL;
   const resolvedInstagramHandle = instagramHandle || DEFAULT_INSTAGRAM_HANDLE;
-  const resolvedTiktokUrl = tiktokUrl || DEFAULT_TIKTOK_URL;
+  const resolvedTiktokUrl = (isSafeHttpsUrl(tiktokUrl) ? tiktokUrl : null) || DEFAULT_TIKTOK_URL;
   const resolvedTiktokHandle = tiktokHandle || DEFAULT_TIKTOK_HANDLE;
-  const resolvedDiscordUrl = discordUrl || DEFAULT_DISCORD_URL;
+  const resolvedDiscordUrl = (isSafeHttpsUrl(discordUrl) ? discordUrl : null) || DEFAULT_DISCORD_URL;
   const resolvedDiscordHandle = discordHandle || DEFAULT_DISCORD_HANDLE;
 
   // Cursor-tracking warm tint on light background
