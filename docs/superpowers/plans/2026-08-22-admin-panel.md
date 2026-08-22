@@ -18,6 +18,17 @@
 - Only two new dependencies: `@supabase/supabase-js` and `@supabase/ssr`
 - All image uploads limited to webp/jpg/png, max 5MB
 - All external URLs must be `https://` only
+
+## Security Constraints (from post-plan security review)
+
+1. **Disable public signups** in Supabase Dashboard (Authentication → Settings → disable "Enable email signup"). Only dashboard-invited users may exist. This is the primary defense against unauthorized writes.
+2. **Admin role check in middleware**: after `getUser()`, verify the user exists in an `admin_users` table (or check `user.app_metadata.role === 'admin'`). Return 403 for non-admins, not just unauthenticated users.
+3. **No `set:html` with DB content**: all database-sourced text must be rendered via Astro `{variable}` (auto-escaped) or React JSX `{variable}` (auto-escaped). Never use `set:html` or `dangerouslySetInnerHTML` with any DB value.
+4. **Link validation**: all `link`-type `page_content` values and `rsvp_url` fields must be validated to only allow paths starting with `/` or URLs starting with `https://`. Block `javascript:`, `data:`, and other schemes.
+5. **Server-side image validation**: configure the Supabase Storage bucket with `allowed_mime_types: ['image/webp', 'image/jpeg', 'image/png']` and `file_size_limit: 5242880` (5MB). Do not rely solely on client-side validation.
+6. **Sanitize file extensions**: strip non-alphanumeric characters from uploaded file extensions to prevent path traversal via crafted filenames.
+7. **Logout button**: the admin sidebar must include a logout action that calls `supabase.auth.signOut()` and redirects to `/admin/login`.
+8. **Static-asset middleware bypass**: use a prefix-based check (`/images/`, `/fonts/`, `/_astro/`, `/favicon`) instead of a fragile file-extension regex to skip the page-visibility DB query.
 - RLS on every Supabase table: public read, admin-only write
 - When an image is replaced or its record deleted, the old file is removed from Supabase Storage
 - Follow the ASU design system in `docs/DESIGN_SYSTEM.md` for all admin UI
@@ -275,9 +286,9 @@ CREATE TABLE pages (
 
 ALTER TABLE pages ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "pages_public_read" ON pages FOR SELECT USING (true);
-CREATE POLICY "pages_admin_write" ON pages FOR ALL USING (
-  auth.role() = 'authenticated'
-);
+CREATE POLICY "pages_admin_insert" ON pages FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+CREATE POLICY "pages_admin_update" ON pages FOR UPDATE USING (auth.role() = 'authenticated');
+CREATE POLICY "pages_admin_delete" ON pages FOR DELETE USING (auth.role() = 'authenticated');
 
 -- ── page_content ─────────────────────────────────────────────
 CREATE TABLE page_content (
@@ -293,9 +304,9 @@ CREATE TABLE page_content (
 
 ALTER TABLE page_content ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "page_content_public_read" ON page_content FOR SELECT USING (true);
-CREATE POLICY "page_content_admin_write" ON page_content FOR ALL USING (
-  auth.role() = 'authenticated'
-);
+CREATE POLICY "page_content_admin_insert" ON page_content FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+CREATE POLICY "page_content_admin_update" ON page_content FOR UPDATE USING (auth.role() = 'authenticated');
+CREATE POLICY "page_content_admin_delete" ON page_content FOR DELETE USING (auth.role() = 'authenticated');
 
 -- ── officers ─────────────────────────────────────────────────
 CREATE TABLE officers (
@@ -316,9 +327,9 @@ CREATE TABLE officers (
 
 ALTER TABLE officers ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "officers_public_read" ON officers FOR SELECT USING (true);
-CREATE POLICY "officers_admin_write" ON officers FOR ALL USING (
-  auth.role() = 'authenticated'
-);
+CREATE POLICY "officers_admin_insert" ON officers FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+CREATE POLICY "officers_admin_update" ON officers FOR UPDATE USING (auth.role() = 'authenticated');
+CREATE POLICY "officers_admin_delete" ON officers FOR DELETE USING (auth.role() = 'authenticated');
 
 -- ── events ───────────────────────────────────────────────────
 CREATE TABLE events (
@@ -341,9 +352,9 @@ CREATE TABLE events (
 
 ALTER TABLE events ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "events_public_read" ON events FOR SELECT USING (true);
-CREATE POLICY "events_admin_write" ON events FOR ALL USING (
-  auth.role() = 'authenticated'
-);
+CREATE POLICY "events_admin_insert" ON events FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+CREATE POLICY "events_admin_update" ON events FOR UPDATE USING (auth.role() = 'authenticated');
+CREATE POLICY "events_admin_delete" ON events FOR DELETE USING (auth.role() = 'authenticated');
 
 -- ── images ───────────────────────────────────────────────────
 CREATE TABLE images (
@@ -359,9 +370,9 @@ CREATE TABLE images (
 
 ALTER TABLE images ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "images_public_read" ON images FOR SELECT USING (true);
-CREATE POLICY "images_admin_write" ON images FOR ALL USING (
-  auth.role() = 'authenticated'
-);
+CREATE POLICY "images_admin_insert" ON images FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+CREATE POLICY "images_admin_update" ON images FOR UPDATE USING (auth.role() = 'authenticated');
+CREATE POLICY "images_admin_delete" ON images FOR DELETE USING (auth.role() = 'authenticated');
 
 -- ── site_settings ────────────────────────────────────────────
 CREATE TABLE site_settings (
@@ -372,9 +383,9 @@ CREATE TABLE site_settings (
 
 ALTER TABLE site_settings ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "site_settings_public_read" ON site_settings FOR SELECT USING (true);
-CREATE POLICY "site_settings_admin_write" ON site_settings FOR ALL USING (
-  auth.role() = 'authenticated'
-);
+CREATE POLICY "site_settings_admin_insert" ON site_settings FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+CREATE POLICY "site_settings_admin_update" ON site_settings FOR UPDATE USING (auth.role() = 'authenticated');
+CREATE POLICY "site_settings_admin_delete" ON site_settings FOR DELETE USING (auth.role() = 'authenticated');
 
 -- ── nav_links ────────────────────────────────────────────────
 CREATE TABLE nav_links (
@@ -390,9 +401,9 @@ CREATE TABLE nav_links (
 
 ALTER TABLE nav_links ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "nav_links_public_read" ON nav_links FOR SELECT USING (true);
-CREATE POLICY "nav_links_admin_write" ON nav_links FOR ALL USING (
-  auth.role() = 'authenticated'
-);
+CREATE POLICY "nav_links_admin_insert" ON nav_links FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+CREATE POLICY "nav_links_admin_update" ON nav_links FOR UPDATE USING (auth.role() = 'authenticated');
+CREATE POLICY "nav_links_admin_delete" ON nav_links FOR DELETE USING (auth.role() = 'authenticated');
 
 -- ── Auto-update updated_at on every table ────────────────────
 CREATE OR REPLACE FUNCTION update_updated_at()
@@ -412,7 +423,8 @@ CREATE TRIGGER site_settings_updated_at BEFORE UPDATE ON site_settings FOR EACH 
 CREATE TRIGGER nav_links_updated_at BEFORE UPDATE ON nav_links FOR EACH ROW EXECUTE FUNCTION update_updated_at();
 
 -- ── Storage bucket for images ────────────────────────────────
-INSERT INTO storage.buckets (id, name, public) VALUES ('images', 'images', true);
+INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+VALUES ('images', 'images', true, 5242880, ARRAY['image/webp', 'image/jpeg', 'image/png']);
 
 CREATE POLICY "images_bucket_public_read" ON storage.objects
   FOR SELECT USING (bucket_id = 'images');
@@ -587,6 +599,13 @@ const adminAuthGate = defineMiddleware(async (context, next) => {
     return context.redirect('/admin/login');
   }
 
+  // Verify user is an admin (app_metadata.role is set via Supabase Dashboard
+  // or by running: UPDATE auth.users SET raw_app_meta_data = raw_app_meta_data || '{"role":"admin"}' WHERE email = '...')
+  const role = (user.app_metadata as Record<string, unknown>)?.role;
+  if (role !== 'admin') {
+    return new Response('Forbidden', { status: 403 });
+  }
+
   context.locals.user = user;
   return next();
 });
@@ -669,11 +688,27 @@ const adminNavItems = [
           ))}
         </ul>
       </nav>
-      <div class="p-4 border-t border-asu-cream/10">
-        <a href="/" class="font-ui text-xs text-asu-cream/40 hover:text-asu-cream/70 transition-colors">
+      <div class="p-4 border-t border-asu-cream/10 space-y-2">
+        <a href="/" class="block font-ui text-xs text-asu-cream/40 hover:text-asu-cream/70 transition-colors">
           ← Back to site
         </a>
+        <button
+          id="logout-btn"
+          class="block font-ui text-xs text-asu-red/70 hover:text-asu-red transition-colors cursor-pointer"
+        >
+          Log out
+        </button>
       </div>
+    </aside>
+
+    <script>
+      import { createBrowserClient } from '../lib/supabase/client';
+      document.getElementById('logout-btn')?.addEventListener('click', async () => {
+        const supabase = createBrowserClient();
+        await supabase.auth.signOut();
+        window.location.href = '/admin/login';
+      });
+    </script>
     </aside>
 
     <!-- Main content -->
@@ -889,7 +924,8 @@ export async function replaceImage(
   newFile: File,
   category: string,
 ): Promise<{ url: string; path: string }> {
-  const ext = newFile.name.split('.').pop() ?? 'webp';
+  const rawExt = newFile.name.split('.').pop() ?? 'webp';
+  const ext = rawExt.replace(/[^a-z0-9]/gi, '').slice(0, 5) || 'webp';
   const newPath = `${category}/${crypto.randomUUID()}.${ext}`;
 
   const { error: uploadError } = await supabase.storage
@@ -1407,7 +1443,8 @@ Add a third middleware in the sequence that checks the `pages` table. If the req
 const pageVisibilityGate = defineMiddleware(async (context, next) => {
   const { pathname } = context.url;
   if (pathname.startsWith('/admin') || pathname.startsWith('/password') || pathname.startsWith('/_')) return next();
-  if (pathname.match(/\.\w+$/)) return next(); // static assets
+  const staticPrefixes = ['/_astro/', '/images/', '/fonts/', '/favicon'];
+  if (staticPrefixes.some(p => pathname.startsWith(p))) return next();
 
   const slug = pathname === '/' ? '/' : pathname.replace(/^\//, '').replace(/\/$/, '');
   const supabase = createServerClient(context.cookies);
@@ -1632,12 +1669,14 @@ This task is not code — it's a checklist for the developer to verify everythin
   - Run `supabase/migrations/001_create_tables.sql` in the SQL Editor
   - Run `supabase/seed.sql` in the SQL Editor
   - Create a Storage bucket named `images` (should be done by the migration)
+  - **CRITICAL: Disable public signups** — go to Authentication → Settings → disable "Enable email signup" so only dashboard-invited users can exist
   - Copy `PUBLIC_SUPABASE_URL`, `PUBLIC_SUPABASE_ANON_KEY`, and `SUPABASE_SERVICE_ROLE_KEY` to `.env`
 
 - [ ] **Step 2: Create first admin user**
   - In Supabase Dashboard → Authentication → Users → Add User
   - Enter your email and a password
   - Confirm the user's email
+  - Set the admin role by running in the SQL Editor: `UPDATE auth.users SET raw_app_meta_data = raw_app_meta_data || '{"role":"admin"}' WHERE email = 'your-email@example.com';`
 
 - [ ] **Step 3: Test admin login flow**
   - Run `npm run dev`
