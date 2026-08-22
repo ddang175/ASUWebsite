@@ -1,0 +1,15 @@
+---
+import AdminLayout from '../../../layouts/AdminLayout.astro';
+import { PageContentEditor } from '../../../components/admin/PageContentEditor';
+import { createServerClient } from '../../../lib/supabase/server';
+
+const { slug } = Astro.params;
+const supabase = createServerClient(Astro.cookies);
+const { data: page } = await supabase.from('pages').select('*').eq('slug', slug).single();
+
+if (!page) return Astro.redirect('/admin/pages');
+---
+
+<AdminLayout title={`Edit: ${page.title} — ASU Admin`}>
+  <PageContentEditor client:load pageSlug={slug!} pageTitle={page.title} />
+</AdminLayout>
