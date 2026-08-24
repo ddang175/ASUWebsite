@@ -36,7 +36,11 @@ function FeedbackIcon({ className }: { className?: string }) {
   );
 }
 
-export function FeedbackHero() {
+interface FeedbackHeroProps {
+  heroImageUrl?: string;
+}
+
+export function FeedbackHero({ heroImageUrl }: FeedbackHeroProps = {}) {
   const prefersReduced = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -56,7 +60,7 @@ export function FeedbackHero() {
         style={prefersReduced ? {} : { scale: 1.1, y: bgY }}
       >
         <img
-          src="/images/feedback/asudancewide.webp"
+          src={heroImageUrl || "/images/feedback/asudancewide.webp"}
           alt="ASU community gathering"
           className="w-full h-full object-cover"
           decoding="async"

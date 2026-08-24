@@ -3,7 +3,7 @@ import { createServerClient } from '../../lib/supabase/server';
 import { isSafeHttpsUrl } from '../../lib/safeUrl';
 import type { EventData } from '../../types/events';
 
-const supabase = createServerClient(Astro.cookies);
+const supabase = createServerClient(Astro.cookies, Astro.request.headers);
 const { data: events } = await supabase
   .from('events')
   .select('*')
@@ -43,11 +43,29 @@ const event: EventData = row
       tags: ['Coming Soon'],
     };
 
-// Build the time string: "6:00 PM", "6:00 PM – 9:00 PM", or ""
-const timeStr = event.startTime
-  ? event.endTime
-    ? `${event.startTime} – ${event.endTime}`
-    : event.startTime
+function formatDate(d: string): string {
+  if (!d) return '';
+  const [y, m, day] = d.split('-');
+  return `${m}-${day}-${y}`;
+}
+
+function formatTime(t: string): string {
+  if (!t) return '';
+  const [hStr, mStr] = t.split(':');
+  let h = parseInt(hStr, 10);
+  const suffix = h >= 12 ? 'PM' : 'AM';
+  if (h === 0) h = 12;
+  else if (h > 12) h -= 12;
+  return `${h}:${mStr}${suffix}`;
+}
+
+const displayDate = formatDate(event.date);
+const fmtStart = formatTime(event.startTime);
+const fmtEnd = formatTime(event.endTime);
+const timeStr = fmtStart
+  ? fmtEnd
+    ? `${fmtStart} – ${fmtEnd}`
+    : fmtStart
   : '';
 ---
 
@@ -92,7 +110,7 @@ const timeStr = event.startTime
               {event.title}
             </p>
             <p class="font-marker text-[20px] leading-tight text-asu-dark opacity-50 mt-[3px] truncate">
-              {event.date}{timeStr ? ` · ${timeStr}` : ''}
+              {displayDate}{timeStr ? ` · ${timeStr}` : ''}
             </p>
           </div>
         </div>
@@ -117,7 +135,7 @@ const timeStr = event.startTime
             <path d="M5 1.5V3.5M11 1.5V3.5M1.5 6H14.5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
           </svg>
           <span class="font-ui text-sm font-medium text-asu-dark">
-            {event.date}{timeStr ? ` · ${timeStr}` : ''}
+            {displayDate}{timeStr ? ` · ${timeStr}` : ''}
           </span>
         </div>
 

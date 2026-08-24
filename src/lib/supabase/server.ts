@@ -1,15 +1,15 @@
-import { createServerClient as createClient, parseCookieHeader, serializeCookieHeader } from '@supabase/ssr';
+import { createServerClient as createClient, parseCookieHeader } from '@supabase/ssr';
 import type { AstroCookies } from 'astro';
 import type { Database } from './types';
 
-export function createServerClient(cookies: AstroCookies) {
+export function createServerClient(cookies: AstroCookies, headers: Headers) {
   return createClient<Database>(
     import.meta.env.PUBLIC_SUPABASE_URL,
     import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
     {
       cookies: {
         getAll() {
-          return parseCookieHeader(cookies.get('sb-access-token')?.value ?? '');
+          return parseCookieHeader(headers.get('cookie') ?? '');
         },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value, options }) => {

@@ -1,6 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { FeedbackHero } from '../components/feedback/FeedbackHero';
+import { createServerClient } from '../lib/supabase/server';
+
+const supabase = createServerClient(Astro.cookies, Astro.request.headers);
+const { data: img } = await supabase
+  .from('images')
+  .select('url')
+  .eq('location_key', 'feedback-hero')
+  .single();
 ---
 
 <Layout
@@ -8,6 +16,6 @@ import { FeedbackHero } from '../components/feedback/FeedbackHero';
   description="Share your thoughts with the ASU exec board. Your feedback helps shape our events, GBMs, and community experience."
 >
   <main class="flex-1">
-    <FeedbackHero client:load />
+    <FeedbackHero client:load heroImageUrl={img?.url} />
   </main>
 </Layout>

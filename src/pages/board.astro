@@ -5,11 +5,17 @@ import { BoardIntro } from '../components/board/BoardIntro';
 import { OfficerRoster } from '../components/board/OfficerRoster';
 import { createServerClient } from '../lib/supabase/server';
 
-const supabase = createServerClient(Astro.cookies);
+const supabase = createServerClient(Astro.cookies, Astro.request.headers);
 const { data: officerRows } = await supabase
   .from('officers')
   .select('*')
   .order('display_order');
+
+const { data: boardImg } = await supabase
+  .from('images')
+  .select('url')
+  .eq('location_key', 'board-hero')
+  .single();
 
 const officers = (officerRows ?? []).map((o) => ({
   id: o.id,
@@ -32,7 +38,7 @@ const officers = (officerRows ?? []).map((o) => ({
   <main class="relative overflow-x-hidden">
 
     {/* 1. Cinematic hero — parallax + ribbon draws on load */}
-    <BoardHero client:load />
+    <BoardHero client:load teamPhotoUrl={boardImg?.url} />
 
     {/* 2. Intro strip — dark/ivory transition + ribbon + officer count */}
     <BoardIntro client:visible />

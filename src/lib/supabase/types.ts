@@ -77,7 +77,9 @@ export interface Database {
           url: string;
           storage_path: string;
           alt_text: string;
+          caption: string;
           category: string;
+          location_key: string | null;
           display_order: number;
           is_visible: boolean;
           updated_at: string;

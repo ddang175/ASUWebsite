@@ -1,5 +1,22 @@
 ---
 import { PolaroidGrid } from './PolaroidGrid';
+import { createServerClient } from '../../lib/supabase/server';
+
+const supabase = createServerClient(Astro.cookies, Astro.request.headers);
+const { data: polaroidRows } = await supabase
+  .from('images')
+  .select('url, alt_text, caption, location_key')
+  .like('location_key', 'polaroid-%')
+  .order('display_order');
+
+const polaroidImages = (polaroidRows ?? [])
+  .filter((r) => r.url && r.location_key)
+  .map((r) => ({
+    locationKey: r.location_key!,
+    url: r.url,
+    altText: r.alt_text,
+    caption: r.caption,
+  }));
 ---
 
 <section
@@ -19,7 +36,7 @@ import { PolaroidGrid } from './PolaroidGrid';
   >
 
     <!-- 1. Polaroid collage (React island, hydrates on load) -->
-    <PolaroidGrid client:load />
+    <PolaroidGrid client:load polaroidImages={polaroidImages} />
 
     <!-- 2. Headline + CTA
          pointer-events-none lets overflow polaroid cards (those sitting below the
@@ -31,7 +48,7 @@ import { PolaroidGrid } from './PolaroidGrid';
         Asian Student Union
       </p>
 
-     
+
 
       <a
         href="/about"

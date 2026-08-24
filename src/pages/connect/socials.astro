@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import { SocialsHero } from '../../components/socials/SocialsHero';
 import { createServerClient } from '../../lib/supabase/server';
 
-const supabase = createServerClient(Astro.cookies);
+const supabase = createServerClient(Astro.cookies, Astro.request.headers);
 const { data: settings } = await supabase.from('site_settings').select('*');
 const s = Object.fromEntries((settings ?? []).map((r) => [r.key, r.value]));
 ---

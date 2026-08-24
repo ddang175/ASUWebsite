@@ -11,7 +11,11 @@ const EASE_OUT = [0.18, 0.78, 0.2, 1] as [number, number, number, number];
 const HERO_RIBBON =
   "M -2000 1060 C -1400 1055, -800 1048, -40 1040 C 360 1080, 640 760, 780 540 C 880 400, 550 400, 600 400 C 220 400, 220 660, 540 720 C 880 780, 1240 620, 1400 520 C 1560 400, 2200 380, 3000 440 C 3800 480, 4500 460, 6000 480";
 
-export function BoardHero() {
+interface BoardHeroProps {
+  teamPhotoUrl?: string;
+}
+
+export function BoardHero({ teamPhotoUrl }: BoardHeroProps = {}) {
   const prefersReduced = useReducedMotion();
   const heroRef = useRef<HTMLElement>(null);
 
@@ -31,7 +35,7 @@ export function BoardHero() {
         style={prefersReduced ? {} : { scale: 1.08, y: bgY }}
       >
         <img
-          src="/images/board/team-photo.webp"
+          src={teamPhotoUrl || "/images/board/team-photo.webp"}
           alt=""
           className="w-full h-full object-cover"
           decoding="async"

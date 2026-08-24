@@ -1,6 +1,14 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { NewsletterHero } from '../../components/newsletter/NewsletterHero';
+import { createServerClient } from '../../lib/supabase/server';
+
+const supabase = createServerClient(Astro.cookies, Astro.request.headers);
+const { data: img } = await supabase
+  .from('images')
+  .select('url')
+  .eq('location_key', 'newsletter-hero')
+  .single();
 ---
 
 <Layout
@@ -8,6 +16,6 @@ import { NewsletterHero } from '../../components/newsletter/NewsletterHero';
   description="Sign up for the ASU newsletter and get updates on events, fundraisers, and everything happening at the Asian Student Union at Iowa State."
 >
   <main class="flex-1">
-    <NewsletterHero client:load />
+    <NewsletterHero client:load heroImageUrl={img?.url} />
   </main>
 </Layout>

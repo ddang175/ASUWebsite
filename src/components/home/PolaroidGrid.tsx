@@ -440,7 +440,7 @@ const POLAROIDS: PolaroidConfig[] = [
   },
   {
     title: "Triple Play GBM",
-    date: "Apr 26th, 2025",
+    date: "Oct 2nd, 2025",
     imageSrc: "/images/polaroidImages/triplePlay.webp",
     gradient: "linear-gradient(135deg, #FCEEC9, #FFF9ED)",
     position: { top: "102%", right: "17%" },
@@ -545,8 +545,23 @@ function getAnimateVariant(
 
 // ─────────────────────────────────────────────────────────────────────────────
 
-export function PolaroidGrid() {
+interface PolaroidImageOverride {
+  locationKey: string;
+  url: string;
+  altText: string;
+  caption: string;
+}
+
+interface PolaroidGridProps {
+  polaroidImages?: PolaroidImageOverride[];
+}
+
+export function PolaroidGrid({ polaroidImages }: PolaroidGridProps = {}) {
   const { width, height } = useWindowSize();
+
+  const imageMap = new Map(
+    (polaroidImages ?? []).map((img) => [img.locationKey, img])
+  );
 
   // ── Compressed state ────────────────────────────────────────────────────
   // When inner cards (middle horizontal group) are hidden but outer cards
@@ -640,6 +655,11 @@ export function PolaroidGrid() {
       </div>
 
       {POLAROIDS.map((card, i) => {
+        const locationKey = `polaroid-${i + 1}`;
+        const dbImage = imageMap.get(locationKey);
+        const effectiveTitle = dbImage?.altText || card.title;
+        const effectiveDate = dbImage?.caption || card.date;
+        const effectiveImageSrc = dbImage?.url || card.imageSrc;
         const { x: entryX, y: entryY } = ENTRY_OFFSETS[card.entryDirection];
         const animateVariant = getAnimateVariant(card, width, height);
 
@@ -726,9 +746,9 @@ export function PolaroidGrid() {
         return (
           <PolaroidCard
             key={i}
-            title={card.title}
-            date={card.date}
-            imageSrc={card.imageSrc}
+            title={effectiveTitle}
+            date={effectiveDate}
+            imageSrc={effectiveImageSrc}
             imageAlt={card.imageAlt}
             gradient={card.gradient}
             finalRotation={card.finalRotation}

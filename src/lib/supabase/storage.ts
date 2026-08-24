@@ -2,6 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 
 const ALLOWED_TYPES = ['image/webp', 'image/jpeg', 'image/png'];
 const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+const WEBP_QUALITY = 0.82;
 
 export function validateImageFile(file: File): string | null {
   if (!ALLOWED_TYPES.includes(file.type)) {
@@ -13,6 +14,40 @@ export function validateImageFile(file: File): string | null {
   return null;
 }
 
+function convertToWebP(file: File): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    if (file.type === 'image/webp') {
+      resolve(file);
+      return;
+    }
+
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const canvas = document.createElement('canvas');
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) { reject(new Error('Canvas not supported')); return; }
+      ctx.drawImage(img, 0, 0);
+      canvas.toBlob(
+        (blob) => blob ? resolve(blob) : reject(new Error('WebP conversion failed')),
+        'image/webp',
+        WEBP_QUALITY,
+      );
+    };
+
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error('Failed to load image for conversion'));
+    };
+
+    img.src = url;
+  });
+}
+
 export async function replaceImage(
   supabase: SupabaseClient,
   bucket: string,
@@ -20,13 +55,12 @@ export async function replaceImage(
   newFile: File,
   category: string,
 ): Promise<{ url: string; path: string }> {
-  const rawExt = newFile.name.split('.').pop() ?? 'webp';
-  const ext = rawExt.replace(/[^a-z0-9]/gi, '').slice(0, 5) || 'webp';
-  const newPath = `${category}/${crypto.randomUUID()}.${ext}`;
+  const webpBlob = await convertToWebP(newFile);
+  const newPath = `${category}/${crypto.randomUUID()}.webp`;
 
   const { error: uploadError } = await supabase.storage
     .from(bucket)
-    .upload(newPath, newFile, { contentType: newFile.type });
+    .upload(newPath, webpBlob, { contentType: 'image/webp' });
 
   if (uploadError) throw new Error(`Upload failed: ${uploadError.message}`);
 

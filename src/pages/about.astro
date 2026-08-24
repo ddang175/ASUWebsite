@@ -7,12 +7,18 @@ import { WhoWeAre } from '../components/about/WhoWeAre';
 import { ValuesSection } from '../components/about/ValuesSection';
 import { createServerClient } from '../lib/supabase/server';
 
-const supabase = createServerClient(Astro.cookies);
+const supabase = createServerClient(Astro.cookies, Astro.request.headers);
 const { data: content } = await supabase.from('page_content').select('*').eq('page_slug', 'about');
 const { data: settings } = await supabase.from('site_settings').select('*');
 
 const c = Object.fromEntries((content ?? []).map((r) => [r.section_key, r.value]));
 const s = Object.fromEntries((settings ?? []).map((r) => [r.key, r.value]));
+
+const { data: aboutImages } = await supabase
+  .from('images')
+  .select('url, location_key')
+  .in('location_key', ['about-hero', 'about-portrait', 'about-landscape']);
+const imgMap = Object.fromEntries((aboutImages ?? []).map((r) => [r.location_key, r.url]));
 ---
 
 <Layout
@@ -24,7 +30,7 @@ const s = Object.fromEntries((settings ?? []).map((r) => [r.key, r.value]));
     <PageRibbons client:load />
 
     {/* 1. Cinematic hero — parallax + looping ribbon draws on load */}
-    <AboutHero client:load />
+    <AboutHero client:load heroImageUrl={imgMap['about-hero']} />
 
     {/* 2. Mission — word-by-word scroll reveal */}
     <MissionReveal client:visible missionText={s.mission_text} />
@@ -36,6 +42,8 @@ const s = Object.fromEntries((settings ?? []).map((r) => [r.key, r.value]));
       heading={c.who_we_are_heading}
       body={c.who_we_are_body}
       body2={c.who_we_are_body_2}
+      portraitUrl={imgMap['about-portrait']}
+      landscapeUrl={imgMap['about-landscape']}
     />
 
     {/* 4. Values — staggered 2×2 grid */}

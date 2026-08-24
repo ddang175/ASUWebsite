@@ -8,7 +8,11 @@ import {
 
 const EASE_OUT = [0.16, 1, 0.3, 1] as [number, number, number, number];
 
-export function AboutHero() {
+interface AboutHeroProps {
+  heroImageUrl?: string;
+}
+
+export function AboutHero({ heroImageUrl }: AboutHeroProps = {}) {
   const prefersReduced = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -32,7 +36,7 @@ export function AboutHero() {
         }}
       >
         <img
-          src="/images/aboutUs/heroImage.webp"
+          src={heroImageUrl || "/images/aboutUs/heroImage.webp"}
           alt="ASU community gathering"
           className="w-full h-full object-cover"
           decoding="async"

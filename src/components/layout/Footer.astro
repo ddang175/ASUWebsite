@@ -43,7 +43,7 @@ const DEFAULT_DISCLAIMER =
   "reviewed or approved by Iowa State University. This is not an official Iowa State University " +
   'website.';
 
-const supabase = createServerClient(Astro.cookies);
+const supabase = createServerClient(Astro.cookies, Astro.request.headers);
 const { data: navRows } = await supabase
   .from('nav_links')
   .select('*')

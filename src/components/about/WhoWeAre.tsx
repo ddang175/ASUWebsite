@@ -30,9 +30,11 @@ interface WhoWeAreProps {
   heading?: string;
   body?: string;
   body2?: string;
+  portraitUrl?: string;
+  landscapeUrl?: string;
 }
 
-export function WhoWeAre({ eyebrow, heading, body, body2 }: WhoWeAreProps = {}) {
+export function WhoWeAre({ eyebrow, heading, body, body2, portraitUrl, landscapeUrl }: WhoWeAreProps = {}) {
   const prefersReduced = useReducedMotion();
   const resolvedEyebrow = eyebrow && eyebrow.trim().length > 0 ? eyebrow : DEFAULT_EYEBROW;
   const resolvedBody = body && body.trim().length > 0 ? body : DEFAULT_BODY;
@@ -77,7 +79,7 @@ export function WhoWeAre({ eyebrow, heading, body, body2 }: WhoWeAreProps = {}) 
               style={{ y: prefersReduced ? 0 : img1Y }}
             >
               <img
-                src="/images/aboutUs/3x4portrait.webp"
+                src={portraitUrl || "/images/aboutUs/3x4portrait.webp"}
                 alt="ASU members at a community event"
                 className="w-full rounded-lg object-cover shadow-[0_8px_40px_rgba(30,28,18,0.12)]"
                 style={{ aspectRatio: "3/4" }}
@@ -96,7 +98,7 @@ export function WhoWeAre({ eyebrow, heading, body, body2 }: WhoWeAreProps = {}) 
               }}
             >
               <img
-                src="/images/aboutUs/4x3.webp"
+                src={landscapeUrl || "/images/aboutUs/4x3.webp"}
                 alt="ASU cultural celebration"
                 className="w-full rounded-lg object-cover shadow-[0_12px_48px_rgba(30,28,18,0.18)]"
                 style={{ aspectRatio: "4/3" }}
