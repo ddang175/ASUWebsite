@@ -17,6 +17,9 @@ node_modules/
 # event cover image downloaded from external sources at build/dev time
 public/images/events/event-cover.*
 
+# supabase migrations
+supabase/
+
 # OS
 .DS_Store
 Thumbs.db
