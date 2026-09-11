@@ -1,6 +1,5 @@
 ---
 import { createServerClient } from '../../lib/supabase/server';
-import { sanitizeHref } from '../../lib/safeUrl';
 
 type NavItem = { label: string; href?: string; dropdown?: Array<{ label: string; href: string }> };
 
@@ -70,13 +69,6 @@ if (links && links.length > 0) {
 } else {
   navItems = DEFAULT_NAV_ITEMS;
 }
-
-const { data: duesRow } = await supabase
-  .from('site_settings')
-  .select('value')
-  .eq('key', 'dues_link')
-  .maybeSingle();
-const duesHref = sanitizeHref(duesRow?.value ?? null);
 
 const currentPath = Astro.url.pathname;
 ---
@@ -226,19 +218,6 @@ const currentPath = Astro.url.pathname;
           )
         ))}
 
-        {duesHref && (
-          <li>
-            <a
-              href={duesHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="ml-2 inline-flex items-center px-4 py-1.5 bg-asu-red text-asu-cream font-ui text-sm font-semibold rounded hover:bg-asu-red-hover transition-colors duration-200"
-            >
-              Pay Dues
-            </a>
-          </li>
-        )}
-
       </ul>
     </nav>
 
@@ -318,19 +297,6 @@ const currentPath = Astro.url.pathname;
                 </li>
               )
             ))}
-
-            {duesHref && (
-              <li class="pt-2 pb-1">
-                <a
-                  href={duesHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="block text-center px-2 py-3 bg-asu-red text-asu-cream font-ui text-sm font-semibold rounded hover:bg-asu-red-hover transition-colors"
-                >
-                  Pay Dues
-                </a>
-              </li>
-            )}
 
           </ul>
         </nav>
