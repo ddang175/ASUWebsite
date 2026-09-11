@@ -6,9 +6,13 @@ interface Setting {
   value: string;
 }
 
+const DUES_KEY = 'dues_link';
+
 export function SettingsManager() {
   const supabase = createBrowserClient();
   const [settings, setSettings] = useState<Setting[]>([]);
+  const [duesLink, setDuesLink] = useState('');
+  const [savingDues, setSavingDues] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [toast, setToast] = useState('');
@@ -24,7 +28,27 @@ export function SettingsManager() {
       .from('site_settings')
       .select('*')
       .order('key');
-    if (data) setSettings(data);
+    if (data) {
+      const dues = data.find((s) => s.key === DUES_KEY);
+      setDuesLink(dues?.value ?? '');
+      setSettings(data.filter((s) => s.key !== DUES_KEY));
+    }
+  }
+
+  async function saveDuesLink() {
+    setSavingDues(true);
+    setError('');
+    if (duesLink.trim()) {
+      const { error: err } = await supabase
+        .from('site_settings')
+        .upsert({ key: DUES_KEY, value: duesLink.trim() });
+      if (err) { setError(err.message); setSavingDues(false); return; }
+    } else {
+      await supabase.from('site_settings').delete().eq('key', DUES_KEY);
+    }
+    await loadSettings();
+    showToast(duesLink.trim() ? 'Dues link saved.' : 'Dues link cleared.');
+    setSavingDues(false);
   }
 
   function showToast(msg: string) {
@@ -100,6 +124,45 @@ export function SettingsManager() {
 
       {error && <p className="font-ui text-xs text-asu-red mb-4">{error}</p>}
 
+      {/* ── Dues Link ── */}
+      <div className="bg-asu-card border border-asu-beige rounded-lg p-4 mb-8">
+        <div className="flex items-center justify-between mb-1">
+          <div>
+            <h2 className="font-ui text-sm font-bold text-asu-dark">Dues Link</h2>
+            <p className="font-body text-xs text-asu-muted mt-0.5">
+              {duesLink.trim()
+                ? 'A "Pay Dues" button is visible on the site.'
+                : 'No link set — the "Pay Dues" button is hidden.'}
+            </p>
+          </div>
+          <button
+            onClick={saveDuesLink}
+            disabled={savingDues}
+            className="px-3 py-1.5 bg-asu-red text-asu-cream font-ui text-xs font-semibold rounded hover:bg-asu-red-hover transition-colors disabled:opacity-50"
+          >
+            {savingDues ? 'Saving...' : 'Save'}
+          </button>
+        </div>
+        <div className="flex gap-2 mt-2">
+          <input
+            type="url"
+            value={duesLink}
+            onChange={(e) => setDuesLink(e.target.value)}
+            placeholder="https://example.com/pay-dues"
+            className="flex-1 px-3 py-2 border border-asu-beige rounded bg-asu-ivory font-body text-sm text-asu-dark focus:outline-none focus:border-asu-red"
+          />
+          {duesLink.trim() && (
+            <button
+              onClick={() => { setDuesLink(''); }}
+              className="px-3 py-2 border border-asu-beige text-asu-dark font-ui text-xs rounded hover:bg-asu-beige/50 transition-colors"
+            >
+              Clear
+            </button>
+          )}
+        </div>
+      </div>
+
+      <h2 className="font-ui text-sm font-bold text-asu-dark mb-3">Other Settings</h2>
       <div className="space-y-3 mb-8">
         {settings.map((setting) => (
           <div key={setting.key} className="bg-asu-card border border-asu-beige rounded-lg p-4">
